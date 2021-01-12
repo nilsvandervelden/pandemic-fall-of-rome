@@ -17,7 +17,7 @@ public class RecruitLegionController extends Controller {
 	private final City city;
 	
     public RecruitLegionController() {
-    	player = game.getPlayerOfCurrentTurn();
+    	player = game.getPlayerFromCurrentTurn();
     	city = player.getCity();
     	viewController.showView(new RecruitLegionView(this));
     }

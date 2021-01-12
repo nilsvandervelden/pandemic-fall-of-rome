@@ -1,7 +1,6 @@
 package com.groep6.pfor.controllers;
 
 import com.groep6.pfor.models.*;
-import com.groep6.pfor.models.factions.FactionType;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.util.SoundEffectManager;
 import com.groep6.pfor.views.BattleView;
@@ -30,7 +29,7 @@ public class BattleController extends Controller {
 	 */
 
 	public BattleController() {
-		Player player = game.getPlayerOfCurrentTurn();
+		Player player = game.getPlayerFromCurrentTurn();
 
 		int amountOfLegionsInCurrentCity = player.getCity().getLegionCount();
 		int amountOfBarbariansInCurrentCity = player.getCity().getBarbarianCount();

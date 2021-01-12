@@ -161,7 +161,7 @@ public class HandView extends View implements IObserver {
             source.select();
             handController.selectCard(source.getCard());
             discardCardButton.setDisable(false);
-            if (handController.getLocalPlayer().getActionsRemaining() > 0 && handController.getLocalPlayer().isTurn()) depositCardButton.setDisable(false);
+            if (handController.getLocalPlayer().getActionsRemaining() > 0 && handController.getLocalPlayer().isCurrentTurn()) depositCardButton.setDisable(false);
 
             playCardButton.setDisable(!(source instanceof UIEventCard));
         }
@@ -189,7 +189,7 @@ public class HandView extends View implements IObserver {
         discardCardButton.setDisable(true);
         depositCardButton.setDisable(true);
 
-        playCardButton.setDisable(!handController.getLocalPlayer().isTurn());
+        playCardButton.setDisable(!handController.getLocalPlayer().isCurrentTurn());
     }
 }
 

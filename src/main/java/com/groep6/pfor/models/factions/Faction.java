@@ -31,7 +31,7 @@ public class Faction {
         return cardCountForAlliance;
     }
 
-    public void ally() {
+    public void makeAlly() {
         Game game = Game.getInstance();
         game.addFriendlyFaction(this);
     }

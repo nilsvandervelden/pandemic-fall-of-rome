@@ -153,7 +153,7 @@ public class Game extends Observable implements IObserver {
         if (players.size() <= 0) return;
 
         // Get current turn player
-        Player currentPlayer = getPlayerOfCurrentTurn();
+        Player currentPlayer = getPlayerFromCurrentTurn();
         Player nextPlayer;
 
         int index = players.indexOf(currentPlayer);
@@ -194,9 +194,9 @@ public class Game extends Observable implements IObserver {
         return players;
     }
 
-    public Player getPlayerOfCurrentTurn() {
+    public Player getPlayerFromCurrentTurn() {
         for (Player player: players) {
-            if (player.isTurn()) return player;
+            if (player.isCurrentTurn()) return player;
         }
 
         return null;
@@ -207,7 +207,7 @@ public class Game extends Observable implements IObserver {
      */
     public Player getCurrentPlayer() {
         for (Player player: players) {
-            if (player.isTurn()) return player;
+            if (player.isCurrentTurn()) return player;
         }
 
         return null;

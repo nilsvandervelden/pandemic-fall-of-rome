@@ -16,7 +16,7 @@ public class CarpeDiemAction implements IAction {
 	public void execute() {
 		
 		Game game = Game.getInstance();
-		game.getPlayerOfCurrentTurn().addActions(2);
+		game.getPlayerFromCurrentTurn().addActions(2);
 	}
 
 	/**

@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class BoardController extends Controller {
 
-    private final Game game = Game.getInstance();
+    private final Game currentGame = Game.getInstance();
 
     public BoardController() {
     	changeMusic();
@@ -33,57 +33,45 @@ public class BoardController extends Controller {
         new InstructionController();
     }
 
-    public void openPlayerCardDeck() {
-        new HandController();
+    public Player getPlayerFromCurrentTurn() {
+        return currentGame.getPlayerFromCurrentTurn();
     }
-
-    public Player getPlayerOfCurrentTurn() {
-        return game.getPlayerOfCurrentTurn();
-    }
-
-    /**
-     * @param amount
-     */
     
     public void increaseDecayLevel(int amount) {
-        game.increaseDecayLevel(amount);
+        currentGame.increaseDecayLevel(amount);
     }
-
     
     public int getDecayLevel() {
-        return game.getDecayLevel();
+        return currentGame.getDecayLevel();
     }
 
     public Tile[] getTiles() {
-        return game.getBoard().getTiles();
+        return currentGame.getBoard().getTiles();
     }
-
+    
     public List<Player> getPlayers() {
-        return game.getAllPlayers();
-    }
-
-    public void cityPressed(City city) {
+        return currentGame.getAllPlayers();
     }
 
     public Player getLocalPlayer() {
-        return game.getLocalPlayer();
+        return currentGame.getLocalPlayer();
     }
     
     public void move(City city) {
-        Player player = Game.getInstance().getLocalPlayer();
+        Player localPlayer = Game.getInstance().getLocalPlayer();
 
-        if (player.getActionsRemaining() <= 0 || !player.isTurn()) return;
-        if (!Arrays.asList(player.getCity().getNeighbouringCities()).contains(city)) return;
+        if (localPlayer.getActionsRemaining() <= 0 || !localPlayer.isCurrentTurn()) return;
+        if (!Arrays.asList(localPlayer.getCity().getNeighbouringCities()).contains(city)) return;
 
-        if (player.getCity().getLegions().size() > 0) {
-            new MoveController(city, player);
-        } else player.move(city);
+        if (localPlayer.getCity().getLegions().size() > 0) {
+            new MoveController(city, localPlayer);
+        } else localPlayer.movePlayerToSelectedCity(city);
     }
 
     public void nextTurn() {
         // Draw 2 cards from game deck
-        Player player = game.getLocalPlayer();
-        player.getHand().addCards(game.getPlayerCardsDeck().draw(), game.getPlayerCardsDeck().draw());
+        Player player = currentGame.getLocalPlayer();
+        player.getHand().addCards(currentGame.getPlayerCardsDeck().draw(), currentGame.getPlayerCardsDeck().draw());
 
         checkLoseConditions();
 
@@ -92,38 +80,38 @@ public class BoardController extends Controller {
 
         invadeCities();
               
-    	if(game.getDecayLevel() >= game.getMaxDecayLevel() - 1) {
+    	if(currentGame.getDecayLevel() >= currentGame.getMaxDecayLevel() - 1) {
     		new LoseController();
-    		game.setLost(true);
+    		currentGame.setLost(true);
     	}
     	
     	checkWinConditions();
 
         // Next turn
-        game.nextTurn();
+        currentGame.nextTurn();
         GameService gameService = new GameService();
-        gameService.setGame(game);
+        gameService.setGame(currentGame);
     }
 
     public void checkLoseConditions() {
         // Go to lose screen when there are no more cards in players
-        if (game.getPlayerCardsDeck().getCards().size() <= 0) {
-            game.setLost(true);
-        } else if (game.getDecayLevel() >= game.getMaxDecayLevel() - 1) {
-            game.setLost(true);
+        if (currentGame.getPlayerCardsDeck().getCards().size() <= 0) {
+            currentGame.setLost(true);
+        } else if (currentGame.getDecayLevel() >= currentGame.getMaxDecayLevel() - 1) {
+            currentGame.setLost(true);
         }
     }
     
     public void checkWinConditions() {
     	if (getFriendlyFactions().size() == 5) {
-            game.setWon(true);
+            currentGame.setWon(true);
         }
     }
 
-    public int getFortAmount() {
+    public int getAmountOfFortsInCity() {
         int amount = 0;
 
-        for (Tile tile: game.getBoard().getTiles()) {
+        for (Tile tile: currentGame.getBoard().getTiles()) {
             if (tile instanceof City) {
                 City city = (City) tile;
                 if (city.hasFort()) amount++;
@@ -134,15 +122,15 @@ public class BoardController extends Controller {
     }
 
     private void invadeCities() {
-        int cardAmount = 2;
-        Card[] usedCards = new Card[cardAmount];
-        Deck invasionCardsDeck = game.getInvasionCardsDeck();
-        for (int i = 0; i < cardAmount; i++) {
-            InvasionCard card = (InvasionCard) invasionCardsDeck.draw();
-            invadeCity(card);
-            usedCards[i] = card;
+        int amountOfInvasions = 2;
+        Card[] invasionCards = new Card[amountOfInvasions];
+        Deck invasionCardsDeck = currentGame.getInvasionCardsDeck();
+        for (int i = 0; i < amountOfInvasions; i++) {
+            InvasionCard invasionCard = (InvasionCard) invasionCardsDeck.draw();
+            invadeCity(invasionCard);
+            invasionCards[i] = invasionCard;
         }
-        invasionCardsDeck.addCards(usedCards);
+        invasionCardsDeck.addCards(invasionCards);
         invasionCardsDeck.shuffle();
     }
 
@@ -163,59 +151,59 @@ public class BoardController extends Controller {
     }
 
     public void buildFort() {
-        Player player = game.getLocalPlayer();
+        Player player = currentGame.getLocalPlayer();
         City city = player.getCity();
         city.placeFort();
         player.decreaseActionsRemaining();
     }
 
     public boolean canBattle() {
-        Player player = game.getLocalPlayer();
+        Player player = currentGame.getLocalPlayer();
         City city = player.getCity();
 
         return city.getBarbarianCount() > 0 && city.getLegionCount() > 0;
     }
 
     public boolean canRecruitBarbarians() {
-        Player player = game.getLocalPlayer();
+        Player player = currentGame.getLocalPlayer();
         City city = player.getCity();
         Faction[] factions = city.getFactions();
 
         for (Faction faction: factions) {
-            if (game.isFriendlyFaction(faction) && city.getBarbarianCount(faction.getFactionType()) > 0) return true;
+            if (currentGame.isFriendlyFaction(faction) && city.getBarbarianCount(faction.getFactionType()) > 0) return true;
         }
 
         return false;
     }
 
     public boolean canRecruitLegions() {
-        Player player = game.getLocalPlayer();
+        Player player = currentGame.getLocalPlayer();
         City city = player.getCity();
 
         return city.hasFort();
     }
 
     public boolean canBuildFort() {
-        Player player = game.getLocalPlayer();
+        Player player = currentGame.getLocalPlayer();
         City city = player.getCity();
 
-        return (!city.hasFort() && getFortAmount() < 6);
+        return (!city.hasFort() && getAmountOfFortsInCity() < 6);
     }
 
     @Override
     public void registerObserver(IObserver view) {
-        game.registerObserver(view);
+        currentGame.registerObserver(view);
     }
 
     public void formAlliance() {
         Player player = getLocalPlayer();
-        Faction faction = player.formableAlliances().get(0);
+        Faction faction = player.availableAlliances().get(0);
 
         // Ally this faction
-        faction.ally();
+        faction.makeAlly();
 
         // Remove cards
-        List<Card> cardsToDiscard = player.getCitycardsWithFaction(faction);
+        List<Card> cardsToDiscard = player.getCitycardsOfAliedFaction(faction);
         player.getHand().removeCards(cardsToDiscard.toArray(new Card[0]));
 
         player.decreaseActionsRemaining();
@@ -228,8 +216,7 @@ public class BoardController extends Controller {
 
     public boolean canFormAlliance() {
         Player player = getLocalPlayer();
-
-        return player.formableAlliances().size() > 0;
+        return player.availableAlliances().size() > 0;
     }
 
     public List<Faction> getFriendlyFactions() {

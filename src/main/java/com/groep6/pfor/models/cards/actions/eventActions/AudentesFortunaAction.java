@@ -25,11 +25,11 @@ public class AudentesFortunaAction implements IAction {
 		
 		CityCard card2 = (CityCard) cityDeck.draw();
 
-		Player player = game.getPlayerOfCurrentTurn();
+		Player player = game.getPlayerFromCurrentTurn();
 
 		player.getHand().addCards(card1 , card2);
 		
-		game.getPlayerOfCurrentTurn().decreaseActionsRemaining();
+		game.getPlayerFromCurrentTurn().decreaseActionsRemaining();
 	}
 
 	/**

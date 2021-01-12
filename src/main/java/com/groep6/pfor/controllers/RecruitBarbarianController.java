@@ -14,7 +14,7 @@ public class RecruitBarbarianController extends Controller {
     private final City city;
 	
     public RecruitBarbarianController() {
-        player = game.getPlayerOfCurrentTurn();
+        player = game.getPlayerFromCurrentTurn();
         city = player.getCity();
         viewController.showView(new RecruitBarbarianView(this));
     }

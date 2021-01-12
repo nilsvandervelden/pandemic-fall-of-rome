@@ -27,7 +27,7 @@ public class MoveController extends Controller {
     	destination.addLegions(amount);
 
 		SoundEffectManager.play("/sounds/effects/MarchSound.mp3");
-		player.move(destination);
+		player.movePlayerToSelectedCity(destination);
     	showPreviousView();
     }
 

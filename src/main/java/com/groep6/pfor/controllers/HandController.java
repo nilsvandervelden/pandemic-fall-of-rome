@@ -37,7 +37,7 @@ public class HandController extends Controller {
     
     public void playCard() {
         if (selectedCard == null) return;
-        if (!game.getLocalPlayer().isTurn()) return;
+        if (!game.getLocalPlayer().isCurrentTurn()) return;
 
         if (selectedCard instanceof EventCard) {
             game.getLocalPlayer().getHand().removeCard(selectedCard);
@@ -63,7 +63,7 @@ public class HandController extends Controller {
         
         Player localPlayer = game.getLocalPlayer();
         Deck tradeDeck = game.getTradeCardsDeck();
-        Player player = game.getPlayerOfCurrentTurn();
+        Player player = game.getPlayerFromCurrentTurn();
 
         if (player.getActionsRemaining() <= 0) return;
 

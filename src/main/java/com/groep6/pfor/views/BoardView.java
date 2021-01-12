@@ -180,7 +180,6 @@ public class BoardView extends View implements IObserver {
                 if (pos.distance(mouse) < CIRCLE_RADIUS * CANVAS_SIZE.y) {
                 	// Move player on right click
                 	boardController.move(city);
-                    boardController.cityPressed(city);
                     break;
                 }
             }
@@ -295,7 +294,7 @@ public class BoardView extends View implements IObserver {
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
 
-            UIPlayerInfo uiPlayerInfo = new UIPlayerInfo(player.getRoleCard().getColor(), i + 1, player.getUsername(), player.getRoleCard().getName(), player.isTurn(), player.getActionsRemaining());
+            UIPlayerInfo uiPlayerInfo = new UIPlayerInfo(player.getRoleCard().getColor(), i + 1, player.getUsername(), player.getRoleCard().getName(), player.isCurrentTurn(), player.getActionsRemaining());
             playerList.getChildren().add(uiPlayerInfo);
         }
 
@@ -412,13 +411,13 @@ public class BoardView extends View implements IObserver {
             @Override
             public void run() {
                 actionCount.setText(boardController.getLocalPlayer().getActionsRemaining() + " acties over");
-                fortCount.setText(6 - boardController.getFortAmount() + " resterende forten");
+                fortCount.setText(6 - boardController.getAmountOfFortsInCity() + " resterende forten");
                 updateCanvas();
                 createPlayerList();
             }
         });
 
-        if (!boardController.getLocalPlayer().isTurn()) {
+        if (!boardController.getLocalPlayer().isCurrentTurn()) {
             conspireButton.setDisable(true);
             battleButton.setDisable(true);
             allianceButton.setDisable(true);

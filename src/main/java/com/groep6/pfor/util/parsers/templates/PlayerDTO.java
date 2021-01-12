@@ -36,7 +36,7 @@ public class PlayerDTO {
     }
 
     public static PlayerDTO fromModel(Player player) {
-        return new PlayerDTO(player.getUsername(), player.isTurn(), player.getCity().getName(), player.getRoleCard().getName(), player.getActionsRemaining());
+        return new PlayerDTO(player.getUsername(), player.isCurrentTurn(), player.getCity().getName(), player.getRoleCard().getName(), player.getActionsRemaining());
     }
 
     /**

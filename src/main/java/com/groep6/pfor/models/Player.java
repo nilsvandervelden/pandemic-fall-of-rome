@@ -65,7 +65,7 @@ public class Player extends Observable implements IObserver {
         this.turn = turn;
     }
     
-    public boolean isTurn() {
+    public boolean isCurrentTurn() {
         return turn;
     }
 
@@ -132,7 +132,7 @@ public class Player extends Observable implements IObserver {
         return diceFaces;
     }
     
-    public void move(City city) {
+    public void movePlayerToSelectedCity(City city) {
     	if (!this.city.neighbouringCities.contains(city)) return;
         this.city = city;
 
@@ -186,7 +186,7 @@ public class Player extends Observable implements IObserver {
      * Get list of factions that an alliance can be formed with.
      * @return List of factions
      */
-    public List<Faction> formableAlliances() {
+    public List<Faction> availableAlliances() {
         FactionFactory factionFactory = FactionFactory.getInstance();
         List<Faction> factions = factionFactory.getFactions();
         List<Card> cards = getHand().getCards();
@@ -215,7 +215,7 @@ public class Player extends Observable implements IObserver {
      * @param faction The faction you want the cards from
      * @return A list of cards
      */
-    public List<Card> getCitycardsWithFaction(Faction faction) {
+    public List<Card> getCitycardsOfAliedFaction(Faction faction) {
         List<Card> cards = getHand().getCards();
         List<Card> factionCards = new ArrayList<>();
         for (Card card : cards) {

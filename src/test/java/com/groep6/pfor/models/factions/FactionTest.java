@@ -44,7 +44,7 @@ class FactionTest {
     @Test
     void ally() {
         Game game = Game.getInstance();
-        faction.ally();
+        faction.makeAlly();
         assertEquals(faction, game.getFriendlyFactions().get(0));
     }
 
