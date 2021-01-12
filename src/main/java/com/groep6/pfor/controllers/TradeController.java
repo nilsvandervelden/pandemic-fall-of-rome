@@ -26,7 +26,7 @@ public class TradeController extends Controller {
     @Override
     public void registerObserver(IObserver view) {
     	game.getTradeCardsDeck().registerObserver(view);
-        game.getLocalPlayer().getHand().registerObserver(view);
+        game.getLocalPlayer().getPlayerDeck().registerObserver(view);
     }
     
     public void selectCard(Card card) {
@@ -38,7 +38,7 @@ public class TradeController extends Controller {
         if (player.getActionsRemaining() <= 0) return;
 
         game.getTradeCardsDeck().removeCard(selectedCard);
-        game.getLocalPlayer().getHand().addCards(selectedCard);
+        game.getLocalPlayer().getPlayerDeck().addCards(selectedCard);
     	player.decreaseActionsRemaining();
 
         SoundEffectManager.play("/sounds/effects/DrawCardSound.mp3");

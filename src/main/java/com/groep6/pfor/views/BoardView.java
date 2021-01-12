@@ -179,7 +179,7 @@ public class BoardView extends View implements IObserver {
                 Vector2f mouse = new Vector2f((float) event.getX(), (float) event.getY());
                 if (pos.distance(mouse) < CIRCLE_RADIUS * CANVAS_SIZE.y) {
                 	// Move player on right click
-                	boardController.move(city);
+                	boardController.movePlayerToSelectedCity(city);
                     break;
                 }
             }

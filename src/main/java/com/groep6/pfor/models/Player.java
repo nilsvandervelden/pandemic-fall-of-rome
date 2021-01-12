@@ -20,7 +20,7 @@ import java.util.Random;
  */
 public class Player extends Observable implements IObserver {
 
-    private final Hand hand = new Hand();
+    private final Hand playerDeck = new Hand();
     private final RoleCard roleCard;
     private City city;
     private final String username;
@@ -42,7 +42,7 @@ public class Player extends Observable implements IObserver {
 
         int cardAmount = 3;
         for (int i = 0; i < cardAmount; i++) {
-            hand.addCards(game.getPlayerCardsDeck().draw());
+            playerDeck.addCards(game.getPlayerCardsDeck().draw());
         }
 
         // Set start city
@@ -96,8 +96,8 @@ public class Player extends Observable implements IObserver {
         this.actionsRemaining = actionsRemaining;
     }
 
-    public Hand getHand() {
-        return hand;
+    public Hand getPlayerDeck() {
+        return playerDeck;
     }
 
     public RoleCard getRoleCard() {
@@ -189,7 +189,7 @@ public class Player extends Observable implements IObserver {
     public List<Faction> availableAlliances() {
         FactionFactory factionFactory = FactionFactory.getInstance();
         List<Faction> factions = factionFactory.getFactions();
-        List<Card> cards = getHand().getCards();
+        List<Card> cards = getPlayerDeck().getCards();
         List<Faction> formableAlliances = new ArrayList<>();
 
         // Loop through all factions
@@ -216,7 +216,7 @@ public class Player extends Observable implements IObserver {
      * @return A list of cards
      */
     public List<Card> getCitycardsOfAliedFaction(Faction faction) {
-        List<Card> cards = getHand().getCards();
+        List<Card> cards = getPlayerDeck().getCards();
         List<Card> factionCards = new ArrayList<>();
         for (Card card : cards) {
             if (card instanceof CityCard && ((CityCard) card).getFaction().equals(faction)) {

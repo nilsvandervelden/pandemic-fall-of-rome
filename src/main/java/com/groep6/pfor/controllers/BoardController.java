@@ -57,7 +57,7 @@ public class BoardController extends Controller {
         return currentGame.getLocalPlayer();
     }
     
-    public void move(City city) {
+    public void movePlayerToSelectedCity(City city) {
         Player localPlayer = Game.getInstance().getLocalPlayer();
 
         if (localPlayer.getActionsRemaining() <= 0 || !localPlayer.isCurrentTurn()) return;
@@ -71,12 +71,12 @@ public class BoardController extends Controller {
     public void nextTurn() {
         // Draw 2 cards from game deck
         Player player = currentGame.getLocalPlayer();
-        player.getHand().addCards(currentGame.getPlayerCardsDeck().draw(), currentGame.getPlayerCardsDeck().draw());
+        player.getPlayerDeck().addCards(currentGame.getPlayerCardsDeck().draw(), currentGame.getPlayerCardsDeck().draw());
 
         checkLoseConditions();
 
         // Open hand when there are more than 7 cards in hand
-        if (player.getHand().getCards().size() > 7) new HandController();
+        if (player.getPlayerDeck().getCards().size() > 7) new HandController();
 
         invadeCities();
               
@@ -204,7 +204,7 @@ public class BoardController extends Controller {
 
         // Remove cards
         List<Card> cardsToDiscard = player.getCitycardsOfAliedFaction(faction);
-        player.getHand().removeCards(cardsToDiscard.toArray(new Card[0]));
+        player.getPlayerDeck().removeCards(cardsToDiscard.toArray(new Card[0]));
 
         player.decreaseActionsRemaining();
     }

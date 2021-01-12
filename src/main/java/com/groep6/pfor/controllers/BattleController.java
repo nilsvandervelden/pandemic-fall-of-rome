@@ -18,11 +18,6 @@ public class BattleController extends Controller {
 
 	private final Game game = Game.getInstance();
 
-	// ArrayList simulation of barbarians and legions in a city.
-	// TODO implement data acquisition from the current players current city.
-	Stack<Barbarian> barbarians = new Stack<>();
-	Stack<Legion> legions = new Stack<>();
-
 	/**
 	 * Constructor for BattleController. First performs a battle, then places the result in a new BattleView.
 	 * 

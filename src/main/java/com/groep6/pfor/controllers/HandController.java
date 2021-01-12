@@ -23,12 +23,12 @@ public class HandController extends Controller {
     }
 
     public List<Card> getCards() {
-        return currentGame.getLocalPlayer().getHand().getCards();
+        return currentGame.getLocalPlayer().getPlayerDeck().getCards();
     }
 
     @Override
     public void registerObserver(IObserver view) {
-        currentGame.getLocalPlayer().getHand().registerObserver(view);
+        currentGame.getLocalPlayer().getPlayerDeck().registerObserver(view);
     }
 
     public void selectCard(Card card) {
@@ -40,7 +40,7 @@ public class HandController extends Controller {
         if (!currentGame.getLocalPlayer().isCurrentTurn()) return;
 
         if (selectedCard instanceof EventCard) {
-            currentGame.getLocalPlayer().getHand().removeCard(selectedCard);
+            currentGame.getLocalPlayer().getPlayerDeck().removeCard(selectedCard);
         	currentGame.getInvasionCardsDiscardPile().addCards(selectedCard);
         	((EventCard) selectedCard).executeEvent();
         }
@@ -59,20 +59,21 @@ public class HandController extends Controller {
 
         if (player.getActionsRemaining() <= 0) return;
 
-        localPlayer.getHand().removeCard(selectedCard);
+        localPlayer.getPlayerDeck().removeCard(selectedCard);
 		tradeDeck.addCards(selectedCard);
 		
         player.decreaseActionsRemaining();
         SoundEffectManager.play("/sounds/effects/DrawCardSound.mp3");
 
         refresh();
+
 	}
 	
-    public void removeSelectedCardFromHand() {
+    public void removeSelectedCard() {
         if (selectedCard == null) return;
         Player localPlayer = currentGame.getLocalPlayer();
 
-        localPlayer.getHand().removeCard(selectedCard);
+        localPlayer.getPlayerDeck().removeCard(selectedCard);
 
         if (selectedCard instanceof CityCard) {
         	currentGame.getCityCardsDiscardPile().addCards(selectedCard);

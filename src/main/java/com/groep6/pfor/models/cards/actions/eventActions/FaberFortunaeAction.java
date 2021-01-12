@@ -22,7 +22,7 @@ public class FaberFortunaeAction implements IAction {
 		Deck cityDeck = game.getPlayerCardsDeck();
 		CityCard card = (CityCard) cityDeck.draw();
 		Player player = game.getPlayerFromCurrentTurn();
-		player.getHand().addCards(card);
+		player.getPlayerDeck().addCards(card);
 		game.getPlayerFromCurrentTurn().decreaseActionsRemaining();
 	}
 

@@ -130,7 +130,7 @@ public class HandView extends View implements IObserver {
     EventHandler<MouseEvent> discardCard = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            handController.removeSelectedCardFromHand();
+            handController.removeSelectedCard();
             discardCardButton.setDisable(true);
             goBackButton.setDisable(false);
         }

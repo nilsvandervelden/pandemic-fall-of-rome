@@ -26,7 +26,6 @@ public class JoinController extends Controller {
         else if (code.isEmpty()) throw new EmptyFieldException("Unique code cannot be empty");
         
         try {
-
             LobbyService lobbyService = new LobbyService();
             Lobby lobby = lobbyService.get(code);
 
