@@ -14,7 +14,7 @@ public class RecruitBarbarianController extends Controller {
     private final City city;
 	
     public RecruitBarbarianController() {
-        player = game.getPlayerTurn();
+        player = game.getPlayerOfCurrentTurn();
         city = player.getCity();
         viewController.showView(new RecruitBarbarianView(this));
     }
@@ -28,11 +28,11 @@ public class RecruitBarbarianController extends Controller {
 
         for (Faction faction: factions) {
             if (game.isFriendlyFaction(faction)) {
-                if (city.getTotalBarbarianCount() <= 0) return;
+                if (city.getBarbarianCount() <= 0) return;
                 city.removeBarbarians(faction.getFactionType(), amount);
                 city.addLegions(amount);
                 player.decreaseActionsRemaining();
-                goBack();
+                showPreviousView();
                 return;
             }
         }

@@ -14,6 +14,7 @@ import java.util.Stack;
  * @author Mitchell van Rijswijk
  *
  */
+
 public class BattleController extends Controller {
 
 	private final Game game = Game.getInstance();
@@ -27,37 +28,28 @@ public class BattleController extends Controller {
 	 * Constructor for BattleController. First performs a battle, then places the result in a new BattleView.
 	 * 
 	 */
-	public BattleController() {
-		Player player = game.getPlayerTurn();
 
-		int legionCount = player.getCity().getLegionCount();
-		int barbarianCount = player.getCity().getTotalBarbarianCount();
+	public BattleController() {
+		Player player = game.getPlayerOfCurrentTurn();
+
+		int amountOfLegionsInCurrentCity = player.getCity().getLegionCount();
+		int amountOfBarbariansInCurrentCity = player.getCity().getBarbarianCount();
 
 		DiceFace[] battleResults = player.battle();
 
-		int legionsLost = 0;
-		int barbariansLost = 0;
+		int amountOfLegionsLost = 0;
+		int amountOfBarbariansLost = 0;
 
 		for (DiceFace battleResult : battleResults) {
-			legionsLost += battleResult.getLegionCount();
-			barbariansLost += battleResult.getBarbarianCount();
+			amountOfLegionsLost += battleResult.getLegionCount();
+			amountOfBarbariansLost += battleResult.getBarbarianCount();
 		}
 
-		legionsLost = Math.min(legionCount, legionsLost);
-		barbariansLost = Math.min(barbarianCount, barbariansLost);
+		amountOfLegionsLost = Math.min(amountOfLegionsInCurrentCity, amountOfLegionsLost);
+		amountOfBarbariansLost = Math.min(amountOfBarbariansInCurrentCity, amountOfBarbariansLost);
 
-		viewController.showView(new BattleView(this, legionsLost, barbariansLost));
+		viewController.showView(new BattleView(this, amountOfLegionsLost, amountOfBarbariansLost));
 		SoundEffectManager.play("/sounds/effects/BattleSound.mp3");
-	}
-
-	/**
-	 * Acquires amount of legions and barbarians to fight in the players current city.
-	 * TODO implement data acquisition from city.
-	 */
-	public void getCityData() {
-		for (int i = 0; i < 3; i++)
-			barbarians.push(new Barbarian(FactionType.ANGLO_SAXSONS_FRANKS));
-			legions.push(new Legion());
 	}
 
 	@Override

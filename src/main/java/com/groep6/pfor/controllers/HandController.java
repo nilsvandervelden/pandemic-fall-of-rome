@@ -63,7 +63,7 @@ public class HandController extends Controller {
         
         Player localPlayer = game.getLocalPlayer();
         Deck tradeDeck = game.getTradeCardsDeck();
-        Player player = game.getPlayerTurn();
+        Player player = game.getPlayerOfCurrentTurn();
 
         if (player.getActionsRemaining() <= 0) return;
 
@@ -97,11 +97,11 @@ public class HandController extends Controller {
     }
     
     public void goToBoard() {
-    	goBack();
+    	showPreviousView();
     }
     
     public void refresh() {
-    	goBack();
+    	showPreviousView();
     	new HandController();
     }
 

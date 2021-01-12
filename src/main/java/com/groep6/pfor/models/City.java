@@ -78,7 +78,7 @@ public class City extends Tile {
 	/**
 	 * @return The total amount of barbarians in this city of all factions combined
 	 */
-	public int getTotalBarbarianCount() {
+	public int getBarbarianCount() {
     	return barbarians.size();
 	}
 	

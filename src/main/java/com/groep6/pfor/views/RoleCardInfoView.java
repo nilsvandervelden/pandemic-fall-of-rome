@@ -96,7 +96,7 @@ public class RoleCardInfoView extends View {
     EventHandler<javafx.scene.input.MouseEvent> goBack = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            roleCardInfoController.goBack();
+            roleCardInfoController.showPreviousView();
         }
     };
 

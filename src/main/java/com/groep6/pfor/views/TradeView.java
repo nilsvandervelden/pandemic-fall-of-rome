@@ -129,7 +129,7 @@ public class TradeView extends View implements IObserver {
     EventHandler<MouseEvent> goBack = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            tradeController.goBack();
+            tradeController.showPreviousView();
         }
     };
     

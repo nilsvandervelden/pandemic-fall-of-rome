@@ -92,7 +92,7 @@ public class HostView extends View implements IObserver {
     EventHandler<javafx.scene.input.MouseEvent> goBack = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            hostController.goBack();
+            hostController.showPreviousView();
         }
     };
 

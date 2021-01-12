@@ -33,12 +33,12 @@ public class BoardController extends Controller {
         new InstructionController();
     }
 
-    public void goToHand() {
+    public void openPlayerCardDeck() {
         new HandController();
     }
 
-    public Player getPlayerTurn() {
-        return game.getPlayerTurn();
+    public Player getPlayerOfCurrentTurn() {
+        return game.getPlayerOfCurrentTurn();
     }
 
     /**
@@ -173,7 +173,7 @@ public class BoardController extends Controller {
         Player player = game.getLocalPlayer();
         City city = player.getCity();
 
-        return city.getTotalBarbarianCount() > 0 && city.getLegionCount() > 0;
+        return city.getBarbarianCount() > 0 && city.getLegionCount() > 0;
     }
 
     public boolean canRecruitBarbarians() {

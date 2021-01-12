@@ -34,11 +34,6 @@ public class JoinView extends View implements IObserver {
     
     /** The text field that allows the user to put in a password if required  */
     private final UITextField passwordTextField;
-    
-    /**
-     * Initializes the JoinView
-     * @param the joinController
-     */
 
     public JoinView(JoinController joinController) {
         this.joinController = joinController;
@@ -114,7 +109,7 @@ public class JoinView extends View implements IObserver {
     EventHandler<javafx.scene.input.MouseEvent> goBack = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            joinController.goBack();
+            joinController.showPreviousView();
         }
     };
 

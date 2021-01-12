@@ -79,7 +79,7 @@ public class RecruitBarbarianView extends View implements IObserver {
     EventHandler<MouseEvent> menuButtonClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            recruitBarbarianController.goBack();
+            recruitBarbarianController.showPreviousView();
         }
     };
     

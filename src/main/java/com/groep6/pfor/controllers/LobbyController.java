@@ -94,8 +94,8 @@ public class LobbyController extends Controller {
             }
         }
 
-        goBack();
-        goBack();
+        showPreviousView();
+        showPreviousView();
     }
 
     public void startGame() {

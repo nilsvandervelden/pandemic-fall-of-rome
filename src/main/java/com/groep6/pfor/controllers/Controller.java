@@ -18,7 +18,7 @@ public abstract class Controller {
     /**
      * Go back to the previous View
      */
-    public void goBack() {
+    public void showPreviousView() {
         viewController.showPreviousView();
     }
 

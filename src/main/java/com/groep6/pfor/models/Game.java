@@ -73,7 +73,7 @@ public class Game extends Observable implements IObserver {
 
             int barbariansCount = rand.nextInt(2);
 
-            if (city.getTotalBarbarianCount() > 2) {
+            if (city.getBarbarianCount() > 2) {
                 invadedCities.add(city);
                 barbariansCount = 2;
                 i--;
@@ -153,7 +153,7 @@ public class Game extends Observable implements IObserver {
         if (players.size() <= 0) return;
 
         // Get current turn player
-        Player currentPlayer = getPlayerTurn();
+        Player currentPlayer = getPlayerOfCurrentTurn();
         Player nextPlayer;
 
         int index = players.indexOf(currentPlayer);
@@ -194,7 +194,7 @@ public class Game extends Observable implements IObserver {
         return players;
     }
 
-    public Player getPlayerTurn() {
+    public Player getPlayerOfCurrentTurn() {
         for (Player player: players) {
             if (player.isTurn()) return player;
         }

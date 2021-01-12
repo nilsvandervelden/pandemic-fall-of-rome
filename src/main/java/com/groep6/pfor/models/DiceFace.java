@@ -68,7 +68,7 @@ public enum DiceFace {
 		@Override
 		public void execute(City city) {
 			Game game = Game.getInstance();
-			Player player =  game.getPlayerTurn();
+			Player player =  game.getPlayerOfCurrentTurn();
 			player.getRoleCard().executeAbility();
 		}
 		@Override

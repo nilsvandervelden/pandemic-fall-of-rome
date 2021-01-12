@@ -103,7 +103,7 @@ public class OptionsView extends View {
     EventHandler<MouseEvent> goBack = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-           optionController.goBack();
+           optionController.showPreviousView();
         }
     };
     

@@ -34,7 +34,7 @@ public class TradeController extends Controller {
     }
     
     public void withdrawCard() {
-        Player player = game.getPlayerTurn();
+        Player player = game.getPlayerOfCurrentTurn();
         if (player.getActionsRemaining() <= 0) return;
 
         game.getTradeCardsDeck().removeCard(selectedCard);
@@ -55,7 +55,7 @@ public class TradeController extends Controller {
     }
     
     public void refresh() {
-    	goBack();
+    	showPreviousView();
     	new TradeController();
     }
 }

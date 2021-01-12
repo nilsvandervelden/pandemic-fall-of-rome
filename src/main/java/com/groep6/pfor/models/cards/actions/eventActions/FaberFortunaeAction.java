@@ -21,9 +21,9 @@ public class FaberFortunaeAction implements IAction {
 		Game game = Game.getInstance();
 		Deck cityDeck = game.getPlayerCardsDeck();
 		CityCard card = (CityCard) cityDeck.draw();
-		Player player = game.getPlayerTurn();
+		Player player = game.getPlayerOfCurrentTurn();
 		player.getHand().addCards(card);
-		game.getPlayerTurn().decreaseActionsRemaining();
+		game.getPlayerOfCurrentTurn().decreaseActionsRemaining();
 	}
 
 	/**

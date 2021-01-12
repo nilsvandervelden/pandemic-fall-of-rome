@@ -74,7 +74,7 @@ public class RecruitLegionView extends View implements IObserver {
         EventHandler<MouseEvent> menuButtonClicked = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-                recruitLegionController.goBack();
+                recruitLegionController.showPreviousView();
             }
         };
         

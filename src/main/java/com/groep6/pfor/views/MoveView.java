@@ -81,7 +81,7 @@ public class MoveView extends View implements IObserver {
     EventHandler<MouseEvent> menuButtonClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            moveController.goBack();
+            moveController.showPreviousView();
         }
     };
 
