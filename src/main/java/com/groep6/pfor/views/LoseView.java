@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.LoseController;
+import com.groep6.pfor.controllers.LoseGameController;
 import com.groep6.pfor.views.components.UIBorderedText;
 import com.groep6.pfor.views.components.UIButton;
 import javafx.event.EventHandler;
@@ -19,16 +19,16 @@ import javafx.scene.text.Text;
  */
 public class LoseView extends View {
     /** The loseController */
-    private final LoseController loseController;
+    private final LoseGameController loseGameController;
 
     private BorderPane root;
 
     /**
      * The constructor
-     * @param loseController The loseController
+     * @param loseGameController The loseController
      */
-    public LoseView(LoseController loseController) {
-        this.loseController = loseController;
+    public LoseView(LoseGameController loseGameController) {
+        this.loseGameController = loseGameController;
         createView();
     }
 
@@ -54,7 +54,7 @@ public class LoseView extends View {
     EventHandler<MouseEvent> exitGame = new EventHandler<MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            loseController.exitGame();
+            loseGameController.exitGame();
         }
     };
 

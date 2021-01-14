@@ -7,9 +7,9 @@ import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.LoseView;
 import javafx.application.Platform;
 
-public class LoseController extends Controller {
+public class LoseGameController extends Controller {
 
-    public LoseController() {
+    public LoseGameController() {
     	changeMusic();
         viewController.showView(new LoseView(this));
     }

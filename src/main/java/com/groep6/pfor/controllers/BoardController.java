@@ -83,7 +83,7 @@ public class BoardController extends Controller {
         invadeCities();
               
     	if(currentGame.getDecayLevel() >= currentGame.getMaxDecayLevel() - 1) {
-    		new LoseController();
+    		new LoseGameController();
     		currentGame.setLost(true);
     	}
     	

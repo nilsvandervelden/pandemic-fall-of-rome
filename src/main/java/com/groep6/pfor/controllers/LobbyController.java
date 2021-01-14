@@ -49,7 +49,7 @@ public class LobbyController extends Controller {
         Game currentGame = (Game) eventData[0];
         Game.getInstance().updateGame(currentGame);
 
-        if (currentGame.isLost()) Platform.runLater(LoseController::new);
+        if (currentGame.isLost()) Platform.runLater(LoseGameController::new);
         else if (currentGame.isWon()) Platform.runLater(WinController::new);
     };
 
