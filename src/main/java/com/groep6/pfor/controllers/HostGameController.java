@@ -7,9 +7,9 @@ import com.groep6.pfor.services.LobbyService;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.HostView;
 
-public class HostController extends Controller {
+public class HostGameController extends Controller {
 
-    public HostController() {
+    public HostGameController() {
         viewController.showView(new HostView(this));
     }
 

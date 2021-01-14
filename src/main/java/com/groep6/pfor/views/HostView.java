@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.HostController;
+import com.groep6.pfor.controllers.HostGameController;
 import com.groep6.pfor.exceptions.EmptyFieldException;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.components.UIButton;
@@ -22,14 +22,14 @@ import javafx.scene.text.FontWeight;
  */
 public class HostView extends View implements IObserver {
 
-    private final HostController hostController;
+    private final HostGameController hostGameController;
 
     private final StackPane root;
     private final UITextField usernameTextField;
     private final UITextField passwordTextField;
 
-    public HostView(HostController hostController) {
-        this.hostController = hostController;
+    public HostView(HostGameController hostGameController) {
+        this.hostGameController = hostGameController;
 
         root = new StackPane();
 
@@ -81,7 +81,7 @@ public class HostView extends View implements IObserver {
             String password = passwordTextField.getValue();
 
             try {
-                hostController.createLobby(username, password); //even plaatsvervangend dubbel password i.p.v. unieke code
+                hostGameController.createLobby(username, password); //even plaatsvervangend dubbel password i.p.v. unieke code
             } catch (EmptyFieldException error) {
                 System.out.println(error.getMessage());
             }
@@ -92,7 +92,7 @@ public class HostView extends View implements IObserver {
     EventHandler<javafx.scene.input.MouseEvent> goBack = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            hostController.showPreviousView();
+            hostGameController.showPreviousView();
         }
     };
 

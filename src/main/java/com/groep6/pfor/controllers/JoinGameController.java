@@ -15,9 +15,9 @@ import com.groep6.pfor.services.LobbyService;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.JoinView;
 
-public class JoinController extends Controller {
+public class JoinGameController extends Controller {
 
-    public JoinController() {
+    public JoinGameController() {
         viewController.showView(new JoinView(this));
     }
     

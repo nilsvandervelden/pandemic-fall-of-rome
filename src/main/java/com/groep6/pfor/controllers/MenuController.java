@@ -13,11 +13,11 @@ public class MenuController extends Controller {
     }
 
     public void goToHostView() {
-        new HostController();
+        new HostGameController();
     }
 
     public void goToJoinView() {
-        new JoinController();
+        new JoinGameController();
     }
 
     @Override

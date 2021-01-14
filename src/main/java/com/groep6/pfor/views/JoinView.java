@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.JoinController;
+import com.groep6.pfor.controllers.JoinGameController;
 import com.groep6.pfor.exceptions.EmptyFieldException;
 import com.groep6.pfor.exceptions.UsernameAlreadyUsed;
 import com.groep6.pfor.util.IObserver;
@@ -24,7 +24,7 @@ import javafx.scene.text.FontWeight;
 public class JoinView extends View implements IObserver {
 
     /** The join controller  */
-    private final JoinController joinController;
+    private final JoinGameController joinGameController;
 
     private final StackPane root;
     private final UITextField codeTextField;
@@ -35,8 +35,8 @@ public class JoinView extends View implements IObserver {
     /** The text field that allows the user to put in a password if required  */
     private final UITextField passwordTextField;
 
-    public JoinView(JoinController joinController) {
-        this.joinController = joinController;
+    public JoinView(JoinGameController joinGameController) {
+        this.joinGameController = joinGameController;
         
         root = new StackPane();
         
@@ -98,7 +98,7 @@ public class JoinView extends View implements IObserver {
             String password = passwordTextField.getValue();
 
             try {
-                joinController.joinLobby(code, username, password);
+                joinGameController.joinLobby(code, username, password);
             } catch (EmptyFieldException | UsernameAlreadyUsed error) {
                 System.out.println(error.getMessage());
             }
@@ -109,7 +109,7 @@ public class JoinView extends View implements IObserver {
     EventHandler<javafx.scene.input.MouseEvent> goBack = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            joinController.showPreviousView();
+            joinGameController.showPreviousView();
         }
     };
 
