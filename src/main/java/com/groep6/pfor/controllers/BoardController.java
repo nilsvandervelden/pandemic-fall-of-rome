@@ -104,6 +104,7 @@ public class BoardController extends Controller {
     private boolean maximumAmountOfCardsInHandDeckHaveBeenReached(Player localPlayer) {
         int maximumAmountOfCardInHand = 7;
         return (localPlayer.getPlayerDeck().getCards().size() > maximumAmountOfCardInHand);
+
     }
 
     private boolean maximumDecayLevelHasBeenReached() {
@@ -115,7 +116,6 @@ public class BoardController extends Controller {
         GameService gameService = new GameService();
         gameService.setGame(currentGame);
     }
-
 
     public void nextTurn() {
         Player localPlayer = getLocalPlayer();
@@ -129,23 +129,22 @@ public class BoardController extends Controller {
         }
 
         invadeCities();
-              
-    	if(maximumDecayLevelHasBeenReached()) {
-            gameHasBeenLost();
-    	}
     	
     	checkWinConditions();
 
         setNextTurn();
     }
 
+    private boolean playerHasNoMoreCards() {
+        int minimumAmountOfCardsInPlayerCardDeck = 1;
+        return currentGame.getPlayerCardsDeck().getCards().size() <= minimumAmountOfCardsInPlayerCardDeck;
+    }
+
     public void checkLoseConditions() {
-        int minimumAmountOfCardsInPlayerCardDeck = 0;
-        // Go to lose screen when there are no more cards in players
-        if (currentGame.getPlayerCardsDeck().getCards().size() <= minimumAmountOfCardsInPlayerCardDeck) {
-            currentGame.setLost(true);
-        } else if (currentGame.getDecayLevel() >= currentGame.getMaxDecayLevel() - 1) {
-            currentGame.setLost(true);
+        if (playerHasNoMoreCards()) {
+            gameHasBeenLost();
+        } else if (maximumDecayLevelHasBeenReached()) {
+            gameHasBeenLost();
         }
     }
     
