@@ -29,7 +29,7 @@ public class AudentesFortunaAction implements IAction {
 
 		player.getPlayerDeck().addCards(card1 , card2);
 		
-		game.getPlayerFromCurrentTurn().decreaseActionsRemaining();
+		game.getPlayerFromCurrentTurn().decreaseAmountOfActionsRemaining();
 	}
 
 	/**

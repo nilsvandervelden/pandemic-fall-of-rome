@@ -24,8 +24,8 @@ public class BattleController extends Controller {
 	public BattleController() {
 		Player player = game.getPlayerFromCurrentTurn();
 
-		int amountOfLegionsInCurrentCity = player.getCurrentCity().getLegionCount();
-		int amountOfBarbariansInCurrentCity = player.getCurrentCity().getBarbarianCount();
+		int amountOfLegionsInCurrentCity = player.getCityPlayerIsCurrentlyLocatedIn().getLegionCount();
+		int amountOfBarbariansInCurrentCity = player.getCityPlayerIsCurrentlyLocatedIn().getAmountOfBarbariansLocatedInCurrentCity();
 
 		DiceFace[] battleResults = player.battle();
 

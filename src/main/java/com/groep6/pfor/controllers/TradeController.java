@@ -33,13 +33,13 @@ public class TradeController extends Controller {
     	this.selectedCard = card;
     }
     
-    public void withdrawCard() {
+    public void withdrawCardFromTradeDeck() {
         Player player = game.getPlayerFromCurrentTurn();
         if (player.getActionsRemaining() <= 0) return;
 
         game.getTradeCardsDeck().removeCard(selectedCard);
         game.getLocalPlayer().getPlayerDeck().addCards(selectedCard);
-    	player.decreaseActionsRemaining();
+    	player.decreaseAmountOfActionsRemaining();
 
         SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
     	

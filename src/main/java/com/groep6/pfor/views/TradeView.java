@@ -136,7 +136,7 @@ public class TradeView extends View implements IObserver {
     EventHandler<MouseEvent> withdrawCard = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            tradeController.withdrawCard();
+            tradeController.withdrawCardFromTradeDeck();
             if (tradeController.getLocalPlayer().getActionsRemaining() <= 0) withdrawButton.setDisable(true);
         }
     };

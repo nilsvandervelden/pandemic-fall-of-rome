@@ -53,7 +53,7 @@ public class Player extends Observable implements IObserver {
         city.registerObserver(this);
 
         // Add two legions to start city
-        city.addLegions(2);
+        city.addLegionsToCurrentCity(2);
     }
 
     public Player(String username, City city, RoleCard roleCard, boolean turn, boolean isLocal, int actionsRemaining) {
@@ -82,7 +82,7 @@ public class Player extends Observable implements IObserver {
         return actionsRemaining;
     }
 
-    public void decreaseActionsRemaining() {
+    public void decreaseAmountOfActionsRemaining() {
         if (actionsRemaining <= 0) return;
         actionsRemaining--;
         notifyObservers();
@@ -127,7 +127,7 @@ public class Player extends Observable implements IObserver {
             diceFaces[i] = dice.roll(city);
     	}
 
-    	decreaseActionsRemaining();
+    	decreaseAmountOfActionsRemaining();
 
         return diceFaces;
     }
@@ -136,7 +136,7 @@ public class Player extends Observable implements IObserver {
     	if (!this.city.neighbouringCities.contains(city)) return;
         this.city = city;
 
-    	decreaseActionsRemaining();
+    	decreaseAmountOfActionsRemaining();
     	notifyObservers();
     }
 
@@ -160,7 +160,7 @@ public class Player extends Observable implements IObserver {
         this.isLocal = local;
     }
 
-    public City getCurrentCity() {
+    public City getCityPlayerIsCurrentlyLocatedIn() {
         return city;
     }
 

@@ -21,8 +21,8 @@ public class MercatorAction implements IAction {
 	 */
 	public void execute() {
 		Player player = game.getLocalPlayer();
-		City city = player.getCurrentCity();
-		city.removeBarbarians(1);
+		City city = player.getCityPlayerIsCurrentlyLocatedIn();
+		city.removeBarbariansFromCurrentCity(1);
 		city.removeLegions(1);
 	}
 

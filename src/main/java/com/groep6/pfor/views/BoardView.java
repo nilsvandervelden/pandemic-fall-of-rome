@@ -221,7 +221,7 @@ public class BoardView extends View implements IObserver {
         battleButton.addEventFilter(MouseEvent.MOUSE_CLICKED, goToBattleView);
         battleButton.setDisable(true);
         actionButtonLayout.add(battleButton, 1, 1);
-        if (boardController.getLocalPlayer().getCurrentCity().getBarbarianCount() <= 0) battleButton.setDisable(true);
+        if (boardController.getLocalPlayer().getCityPlayerIsCurrentlyLocatedIn().getAmountOfBarbariansLocatedInCurrentCity() <= 0) battleButton.setDisable(true);
 
         allianceButton = new UIButton("ALLIANTIE SLUITEN");
         allianceButton.setPrefSize(150, 75);
@@ -331,7 +331,7 @@ public class BoardView extends View implements IObserver {
 
                 // Draw players
             	for (Player player: players) {
-            		if (player.getCurrentCity().equals(city)) {
+            		if (player.getCityPlayerIsCurrentlyLocatedIn().equals(city)) {
 	            		gc.setFill(player.getRoleCard().getColor());
 	                	gc.strokeOval(cityPos.x - r, cityPos.y - r, r / 1.35, r / 1.35);
 	                	gc.fillOval(cityPos.x - r, cityPos.y - r, r / 1.35, r / 1.35);
@@ -375,7 +375,7 @@ public class BoardView extends View implements IObserver {
                 }
 
             	// Render the barbarians
-            	for (int i = 0; i < city.getBarbarianCount(); i++) {
+            	for (int i = 0; i < city.getAmountOfBarbariansLocatedInCurrentCity(); i++) {
             	    Barbarian barbarian = city.getBarbarians().get(i);
             	    gc.setFill(FactionFactory.getInstance().getFaction(barbarian.getFactionType()).getColor());
             	    Vector2f pos = barbpos.get(i);

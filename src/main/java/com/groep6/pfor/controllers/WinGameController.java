@@ -12,23 +12,11 @@ import javafx.application.Platform;
  * @author Mitchell van Rijswijk
  *
  */
-public class WinController extends Controller {
+public class WinGameController extends Controller {
 
-    public WinController() {
+    public WinGameController() {
     	changeMusic();
         viewController.showView(new WinView(this));
-    }
-
-    public void goToMenuView() {
-    	viewController.getVisitedViews().clear();
-    	resetMusic();
-    	Game.setGameState(GameState.MENU);
-        new MainMenuController();
-    }
-    
-    public void resetMusic() {
-    	Main.musicManager.stop();
-    	Main.musicManager.play("/sounds/music/Last_stand_of_an_Empire.mp3", 0.2, true);
     }
     
     public void changeMusic() {

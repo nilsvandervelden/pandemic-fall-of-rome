@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.WinController;
+import com.groep6.pfor.controllers.WinGameController;
 import com.groep6.pfor.views.components.UIBorderedText;
 import com.groep6.pfor.views.components.UIButton;
 import javafx.event.EventHandler;
@@ -19,15 +19,15 @@ import javafx.scene.text.Text;
  */
 public class WinView extends View {
     /** The winController */
-    private final WinController winController;
+    private final WinGameController winGameController;
 
     private BorderPane root;
 
     /**
      * The constructor
      */
-    public WinView(WinController winController) {
-        this.winController = winController;
+    public WinView(WinGameController winGameController) {
+        this.winGameController = winGameController;
         createView();
     }
 
@@ -56,7 +56,7 @@ public class WinView extends View {
     EventHandler<MouseEvent> exitGame = new EventHandler<MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            winController.exitGame();
+            winGameController.exitGame();
         }
     };
 

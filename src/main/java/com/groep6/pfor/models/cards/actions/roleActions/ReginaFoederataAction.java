@@ -20,9 +20,9 @@ public class ReginaFoederataAction implements IAction {
 	 */
 	public void execute() {
 		Player player = game.getLocalPlayer();
-		City city = player.getCurrentCity();
-		city.removeBarbarians(1);
-		city.addLegions(1);
+		City city = player.getCityPlayerIsCurrentlyLocatedIn();
+		city.removeBarbariansFromCurrentCity(1);
+		city.addLegionsToCurrentCity(1);
 	}
 
 	/**

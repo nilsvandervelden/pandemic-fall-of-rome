@@ -23,8 +23,8 @@ public class MovePlayerToCityController extends Controller {
     }
 
 	public void moveLegionsToSelectedCity(int amount) {
-    	player.getCurrentCity().removeLegions(amount);
-    	selectedCityToMoveTo.addLegions(amount);
+    	player.getCityPlayerIsCurrentlyLocatedIn().removeLegions(amount);
+    	selectedCityToMoveTo.addLegionsToCurrentCity(amount);
 
 		SoundEffectManager.playMusic("/sounds/effects/MarchSound.mp3");
 		player.movePlayerToSelectedCity(selectedCityToMoveTo);
@@ -32,7 +32,7 @@ public class MovePlayerToCityController extends Controller {
     }
 
     public int getAmountOfLegionsInCurrentCity() {
-    	return player.getCurrentCity().getLegions().size();
+    	return player.getCityPlayerIsCurrentlyLocatedIn().getLegions().size();
 	}
 
 	@Override

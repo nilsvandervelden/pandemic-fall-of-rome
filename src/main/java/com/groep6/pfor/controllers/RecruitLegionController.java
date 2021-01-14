@@ -18,13 +18,13 @@ public class RecruitLegionController extends Controller {
 	
     public RecruitLegionController() {
     	player = game.getPlayerFromCurrentTurn();
-    	city = player.getCurrentCity();
+    	city = player.getCityPlayerIsCurrentlyLocatedIn();
     	viewController.showView(new RecruitLegionView(this));
     }
 
-    public void recruit(int amount) {
-		if (city.hasFort()) city.addLegions(amount);
-		player.decreaseActionsRemaining();
+    public void recruit(int amountOfLegions) {
+		if (city.hasFort()) city.addLegionsToCurrentCity(amountOfLegions);
+		player.decreaseAmountOfActionsRemaining();
 		showPreviousView();
 	}
 

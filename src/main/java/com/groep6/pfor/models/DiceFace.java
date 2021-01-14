@@ -9,7 +9,7 @@ public enum DiceFace {
 	BARBARIAN {
 		@Override
 		public void execute(City city) {
-			city.removeBarbarians(1);
+			city.removeBarbariansFromCurrentCity(1);
 		}
 		@Override
 		public int getBarbarianCount() {
@@ -37,7 +37,7 @@ public enum DiceFace {
 	BOTH {
 		@Override
 		public void execute(City city) {
-			city.removeBarbarians(1);
+			city.removeBarbariansFromCurrentCity(1);
 			city.removeLegions(1);
 		}
 		@Override
@@ -52,7 +52,7 @@ public enum DiceFace {
 	TWO_BARBARIAN_LEGION {
 		@Override
 		public void execute(City city) {
-			city.removeBarbarians(2);
+			city.removeBarbariansFromCurrentCity(2);
 			city.removeLegions(1);
 		}
 		@Override

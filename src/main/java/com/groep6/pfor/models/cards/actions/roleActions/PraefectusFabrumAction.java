@@ -21,9 +21,9 @@ public class PraefectusFabrumAction implements IAction {
 	 */
 	public void execute() {
 		Player player = game.getLocalPlayer();
-		City city = player.getCurrentCity();
+		City city = player.getCityPlayerIsCurrentlyLocatedIn();
 
-		if (city.hasFort()) city.removeBarbarians(2);
+		if (city.hasFort()) city.removeBarbariansFromCurrentCity(2);
 	}
 
 	/**

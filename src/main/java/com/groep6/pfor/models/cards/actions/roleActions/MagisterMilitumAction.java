@@ -20,8 +20,8 @@ public class MagisterMilitumAction implements IAction {
 	 */
 	public void execute() {
 		Player player = game.getLocalPlayer();
-		City city = player.getCurrentCity();
-		city.removeBarbarians(2);
+		City city = player.getCityPlayerIsCurrentlyLocatedIn();
+		city.removeBarbariansFromCurrentCity(2);
 	}
 
 	/**

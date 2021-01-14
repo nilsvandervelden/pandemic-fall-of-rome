@@ -62,7 +62,7 @@ public class HandCardDeckController extends Controller {
         localPlayer.getPlayerDeck().removeCard(currentlySelectedCard);
 		tradeCardDeck.addCards(currentlySelectedCard);
 		
-        player.decreaseActionsRemaining();
+        player.decreaseAmountOfActionsRemaining();
         SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
 
         refresh();

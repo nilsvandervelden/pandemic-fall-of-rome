@@ -62,9 +62,9 @@ public class BoardController extends Controller {
         Player localPlayer = Game.getInstance().getLocalPlayer();
 
         if (localPlayer.getActionsRemaining() <= minimumAmountOfActionsRequired || !localPlayer.isCurrentTurn()) return;
-        if (!Arrays.asList(localPlayer.getCurrentCity().getNeighbouringCities()).contains(city)) return;
+        if (!Arrays.asList(localPlayer.getCityPlayerIsCurrentlyLocatedIn().getNeighbouringCities()).contains(city)) return;
 
-        if (localPlayer.getCurrentCity().getLegions().size() > 0) {
+        if (localPlayer.getCityPlayerIsCurrentlyLocatedIn().getLegions().size() > 0) {
             new MovePlayerToCityController(city, localPlayer);
         } else localPlayer.movePlayerToSelectedCity(city);
     }
@@ -142,38 +142,38 @@ public class BoardController extends Controller {
         List<City> route = card.getRoute();
 
         for (int i = 0; i < route.size(); i++) {
-        	if(route.get(i).getBarbarianCount(card.getFaction().getFactionType(), route.get(i).getBarbarians()) < 1) {
+        	if(route.get(i).getAmountOfBarbariansLocatedInCurrentCity(card.getFaction().getFactionType(), route.get(i).getBarbarians()) < 1) {
                 route.get(i).addBarbarians(card.getFaction().getFactionType(), 1);
                 if (i > 0) route.get(i - 1).addBarbarians(card.getFaction().getFactionType(), 1);
                 break;
         	}
         }
-        if (route.get(route.size() - 1).getBarbarianCount(card.getFaction().getFactionType(), route.get(route.size() - 1).getBarbarians()) >= 1){
+        if (route.get(route.size() - 1).getAmountOfBarbariansLocatedInCurrentCity(card.getFaction().getFactionType(), route.get(route.size() - 1).getBarbarians()) >= 1){
     		route.get(route.size() - 1).addBarbarians(card.getFaction().getFactionType(), 1);
         }
     }
 
     public void buildFort() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCurrentCity();
+        City city = player.getCityPlayerIsCurrentlyLocatedIn();
         city.placeFort();
-        player.decreaseActionsRemaining();
+        player.decreaseAmountOfActionsRemaining();
     }
 
     public boolean canBattle() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCurrentCity();
+        City city = player.getCityPlayerIsCurrentlyLocatedIn();
 
-        return city.getBarbarianCount() > 0 && city.getLegionCount() > 0;
+        return city.getAmountOfBarbariansLocatedInCurrentCity() > 0 && city.getLegionCount() > 0;
     }
 
     public boolean canRecruitBarbarians() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCurrentCity();
+        City city = player.getCityPlayerIsCurrentlyLocatedIn();
         Faction[] factions = city.getFactions();
 
         for (Faction faction: factions) {
-            if (currentGame.isFriendlyFaction(faction) && city.getBarbarianCount(faction.getFactionType()) > 0) return true;
+            if (currentGame.isFriendlyFaction(faction) && city.getAmountOfBarbariansLocatedInCurrentCity(faction.getFactionType()) > 0) return true;
         }
 
         return false;
@@ -181,14 +181,14 @@ public class BoardController extends Controller {
 
     public boolean canRecruitLegions() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCurrentCity();
+        City city = player.getCityPlayerIsCurrentlyLocatedIn();
 
         return city.hasFort();
     }
 
     public boolean canBuildFort() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCurrentCity();
+        City city = player.getCityPlayerIsCurrentlyLocatedIn();
 
         return (!city.hasFort() && getAmountOfFortsInCity() < 6);
     }
@@ -209,7 +209,7 @@ public class BoardController extends Controller {
         List<Card> cardsToDiscard = player.getCitycardsOfAliedFaction(faction);
         player.getPlayerDeck().removeCards(cardsToDiscard.toArray(new Card[0]));
 
-        player.decreaseActionsRemaining();
+        player.decreaseAmountOfActionsRemaining();
     }
     
     public void changeMusic() {

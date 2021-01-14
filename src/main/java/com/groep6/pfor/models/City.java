@@ -78,7 +78,7 @@ public class City extends Tile {
 	/**
 	 * @return The total amount of barbarians in this city of all factions combined
 	 */
-	public int getBarbarianCount() {
+	public int getAmountOfBarbariansLocatedInCurrentCity() {
     	return barbarians.size();
 	}
 	
@@ -157,7 +157,7 @@ public class City extends Tile {
      * @returns the amount of barbarians in this city of the specified faction
      */
 	
-    public int getBarbarianCount(FactionType factionType, List<Barbarian> barbarians) {
+    public int getAmountOfBarbariansLocatedInCurrentCity(FactionType factionType, List<Barbarian> barbarians) {
 		int count = 0;
 
 		for (Barbarian barbarian : barbarians) {
@@ -167,7 +167,7 @@ public class City extends Tile {
 		return count;
 	}
 
-	public int getBarbarianCount(FactionType factionType) {
+	public int getAmountOfBarbariansLocatedInCurrentCity(FactionType factionType) {
 		int count = 0;
 
 		for (Barbarian barbarian : barbarians) {
@@ -180,7 +180,7 @@ public class City extends Tile {
     /**
      * adds a legion to a specific city
      */
-	public void addLegions(int amount) {
+	public void addLegionsToCurrentCity(int amount) {
 		for (int i = 0; i < amount; i++) {
 			legions.add(new Legion());
 		}
@@ -193,7 +193,7 @@ public class City extends Tile {
      * @return a barbarian and removes that specific barbarian from a specific city
      */
 	
-	public void removeBarbarians(FactionType factionType, int amount) {
+	public void removeBarbariansFromCurrentCity(FactionType factionType, int amount) {
 		for (int x = 0; x < barbarians.size(); x++) {
 			Barbarian barbarian = barbarians.get(x);
 			for (int i = 0; i < amount; i++) {
@@ -210,7 +210,7 @@ public class City extends Tile {
 	 * @param amount
 	 * @return Removed barbarian
 	 */
-	public void removeBarbarians(int amount) {
+	public void removeBarbariansFromCurrentCity(int amount) {
 		for (int i = 0; i < amount; i++) {
 			if (barbarians.size() > 0) barbarians.remove(0);
 		}
