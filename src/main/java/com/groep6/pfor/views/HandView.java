@@ -43,7 +43,7 @@ public class HandView extends View implements IObserver {
 
     public HandView(HandCardDeckController handCardDeckController) {
         this.handCardDeckController = handCardDeckController;
-        cards = handCardDeckController.getCards();
+        cards = handCardDeckController.getPlayerHandDeckCards();
         handCardDeckController.registerObserver(this);
 
         createView();
@@ -159,7 +159,7 @@ public class HandView extends View implements IObserver {
             deselectAllCards();
             UICard source = (UICard) e.getSource();
             source.select();
-            handCardDeckController.selectCard(source.getCard());
+            handCardDeckController.currentlySelectedCard(source.getCard());
             discardCardButton.setDisable(false);
             if (handCardDeckController.getLocalPlayer().getActionsRemaining() > 0 && handCardDeckController.getLocalPlayer().isCurrentTurn()) depositCardButton.setDisable(false);
 
