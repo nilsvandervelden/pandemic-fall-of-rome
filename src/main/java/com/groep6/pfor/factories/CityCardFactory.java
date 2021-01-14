@@ -30,9 +30,9 @@ public class CityCardFactory {
 	 * @return The new instance
 	 */
 	private CityCardFactory() {
-		CityCardParser parser = new CityCardParser();
+		CityCardParser cityCardParser = new CityCardParser();
 		try {
-			cityCardDeck.addCards(parser.parseFile("/citycards.json"));
+			cityCardDeck.addCards(cityCardParser.parseFile("/citycards.json"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

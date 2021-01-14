@@ -24,24 +24,63 @@ public class BattleController extends Controller {
 	public BattleController() {
 		Player player = game.getPlayerFromCurrentTurn();
 
-		int amountOfLegionsInCurrentCity = player.getCityPlayerIsCurrentlyLocatedIn().getLegionCount();
-		int amountOfBarbariansInCurrentCity = player.getCityPlayerIsCurrentlyLocatedIn().getAmountOfBarbariansLocatedInCurrentCity();
+		int amountOfLegionsInCurrentCity = getAmountOfLegionsInCurrentCity(player);
+		int amountOfBarbariansInCurrentCity = getAmountOfBarbariansInCurrentCity(player);
 
-		DiceFace[] battleResults = player.battle();
+		DiceFace[] battleResults = fightBattle(player);
 
+		int amountOfLegionsLost = calculateAmountOfLostLegions(battleResults);
+		int amountOfBarbariansLost = calculateAmountOfLostBarbarians(battleResults);
+
+		amountOfLegionsLost = determineHowManyLostLegionsToDisplay(amountOfLegionsInCurrentCity, amountOfLegionsLost);
+		amountOfBarbariansLost = determineHowManyLostBarbariansToDisplay(amountOfBarbariansInCurrentCity, amountOfBarbariansLost);
+
+		displayBattleResult(this, amountOfLegionsLost, amountOfBarbariansLost);
+		playBattleSound();
+	}
+
+	private int determineHowManyLostLegionsToDisplay(int amountOfLegionsLost, int amountOfLegionsInCurrentCity) {
+		return Math.min(amountOfLegionsInCurrentCity, amountOfLegionsLost);
+	}
+
+	private int determineHowManyLostBarbariansToDisplay(int amountOfBarbariansLost, int amountOfBarbariansInCurrentCity) {
+		return Math.min(amountOfBarbariansInCurrentCity, amountOfBarbariansLost);
+	}
+
+	private int getAmountOfLegionsInCurrentCity(Player player) {
+		return player.getCityPlayerIsCurrentlyLocatedIn().getLegionCount();
+	}
+
+	private int getAmountOfBarbariansInCurrentCity(Player player) {
+		return player.getCityPlayerIsCurrentlyLocatedIn().getAmountOfBarbariansLocatedInCurrentCity();
+	}
+
+	private DiceFace[] fightBattle(Player player) {
+		return player.battle();
+	}
+
+	private int calculateAmountOfLostLegions(DiceFace[] battleResults) {
 		int amountOfLegionsLost = 0;
-		int amountOfBarbariansLost = 0;
-
 		for (DiceFace battleResult : battleResults) {
 			amountOfLegionsLost += battleResult.getLegionCount();
+		}
+		return amountOfLegionsLost;
+	}
+
+	private int calculateAmountOfLostBarbarians(DiceFace[] battleResults) {
+		int amountOfBarbariansLost = 0;
+		for (DiceFace battleResult : battleResults) {
 			amountOfBarbariansLost += battleResult.getBarbarianCount();
 		}
+		return amountOfBarbariansLost;
+	}
 
-		amountOfLegionsLost = Math.min(amountOfLegionsInCurrentCity, amountOfLegionsLost);
-		amountOfBarbariansLost = Math.min(amountOfBarbariansInCurrentCity, amountOfBarbariansLost);
-
-		viewController.showView(new BattleView(this, amountOfLegionsLost, amountOfBarbariansLost));
+	private void playBattleSound() {
 		SoundEffectManager.playMusic("/sounds/effects/BattleSound.mp3");
+	}
+
+	private void displayBattleResult(BattleController battleController, int amountOfLegionsLost, int amountOfBarbariansLost ) {
+		viewController.showView(new BattleView(battleController, amountOfLegionsLost, amountOfBarbariansLost));
 	}
 
 	@Override

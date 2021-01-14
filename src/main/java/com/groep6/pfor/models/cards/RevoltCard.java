@@ -23,19 +23,6 @@ public class RevoltCard extends Card {
         this.factionType = factionType;
     }
 
-    /**
-     * @return City
-     */
-    public City revolt() {
-        // I. Increase
-
-        // II. Revolt
-
-        // III. Intensify
-
-        return null;
-    }
-
     @Override
     public String getName() {
         return name;
