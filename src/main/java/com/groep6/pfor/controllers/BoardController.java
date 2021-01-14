@@ -221,7 +221,7 @@ public class BoardController extends Controller {
         }
     }
 
-    private City getCityPlayerIsCurrentlyLocatedIn(Player localPlayer) {
+    private City getCityPlayerIsCurrentlyStandingIn(Player localPlayer) {
         return localPlayer.getCityPlayerIsCurrentlyLocatedIn();
     }
 
@@ -235,7 +235,7 @@ public class BoardController extends Controller {
 
     public void buildFortInCityPlayerIsCurrentlyStandingIn() {
         Player localPlayer = getLocalPlayer();
-        City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyLocatedIn(localPlayer);
+        City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
         placeFortInCurrentCity(cityPlayerIsCurrentlyStandingIn);
         decreaseAmountOfActionsRemaining(localPlayer);
     }
@@ -250,20 +250,31 @@ public class BoardController extends Controller {
 
     public boolean canBattle() {
         Player localPlayer = getLocalPlayer();
-        City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyLocatedIn(localPlayer);
+        City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
 
         return barbariansLocatedInCurrentCity(cityPlayerIsCurrentlyStandingIn) && legionsLocatedInCurrentCity(cityPlayerIsCurrentlyStandingIn);
     }
 
+    private Faction[] determineWhichFactionCanAccessCurrentCity(City cityPlayerIsCurrentlyStandingIn) {
+        return cityPlayerIsCurrentlyStandingIn.getFactions();
+    }
+
+    private boolean isFriendlyFaction(Faction faction) {
+        return currentGame.isFriendlyFaction(faction);
+    }
+
+    private boolean hasAlliedBarbarians(City cityPlayerIsCurrentlyStandingIn, Faction faction) {
+        return cityPlayerIsCurrentlyStandingIn.getAmountOfBarbariansLocatedInCurrentCity(faction.getFactionType()) > 0;
+    }
+
     public boolean canRecruitBarbarians() {
-        Player player = currentGame.getLocalPlayer();
-        City city = player.getCityPlayerIsCurrentlyLocatedIn();
-        Faction[] factions = city.getFactions();
+        Player localPlayer = getLocalPlayer();
+        City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
+        Faction[] factionsThatCanAccessThisCity = determineWhichFactionCanAccessCurrentCity(cityPlayerIsCurrentlyStandingIn);
 
-        for (Faction faction: factions) {
-            if (currentGame.isFriendlyFaction(faction) && city.getAmountOfBarbariansLocatedInCurrentCity(faction.getFactionType()) > 0) return true;
+        for (Faction faction: factionsThatCanAccessThisCity) {
+            if (isFriendlyFaction(faction) && hasAlliedBarbarians(cityPlayerIsCurrentlyStandingIn, faction)) return true;
         }
-
         return false;
     }
 
