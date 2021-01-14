@@ -157,7 +157,7 @@ public class Lobby extends Observable implements IObserver {
         return null;
     }
 
-    public void removePlayer(LobbyPlayer player) {
+    public void removePlayerFromCurrentLobby(LobbyPlayer player) {
         players.remove(player);
     }
 

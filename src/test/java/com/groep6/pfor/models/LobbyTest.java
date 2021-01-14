@@ -92,7 +92,7 @@ class LobbyTest {
     void removePlayer() throws IncorrentPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         assertEquals(1, lobby.getPlayers().size());
-        lobby.removePlayer(player);
+        lobby.removePlayerFromCurrentLobby(player);
         assertEquals(0, lobby.getPlayers().size());
     }
 }

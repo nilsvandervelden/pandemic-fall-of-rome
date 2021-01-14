@@ -109,7 +109,7 @@ public class Game extends Observable implements IObserver {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setGameCode(String code) {
         this.code = code;
     }
 
@@ -122,7 +122,7 @@ public class Game extends Observable implements IObserver {
         players.clear();
 
         for (Player player: remote.getAllPlayers()) {
-            addPlayers(player);
+            addPlayersToCurrentGame(player);
             if (player.equals(local)) {
                 player.getPlayerDeck().addCards(local.getPlayerDeck().getCards().toArray(new Card[0]));
                 setLocalPlayer(player);
@@ -142,7 +142,7 @@ public class Game extends Observable implements IObserver {
         notifyObservers();
     }
 
-    public void addPlayers(Player... players) {
+    public void addPlayersToCurrentGame(Player... players) {
         for (Player player: players) {
             this.players.add(player);
             player.registerObserver(this);
@@ -171,7 +171,7 @@ public class Game extends Observable implements IObserver {
      * Adds LobbyPlayers to game
      * @param lobbyPlayers
      */
-    public void addPlayers(LobbyPlayer... lobbyPlayers) {
+    public void addPlayersToCurrentGame(LobbyPlayer... lobbyPlayers) {
         for (LobbyPlayer lobbyPlayer: lobbyPlayers) {
             Player player = new Player(lobbyPlayer);
             player.registerObserver(this);

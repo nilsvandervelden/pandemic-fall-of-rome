@@ -91,7 +91,7 @@ public class LobbyService {
      * You should do that yourself
      * @param player The player to be the new lobby host
      */
-    public void giveHost(LobbyPlayer player) {
+    public void setHost(LobbyPlayer player) {
         DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobby());
         doc.update(FieldPath.of("players", player.getUsername(), "host"), true);
     }
@@ -114,7 +114,7 @@ public class LobbyService {
      * The lobby to leave is specified in the player's lobby field
      * @param player The player that should leave
      */
-    public void leave(LobbyPlayer player) {
+    public void removePlayerFromCurrentLobby(LobbyPlayer player) {
         DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobby());
         doc.update(FieldPath.of("players", player.getUsername()), FieldValue.delete());
         removeListener();
