@@ -88,30 +88,55 @@ public class BoardController extends Controller {
         } else localPlayer.moveLocalPlayerToSelectedCity(selectedCityToMoveTo);
     }
 
-    public void nextTurn() {
+    private void addTwoCardToPlayerDeck(Player localPlayer) {
+        localPlayer.getPlayerDeck().addCards(currentGame.getPlayerCardsDeck().draw(), currentGame.getPlayerCardsDeck().draw());
+    }
+
+    private void showPlayerHandDeck() {
+        new HandCardDeckController();
+    }
+
+    private void gameHasBeenLost() {
+        new LoseGameController();
+        currentGame.setLost(true);
+    }
+    // Open hand when there are more than 7 cards in hand
+    private boolean maximumAmountOfCardsInHandDeckHaveBeenReached(Player localPlayer) {
         int maximumAmountOfCardInHand = 7;
-        // Draw 2 cards from game deck
-        Player player = currentGame.getLocalPlayer();
-        player.getPlayerDeck().addCards(currentGame.getPlayerCardsDeck().draw(), currentGame.getPlayerCardsDeck().draw());
+        return (localPlayer.getPlayerDeck().getCards().size() > maximumAmountOfCardInHand);
+    }
+
+    private boolean maximumDecayLevelHasBeenReached() {
+        return currentGame.getDecayLevel() >= currentGame.getMaxDecayLevel() - 1;
+    }
+
+    private void setNextTurn() {
+        currentGame.nextTurn();
+        GameService gameService = new GameService();
+        gameService.setGame(currentGame);
+    }
+
+
+    public void nextTurn() {
+        Player localPlayer = getLocalPlayer();
+
+        addTwoCardToPlayerDeck(localPlayer);
 
         checkLoseConditions();
 
-        // Open hand when there are more than 7 cards in hand
-        if (player.getPlayerDeck().getCards().size() > maximumAmountOfCardInHand) new HandCardDeckController();
+        if (maximumAmountOfCardsInHandDeckHaveBeenReached(localPlayer)) {
+            showPlayerHandDeck();
+        }
 
         invadeCities();
               
-    	if(currentGame.getDecayLevel() >= currentGame.getMaxDecayLevel() - 1) {
-    		new LoseGameController();
-    		currentGame.setLost(true);
+    	if(maximumDecayLevelHasBeenReached()) {
+            gameHasBeenLost();
     	}
     	
     	checkWinConditions();
 
-        // Next turn
-        currentGame.nextTurn();
-        GameService gameService = new GameService();
-        gameService.setGame(currentGame);
+        setNextTurn();
     }
 
     public void checkLoseConditions() {
