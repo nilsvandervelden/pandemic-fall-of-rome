@@ -278,37 +278,43 @@ public class BoardController extends Controller {
         return false;
     }
 
-    public boolean canRecruitLegions() {
-        Player player = currentGame.getLocalPlayer();
-        City city = player.getCityPlayerIsCurrentlyLocatedIn();
+    public boolean cityHasFort(City cityPlayerIsCurrentlyStandingIn) {
+        return cityPlayerIsCurrentlyStandingIn.hasFort();
+    }
 
-        return city.hasFort();
+    public boolean canRecruitLegions() {
+        Player localPlayer = getLocalPlayer();
+        City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
+
+        return cityHasFort(cityPlayerIsCurrentlyStandingIn);
     }
 
     public boolean canBuildFort() {
-        Player player = currentGame.getLocalPlayer();
-        City city = player.getCityPlayerIsCurrentlyLocatedIn();
+        int maximumAmountOfFortsInGame = 6;
+        Player localPlayer = getLocalPlayer();
+        City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
 
-        return (!city.hasFort() && getAmountOfFortsInCity() < 6);
+        return (!cityHasFort(cityPlayerIsCurrentlyStandingIn) && getAmountOfFortsInCity() < maximumAmountOfFortsInGame);
     }
 
-    @Override
-    public void registerObserver(IObserver view) {
-        currentGame.registerObserver(view);
+    private void changeFactionStatusToAllied(Faction factionToBecomeAllied) {
+        factionToBecomeAllied.makeAlly();
+    }
+
+    private void removeCardsFromAlliedFactions(Player localPlayer, Faction factionToBecomeAllied) {
+        List<Card> cardsToDiscard = localPlayer.getCitycardsOfAliedFaction(factionToBecomeAllied);
+        localPlayer.getPlayerDeck().removeCards(cardsToDiscard.toArray(new Card[0]));
     }
 
     public void formAlliance() {
-        Player player = getLocalPlayer();
-        Faction faction = player.availableAlliances().get(0);
+        Player localPlayer = getLocalPlayer();
+        Faction factionToBecomeAllied = localPlayer.availableAlliances().get(0);
 
-        // Ally this faction
-        faction.makeAlly();
+        changeFactionStatusToAllied(factionToBecomeAllied);
 
-        // Remove cards
-        List<Card> cardsToDiscard = player.getCitycardsOfAliedFaction(faction);
-        player.getPlayerDeck().removeCards(cardsToDiscard.toArray(new Card[0]));
+        removeCardsFromAlliedFactions(localPlayer, factionToBecomeAllied);
 
-        player.decreaseAmountOfActionsRemaining();
+       decreaseAmountOfActionsRemaining(localPlayer);
     }
     
     public void changeMusic() {
@@ -317,11 +323,16 @@ public class BoardController extends Controller {
     }
 
     public boolean canFormAlliance() {
-        Player player = getLocalPlayer();
-        return player.availableAlliances().size() > 0;
+        Player localPlayer = getLocalPlayer();
+        return localPlayer.availableAlliances().size() > 0;
     }
 
     public List<Faction> getFriendlyFactions() {
         return Game.getInstance().getFriendlyFactions();
+    }
+
+    @Override
+    public void registerObserver(IObserver view) {
+        currentGame.registerObserver(view);
     }
 }
