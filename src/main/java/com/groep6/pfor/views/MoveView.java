@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.MoveController;
+import com.groep6.pfor.controllers.MovePlayerToCityController;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.components.UIButton;
 import com.groep6.pfor.views.components.UIText;
@@ -21,11 +21,11 @@ import javafx.scene.text.FontWeight;
 
 public class MoveView extends View implements IObserver {
     /** The recruitLegionController */
-    private final MoveController moveController;
+    private final MovePlayerToCityController moveController;
 
     private StackPane root;
 
-    public MoveView(MoveController moveController) {
+    public MoveView(MovePlayerToCityController moveController) {
         this.moveController = moveController;
 
         createView();
@@ -88,28 +88,28 @@ public class MoveView extends View implements IObserver {
     EventHandler<MouseEvent> recruitZeroClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            moveController.moveLegions(0);
+            moveController.moveLegionsToSelectedCity(0);
         }
     };
 
     EventHandler<MouseEvent> recruitOneClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            moveController.moveLegions(1);
+            moveController.moveLegionsToSelectedCity(1);
         }
     };
 
     EventHandler<MouseEvent> recruitTwoClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            moveController.moveLegions(2);
+            moveController.moveLegionsToSelectedCity(2);
         }
     };
 
     EventHandler<MouseEvent> recruitThreeClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            moveController.moveLegions(3);
+            moveController.moveLegionsToSelectedCity(3);
         }
     };
 

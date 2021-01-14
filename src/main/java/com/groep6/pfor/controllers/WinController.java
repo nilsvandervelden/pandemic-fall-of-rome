@@ -23,7 +23,7 @@ public class WinController extends Controller {
     	viewController.getVisitedViews().clear();
     	resetMusic();
     	Game.setGameState(GameState.MENU);
-        new MenuController();
+        new MainMenuController();
     }
     
     public void resetMusic() {

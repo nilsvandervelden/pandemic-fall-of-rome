@@ -41,7 +41,7 @@ public class TradeController extends Controller {
         game.getLocalPlayer().getPlayerDeck().addCards(selectedCard);
     	player.decreaseActionsRemaining();
 
-        SoundEffectManager.play("/sounds/effects/DrawCardSound.mp3");
+        SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
     	
     	refresh();
     }

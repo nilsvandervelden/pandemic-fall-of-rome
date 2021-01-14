@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.MenuController;
+import com.groep6.pfor.controllers.MainMenuController;
 import com.groep6.pfor.views.components.UIBorderedText;
 import com.groep6.pfor.views.components.UIButton;
 import javafx.application.Platform;
@@ -20,11 +20,11 @@ import javafx.scene.text.*;
  */
 public class MenuView extends View {
 
-    private final MenuController menuController;
+    private final MainMenuController menuController;
 
     private BorderPane root;
 
-    public MenuView(MenuController controller) {
+    public MenuView(MainMenuController controller) {
         menuController = controller;
         createView();
     }

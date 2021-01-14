@@ -20,7 +20,7 @@ public class PraefectusClassisAction implements IAction {
 	 */
 	public void execute() {
 		Player player = game.getLocalPlayer();
-		City city = player.getCity();
+		City city = player.getCurrentCity();
 
 		if (city.hasHarbour()) city.removeBarbarians(1);
 	}

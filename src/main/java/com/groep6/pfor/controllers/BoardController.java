@@ -62,10 +62,10 @@ public class BoardController extends Controller {
         Player localPlayer = Game.getInstance().getLocalPlayer();
 
         if (localPlayer.getActionsRemaining() <= minimumAmountOfActionsRequired || !localPlayer.isCurrentTurn()) return;
-        if (!Arrays.asList(localPlayer.getCity().getNeighbouringCities()).contains(city)) return;
+        if (!Arrays.asList(localPlayer.getCurrentCity().getNeighbouringCities()).contains(city)) return;
 
-        if (localPlayer.getCity().getLegions().size() > 0) {
-            new MoveController(city, localPlayer);
+        if (localPlayer.getCurrentCity().getLegions().size() > 0) {
+            new MovePlayerToCityController(city, localPlayer);
         } else localPlayer.movePlayerToSelectedCity(city);
     }
 
@@ -155,21 +155,21 @@ public class BoardController extends Controller {
 
     public void buildFort() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCity();
+        City city = player.getCurrentCity();
         city.placeFort();
         player.decreaseActionsRemaining();
     }
 
     public boolean canBattle() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCity();
+        City city = player.getCurrentCity();
 
         return city.getBarbarianCount() > 0 && city.getLegionCount() > 0;
     }
 
     public boolean canRecruitBarbarians() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCity();
+        City city = player.getCurrentCity();
         Faction[] factions = city.getFactions();
 
         for (Faction faction: factions) {
@@ -181,14 +181,14 @@ public class BoardController extends Controller {
 
     public boolean canRecruitLegions() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCity();
+        City city = player.getCurrentCity();
 
         return city.hasFort();
     }
 
     public boolean canBuildFort() {
         Player player = currentGame.getLocalPlayer();
-        City city = player.getCity();
+        City city = player.getCurrentCity();
 
         return (!city.hasFort() && getAmountOfFortsInCity() < 6);
     }

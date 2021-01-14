@@ -221,7 +221,7 @@ public class BoardView extends View implements IObserver {
         battleButton.addEventFilter(MouseEvent.MOUSE_CLICKED, goToBattleView);
         battleButton.setDisable(true);
         actionButtonLayout.add(battleButton, 1, 1);
-        if (boardController.getLocalPlayer().getCity().getBarbarianCount() <= 0) battleButton.setDisable(true);
+        if (boardController.getLocalPlayer().getCurrentCity().getBarbarianCount() <= 0) battleButton.setDisable(true);
 
         allianceButton = new UIButton("ALLIANTIE SLUITEN");
         allianceButton.setPrefSize(150, 75);
@@ -331,7 +331,7 @@ public class BoardView extends View implements IObserver {
 
                 // Draw players
             	for (Player player: players) {
-            		if (player.getCity().equals(city)) {
+            		if (player.getCurrentCity().equals(city)) {
 	            		gc.setFill(player.getRoleCard().getColor());
 	                	gc.strokeOval(cityPos.x - r, cityPos.y - r, r / 1.35, r / 1.35);
 	                	gc.fillOval(cityPos.x - r, cityPos.y - r, r / 1.35, r / 1.35);

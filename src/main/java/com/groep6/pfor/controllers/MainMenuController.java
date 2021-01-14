@@ -6,9 +6,9 @@ import com.groep6.pfor.views.MenuView;
 /**
  * @author Bastiaan Jansen
  */
-public class MenuController extends Controller {
+public class MainMenuController extends Controller {
 
-    public MenuController() {
+    public MainMenuController() {
         viewController.showView(new MenuView(this));
     }
 

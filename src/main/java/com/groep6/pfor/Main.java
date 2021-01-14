@@ -1,6 +1,6 @@
 package com.groep6.pfor;
 
-import com.groep6.pfor.controllers.MenuController;
+import com.groep6.pfor.controllers.MainMenuController;
 import com.groep6.pfor.controllers.OptionController;
 import com.groep6.pfor.controllers.ViewController;
 import com.groep6.pfor.services.Firebase;
@@ -46,7 +46,7 @@ public class Main extends Application {
         musicManager.play("/sounds/music/Last_stand_of_an_Empire.mp3", 0.2, true);
   
         // Set default view
-        new MenuController();
+        new MainMenuController();
     }
     
     EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {

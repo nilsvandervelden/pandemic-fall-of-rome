@@ -8,7 +8,7 @@ public class SoundEffectManager {
     private static MediaPlayer mediaPlayer;
     private static double volume = 0.1;
 
-    public static void play(String filePath) {
+    public static void playMusic(String filePath) {
         mediaPlayer = new MediaPlayer(getMedia(filePath));
         mediaPlayer.setVolume(volume);
 

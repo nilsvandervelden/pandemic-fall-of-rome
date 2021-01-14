@@ -45,7 +45,7 @@ public class HandCardDeckController extends Controller {
         	((EventCard) currentlySelectedCard).executeEvent();
         }
 
-        SoundEffectManager.play("/sounds/effects/DrawCardSound.mp3");
+        SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
         
         refresh();
     }
@@ -63,7 +63,7 @@ public class HandCardDeckController extends Controller {
 		tradeCardDeck.addCards(currentlySelectedCard);
 		
         player.decreaseActionsRemaining();
-        SoundEffectManager.play("/sounds/effects/DrawCardSound.mp3");
+        SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
 
         refresh();
 
@@ -81,7 +81,7 @@ public class HandCardDeckController extends Controller {
         	currentGame.getInvasionCardsDiscardPile().addCards(currentlySelectedCard);
         }
 
-        SoundEffectManager.play("/sounds/effects/DrawCardSound.mp3");
+        SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
         
         refresh();
     }

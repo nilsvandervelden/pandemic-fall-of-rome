@@ -160,7 +160,7 @@ public class Player extends Observable implements IObserver {
         this.isLocal = local;
     }
 
-    public City getCity() {
+    public City getCurrentCity() {
         return city;
     }
 

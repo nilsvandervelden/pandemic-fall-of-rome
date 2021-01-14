@@ -20,7 +20,7 @@ public class VestalinAction implements IAction {
 	 */
 	public void execute() {
 		Player player = game.getLocalPlayer();
-		City city = player.getCity();
+		City city = player.getCurrentCity();
 		city.removeLegions(1);
 	}
 

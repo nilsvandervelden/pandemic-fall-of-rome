@@ -5,8 +5,6 @@ import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.util.SoundEffectManager;
 import com.groep6.pfor.views.BattleView;
 
-import java.util.Stack;
-
 /**
  * Controller for the battle system. Gets information from the current city and performs a battle.
  * Afterwards the results of the battle are shown in the BattleView.
@@ -26,8 +24,8 @@ public class BattleController extends Controller {
 	public BattleController() {
 		Player player = game.getPlayerFromCurrentTurn();
 
-		int amountOfLegionsInCurrentCity = player.getCity().getLegionCount();
-		int amountOfBarbariansInCurrentCity = player.getCity().getBarbarianCount();
+		int amountOfLegionsInCurrentCity = player.getCurrentCity().getLegionCount();
+		int amountOfBarbariansInCurrentCity = player.getCurrentCity().getBarbarianCount();
 
 		DiceFace[] battleResults = player.battle();
 
@@ -43,7 +41,7 @@ public class BattleController extends Controller {
 		amountOfBarbariansLost = Math.min(amountOfBarbariansInCurrentCity, amountOfBarbariansLost);
 
 		viewController.showView(new BattleView(this, amountOfLegionsLost, amountOfBarbariansLost));
-		SoundEffectManager.play("/sounds/effects/BattleSound.mp3");
+		SoundEffectManager.playMusic("/sounds/effects/BattleSound.mp3");
 	}
 
 	@Override
