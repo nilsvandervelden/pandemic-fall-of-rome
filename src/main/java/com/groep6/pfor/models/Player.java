@@ -132,7 +132,7 @@ public class Player extends Observable implements IObserver {
         return diceFaces;
     }
     
-    public void movePlayerToSelectedCity(City city) {
+    public void moveLocalPlayerToSelectedCity(City city) {
     	if (!this.city.neighbouringCities.contains(city)) return;
         this.city = city;
 

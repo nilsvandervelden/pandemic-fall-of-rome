@@ -56,17 +56,36 @@ public class BoardController extends Controller {
     public Player getLocalPlayer() {
         return currentGame.getLocalPlayer();
     }
-    
-    public void movePlayerToSelectedCity(City city) {
+
+    public boolean playerIsAllowedToMove(Player localPlayer, City selectedCityToMoveTo) {
+        return isNeighbouringCity(localPlayer, selectedCityToMoveTo) && playerHasActionsRemaining(localPlayer) && isPlayersTurn(localPlayer);
+    }
+
+    public boolean isNeighbouringCity(Player localPlayer, City selectedCityToMoveTo) {
+        return (Arrays.asList(localPlayer.getCityPlayerIsCurrentlyLocatedIn().getNeighbouringCities()).contains(selectedCityToMoveTo));
+    }
+
+    public boolean playerHasActionsRemaining(Player localPlayer) {
         int minimumAmountOfActionsRequired = 0;
-        Player localPlayer = Game.getInstance().getLocalPlayer();
+        return localPlayer.getActionsRemaining() > minimumAmountOfActionsRequired;
+    }
 
-        if (localPlayer.getActionsRemaining() <= minimumAmountOfActionsRequired || !localPlayer.isCurrentTurn()) return;
-        if (!Arrays.asList(localPlayer.getCityPlayerIsCurrentlyLocatedIn().getNeighbouringCities()).contains(city)) return;
+    public boolean isPlayersTurn(Player localPlayer) {
+        return localPlayer.isCurrentTurn();
+    }
 
-        if (localPlayer.getCityPlayerIsCurrentlyLocatedIn().getLegions().size() > 0) {
-            new MovePlayerToCityController(city, localPlayer);
-        } else localPlayer.movePlayerToSelectedCity(city);
+    public boolean currentCityContainsLegions(Player localPlayer) {
+        return (localPlayer.getCityPlayerIsCurrentlyLocatedIn().getLegions().size() > 0);
+    }
+    
+    public void movePlayerToSelectedCity(City selectedCityToMoveTo) {
+        Player localPlayer = getLocalPlayer();
+
+        if (!playerIsAllowedToMove(localPlayer, selectedCityToMoveTo)) return;
+
+        if (currentCityContainsLegions(localPlayer)) {
+            new MovePlayerToCityController(selectedCityToMoveTo, localPlayer);
+        } else localPlayer.moveLocalPlayerToSelectedCity(selectedCityToMoveTo);
     }
 
     public void nextTurn() {
