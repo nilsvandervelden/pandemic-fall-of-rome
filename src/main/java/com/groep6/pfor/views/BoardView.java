@@ -134,7 +134,7 @@ public class BoardView extends View implements IObserver {
         @Override
         public void handle(MouseEvent e) {
         	if (!boardController.canBuildFort()) return;
-            boardController.buildFort();
+            boardController.buildFortInCityPlayerIsCurrentlyStandingIn();
             update();
         }
     };

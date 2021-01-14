@@ -128,7 +128,7 @@ public class BoardController extends Controller {
             showPlayerHandDeck();
         }
 
-        invadeCities();
+        handleBarbarianInvasions();
     	
     	checkWinConditions();
 
@@ -147,10 +147,15 @@ public class BoardController extends Controller {
             gameHasBeenLost();
         }
     }
+
+    private void gameHasBeenWon() {
+        new WinGameController();
+        currentGame.setWon(true);
+    }
     
     public void checkWinConditions() {
     	if (getFriendlyFactions().size() == 5) {
-            currentGame.setWon(true);
+    	    gameHasBeenWon();
         }
     }
 
@@ -163,21 +168,41 @@ public class BoardController extends Controller {
                 if (city.hasFort()) amountOfFortsInCity++;
             }
         }
-
         return amountOfFortsInCity;
     }
 
-    private void invadeCities() {
-        int amountOfInvasions = 2;
-        Card[] invasionCards = new Card[amountOfInvasions];
-        Deck invasionCardsDeck = currentGame.getInvasionCardsDeck();
+    private Deck getInvasionCardsDeck() {
+        return currentGame.getInvasionCardsDeck();
+    }
+
+    private Card[] getInvasionCards(int amountOfInvasions) {
+        return new Card[amountOfInvasions];
+    }
+
+    private void invadeCities(int amountOfInvasions, Card[] invasionCards, Deck invasionCardsDeck) {
         for (int i = 0; i < amountOfInvasions; i++) {
             InvasionCard invasionCard = (InvasionCard) invasionCardsDeck.draw();
             invadeCity(invasionCard);
             invasionCards[i] = invasionCard;
         }
-        invasionCardsDeck.addCards(invasionCards);
+    }
+
+    private void shuffleInvasionCardDeck(Deck invasionCardsDeck) {
         invasionCardsDeck.shuffle();
+    }
+
+    private void handleBarbarianInvasions() {
+        int amountOfInvasions = 2;
+
+        Card[] invasionCards = getInvasionCards(amountOfInvasions);
+
+        Deck invasionCardsDeck = getInvasionCardsDeck();
+
+        invadeCities(amountOfInvasions, invasionCards, invasionCardsDeck);
+
+        invasionCardsDeck.addCards(invasionCards);
+
+        shuffleInvasionCardDeck( invasionCardsDeck );
     }
 
     
@@ -196,18 +221,38 @@ public class BoardController extends Controller {
         }
     }
 
-    public void buildFort() {
-        Player player = currentGame.getLocalPlayer();
-        City city = player.getCityPlayerIsCurrentlyLocatedIn();
-        city.placeFort();
-        player.decreaseAmountOfActionsRemaining();
+    private City getCityPlayerIsCurrentlyLocatedIn(Player localPlayer) {
+        return localPlayer.getCityPlayerIsCurrentlyLocatedIn();
+    }
+
+    private void placeFortInCurrentCity(City cityPlayerIsCurrentlyStandingIn) {
+        cityPlayerIsCurrentlyStandingIn.placeFort();
+    }
+
+    private void decreaseAmountOfActionsRemaining(Player localPlayer) {
+        localPlayer.decreaseAmountOfActionsRemaining();
+    }
+
+    public void buildFortInCityPlayerIsCurrentlyStandingIn() {
+        Player localPlayer = getLocalPlayer();
+        City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyLocatedIn(localPlayer);
+        placeFortInCurrentCity(cityPlayerIsCurrentlyStandingIn);
+        decreaseAmountOfActionsRemaining(localPlayer);
+    }
+
+    private boolean barbariansLocatedInCurrentCity(City cityPlayerIsCurrentlyStandingIn) {
+        return cityPlayerIsCurrentlyStandingIn.getAmountOfBarbariansLocatedInCurrentCity() > 0;
+    }
+
+    private boolean legionsLocatedInCurrentCity(City cityPlayerIsCurrentlyStandingIn) {
+        return cityPlayerIsCurrentlyStandingIn.getLegionCount() > 0;
     }
 
     public boolean canBattle() {
-        Player player = currentGame.getLocalPlayer();
-        City city = player.getCityPlayerIsCurrentlyLocatedIn();
+        Player localPlayer = getLocalPlayer();
+        City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyLocatedIn(localPlayer);
 
-        return city.getAmountOfBarbariansLocatedInCurrentCity() > 0 && city.getLegionCount() > 0;
+        return barbariansLocatedInCurrentCity(cityPlayerIsCurrentlyStandingIn) && legionsLocatedInCurrentCity(cityPlayerIsCurrentlyStandingIn);
     }
 
     public boolean canRecruitBarbarians() {
