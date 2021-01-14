@@ -58,9 +58,10 @@ public class BoardController extends Controller {
     }
     
     public void movePlayerToSelectedCity(City city) {
+        int minimumAmountOfActionsRequired = 0;
         Player localPlayer = Game.getInstance().getLocalPlayer();
 
-        if (localPlayer.getActionsRemaining() <= 0 || !localPlayer.isCurrentTurn()) return;
+        if (localPlayer.getActionsRemaining() <= minimumAmountOfActionsRequired || !localPlayer.isCurrentTurn()) return;
         if (!Arrays.asList(localPlayer.getCity().getNeighbouringCities()).contains(city)) return;
 
         if (localPlayer.getCity().getLegions().size() > 0) {
@@ -69,6 +70,7 @@ public class BoardController extends Controller {
     }
 
     public void nextTurn() {
+        int maximumAmountOfCardInHand = 7;
         // Draw 2 cards from game deck
         Player player = currentGame.getLocalPlayer();
         player.getPlayerDeck().addCards(currentGame.getPlayerCardsDeck().draw(), currentGame.getPlayerCardsDeck().draw());
@@ -76,7 +78,7 @@ public class BoardController extends Controller {
         checkLoseConditions();
 
         // Open hand when there are more than 7 cards in hand
-        if (player.getPlayerDeck().getCards().size() > 7) new HandController();
+        if (player.getPlayerDeck().getCards().size() > maximumAmountOfCardInHand) new HandController();
 
         invadeCities();
               
@@ -94,8 +96,9 @@ public class BoardController extends Controller {
     }
 
     public void checkLoseConditions() {
+        int minimumAmountOfCardsInPlayerCardDeck = 0;
         // Go to lose screen when there are no more cards in players
-        if (currentGame.getPlayerCardsDeck().getCards().size() <= 0) {
+        if (currentGame.getPlayerCardsDeck().getCards().size() <= minimumAmountOfCardsInPlayerCardDeck) {
             currentGame.setLost(true);
         } else if (currentGame.getDecayLevel() >= currentGame.getMaxDecayLevel() - 1) {
             currentGame.setLost(true);
@@ -109,16 +112,16 @@ public class BoardController extends Controller {
     }
 
     public int getAmountOfFortsInCity() {
-        int amount = 0;
+        int amountOfFortsInCity = 0;
 
         for (Tile tile: currentGame.getBoard().getTiles()) {
             if (tile instanceof City) {
                 City city = (City) tile;
-                if (city.hasFort()) amount++;
+                if (city.hasFort()) amountOfFortsInCity++;
             }
         }
 
-        return amount;
+        return amountOfFortsInCity;
     }
 
     private void invadeCities() {
