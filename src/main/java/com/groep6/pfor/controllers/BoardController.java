@@ -78,7 +78,7 @@ public class BoardController extends Controller {
         checkLoseConditions();
 
         // Open hand when there are more than 7 cards in hand
-        if (player.getPlayerDeck().getCards().size() > maximumAmountOfCardInHand) new HandController();
+        if (player.getPlayerDeck().getCards().size() > maximumAmountOfCardInHand) new HandCardDeckController();
 
         invadeCities();
               

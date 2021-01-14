@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.HandController;
+import com.groep6.pfor.controllers.HandCardDeckController;
 import com.groep6.pfor.models.cards.Card;
 import com.groep6.pfor.models.cards.CityCard;
 import com.groep6.pfor.models.cards.EventCard;
@@ -27,7 +27,7 @@ import java.util.List;
  * @author Nils van der Velden
  */
 public class HandView extends View implements IObserver {
-    private final HandController handController;
+    private final HandCardDeckController handCardDeckController;
 
     /** The list of cards that the player has, as CardView's */
     private List<Card> cards = new ArrayList<>();
@@ -41,10 +41,10 @@ public class HandView extends View implements IObserver {
     private FlowPane cardsPane;
     private final List<UICard> uiCards = new ArrayList<>();
 
-    public HandView(HandController handController) {
-        this.handController = handController;
-        cards = handController.getCards();
-        handController.registerObserver(this);
+    public HandView(HandCardDeckController handCardDeckController) {
+        this.handCardDeckController = handCardDeckController;
+        cards = handCardDeckController.getCards();
+        handCardDeckController.registerObserver(this);
 
         createView();
 
@@ -66,7 +66,7 @@ public class HandView extends View implements IObserver {
         discardCardButton = new UIButton("Kaart verwijderen");
         discardCardButton.setDisable(true);
         discardCardButton.setPrefWidth(150);
-        if (handController.getLocalPlayer().getActionsRemaining() <= 0) discardCardButton.setDisable(true);
+        if (handCardDeckController.getLocalPlayer().getActionsRemaining() <= 0) discardCardButton.setDisable(true);
         discardCardButton.addEventFilter(MouseEvent.MOUSE_CLICKED, discardCard);
 
         playCardButton = new UIButton("Speel kaart");
@@ -122,7 +122,7 @@ public class HandView extends View implements IObserver {
     EventHandler<MouseEvent> goBack = new EventHandler<MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-        	handController.goToBoard();
+        	handCardDeckController.goToBoard();
         }
     };
     
@@ -130,7 +130,7 @@ public class HandView extends View implements IObserver {
     EventHandler<MouseEvent> discardCard = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            handController.removeSelectedCard();
+            handCardDeckController.removeSelectedCard();
             discardCardButton.setDisable(true);
             goBackButton.setDisable(false);
         }
@@ -139,15 +139,15 @@ public class HandView extends View implements IObserver {
     EventHandler<MouseEvent> depositCard = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-        	handController.depositCard();
-            if (handController.getLocalPlayer().getActionsRemaining() <= 0) depositCardButton.setDisable(true);
+        	handCardDeckController.depositCard();
+            if (handCardDeckController.getLocalPlayer().getActionsRemaining() <= 0) depositCardButton.setDisable(true);
         }
     };
     
     EventHandler<MouseEvent> playCard = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            handController.playCard();
+            handCardDeckController.playCard();
             playCardButton.setDisable(true);
         }
     };
@@ -159,9 +159,9 @@ public class HandView extends View implements IObserver {
             deselectAllCards();
             UICard source = (UICard) e.getSource();
             source.select();
-            handController.selectCard(source.getCard());
+            handCardDeckController.selectCard(source.getCard());
             discardCardButton.setDisable(false);
-            if (handController.getLocalPlayer().getActionsRemaining() > 0 && handController.getLocalPlayer().isCurrentTurn()) depositCardButton.setDisable(false);
+            if (handCardDeckController.getLocalPlayer().getActionsRemaining() > 0 && handCardDeckController.getLocalPlayer().isCurrentTurn()) depositCardButton.setDisable(false);
 
             playCardButton.setDisable(!(source instanceof UIEventCard));
         }
@@ -189,7 +189,7 @@ public class HandView extends View implements IObserver {
         discardCardButton.setDisable(true);
         depositCardButton.setDisable(true);
 
-        playCardButton.setDisable(!handController.getLocalPlayer().isCurrentTurn());
+        playCardButton.setDisable(!handCardDeckController.getLocalPlayer().isCurrentTurn());
     }
 }
 

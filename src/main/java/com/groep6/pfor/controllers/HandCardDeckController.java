@@ -12,12 +12,12 @@ import com.groep6.pfor.views.HandView;
 
 import java.util.List;
 
-public class HandController extends Controller {
+public class HandCardDeckController extends Controller {
 
     private final Game currentGame = Game.getInstance();
     private Card selectedCard;
 
-    public HandController() {
+    public HandCardDeckController() {
     
         viewController.showView(new HandView(this));
     }
@@ -92,7 +92,7 @@ public class HandController extends Controller {
     
     public void refresh() {
     	showPreviousView();
-    	new HandController();
+    	new HandCardDeckController();
     }
 
 	public Player getLocalPlayer() {
