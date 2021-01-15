@@ -13,26 +13,41 @@ public class HostGameController extends Controller {
         viewController.showView(new HostView(this));
     }
 
-    public void createLobby(String username, String password) throws EmptyFieldException {
+    public void checkIfUserNameIsEmpty(String username) throws EmptyFieldException {
         if (username.isEmpty()) throw new EmptyFieldException("Username cannot be empty");
+    }
+
+    public void addHostToCreatedLobby(Lobby lobby, String username, String password, Boolean isLocal) throws IncorrentPasswordException {
+        lobby.join(lobby.getCode(), username, password, true);
+    }
+
+    public void createLobbyInBackend(Lobby lobby) {
+        LobbyService lobbyService = new LobbyService();
+        lobbyService.create(lobby);
+    }
+
+    public void changeViewToHostedLobby(Lobby lobby) {
+        new LobbyController(lobby);
+    }
+
+    public void createLobby(String username, String password) throws EmptyFieldException {
+        checkIfUserNameIsEmpty(username);
 
         // Create new lobby
         Lobby lobby = new Lobby(password);
 
         try {
-            lobby.join(lobby.getCode(), username, password, true);
+            addHostToCreatedLobby(lobby, username, password, true);
 
             // Send to lobby service
-            LobbyService lobbyService = new LobbyService();
-            lobbyService.create(lobby);
+            createLobbyInBackend(lobby);
 
             // Send user to lobby
-            new LobbyController(lobby);
+            changeViewToHostedLobby(lobby);
 
         } catch (IncorrentPasswordException error) {
             System.out.println("Error: " + error.getMessage());
         }
-
     }
 
     @Override
