@@ -20,25 +20,57 @@ public class JoinGameController extends Controller {
     public JoinGameController() {
         viewController.showView(new JoinView(this));
     }
+
+    public void checkIfUserNameIsEmpty(String username) throws EmptyFieldException {
+        if (username.isEmpty()) throw new EmptyFieldException("Username cannot be empty");
+    }
+
+    public void checkIfLobbyCodeIsEmpty(String code) throws EmptyFieldException {
+        if (code.isEmpty()) throw new EmptyFieldException("Lobby code cannot be empty");
+    }
+
+    private Lobby getLobby(LobbyService lobbyService, String code) throws NoDocumentException {
+        return lobbyService.get(code);
+    }
+
+    private void checkIfUserNameHasAlreadyBeenTaken(Lobby lobby, String username) throws UsernameAlreadyUsed {
+        for (LobbyPlayer player: lobby.getPlayers()) {
+            if (player.getUsername().equals(username)) throw new UsernameAlreadyUsed();
+        }
+    }
+
+    private LobbyPlayer createLobbyPlayer(Lobby lobby, String code, String username, String password, Boolean isLocal) throws IncorrentPasswordException {
+       return lobby.join(code, username, password, isLocal);
+    }
+
+    private void addPlayerToLobby(LobbyService lobbyService, LobbyPlayer player) {
+        lobbyService.join(player);
+    }
+
+    private void updateLobby(LobbyService lobbyService, LobbyPlayer player) {
+        lobbyService.join(player);
+    }
+
+    private void refreshLobbyView(Lobby lobby) {
+        new LobbyController(lobby);
+    }
     
     public void joinLobby(String code, String username, String password) throws EmptyFieldException, UsernameAlreadyUsed {
-        if (username.isEmpty()) throw new EmptyFieldException("Username cannot be empty");
-        else if (code.isEmpty()) throw new EmptyFieldException("Unique code cannot be empty");
+        checkIfUserNameIsEmpty(username);
+        checkIfLobbyCodeIsEmpty(code);
         
         try {
             LobbyService lobbyService = new LobbyService();
-            Lobby lobby = lobbyService.get(code);
+            Lobby lobby = getLobby(lobbyService, code);
 
-            for (LobbyPlayer player: lobby.getPlayers()) {
-                if (player.getUsername().equals(username)) throw new UsernameAlreadyUsed();
-            }
+            checkIfUserNameHasAlreadyBeenTaken(lobby, username);
 
-            LobbyPlayer player = lobby.join(code, username, password, true);
-            lobbyService.join(player);
+            LobbyPlayer player = createLobbyPlayer(lobby, code, username, password, true);
 
-            lobby.updateLobby(lobby);
+            addPlayerToLobby(lobbyService, player);
+            updateLobby(lobbyService, player);
 
-            new LobbyController(lobby);
+            refreshLobbyView(lobby);
         	
         } catch (IncorrentPasswordException | NoDocumentException error) {
             System.out.println("Error: " + error.getMessage());
