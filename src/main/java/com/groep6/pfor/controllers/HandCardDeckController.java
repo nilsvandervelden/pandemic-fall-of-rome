@@ -18,7 +18,6 @@ public class HandCardDeckController extends Controller {
     private Card currentlySelectedCard;
 
     public HandCardDeckController() {
-    
         viewController.showView(new HandView(this));
     }
 
@@ -34,54 +33,123 @@ public class HandCardDeckController extends Controller {
     public void currentlySelectedCard(Card card) {
     	this.currentlySelectedCard = card;
     }
-    
-    public void playCard() {
-        if (currentlySelectedCard == null) return;
-        if (!currentGame.getLocalPlayer().isCurrentTurn()) return;
 
-        if (currentlySelectedCard instanceof EventCard) {
-            currentGame.getLocalPlayer().getPlayerDeck().removeCard(currentlySelectedCard);
-        	currentGame.getInvasionCardsDiscardPile().addCards(currentlySelectedCard);
-        	((EventCard) currentlySelectedCard).executeEvent();
-        }
+    public Card getCurrentlySelectedCard() {
+        return (currentlySelectedCard);
+    }
 
+    public boolean isLocalPlayersTurn() {
+        return currentGame.getLocalPlayer().isCurrentTurn();
+    }
+
+    public void removeCurrentlySelectedCardFromPlayerDeck() {
+        currentGame.getLocalPlayer().getPlayerDeck().removeCard(currentlySelectedCard);
+    }
+
+    public void addCardToInvasionCardDiscardPile() {
+        currentGame.getInvasionCardsDiscardPile().addCards(currentlySelectedCard);
+    }
+
+    public void executeEventCard() {
+        ((EventCard) currentlySelectedCard).executeEvent();
+    }
+
+    public void playDrawCardSoundEffect() {
         SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
+    }
+
+    public void playCard() {
+        if (getCurrentlySelectedCard() == null) return;
+        if (!isLocalPlayersTurn()) return;
+        if (!currentlySelectedCardIsEventCard()) return;
+
+        removeCurrentlySelectedCardFromPlayerDeck();
+        addCardToInvasionCardDiscardPile();
+        executeEventCard();
+
+        playDrawCardSoundEffect();
         
         refresh();
     }
 
-	public void depositCard() {
-        if (currentlySelectedCard == null) return;
-        
-        Player localPlayer = currentGame.getLocalPlayer();
-        Deck tradeCardDeck = currentGame.getTradeCardsDeck();
-        Player player = currentGame.getPlayerFromCurrentTurn();
+    public Player getLocalPlayer() {
+        return currentGame.getLocalPlayer();
+    }
 
-        if (player.getActionsRemaining() <= 0) return;
+    private Player getPlayerFromCurrentTurn() {
+        return currentGame.getPlayerFromCurrentTurn();
+    }
 
+    private Deck getTradeDeck() {
+        return currentGame.getTradeCardsDeck();
+    }
+
+    public boolean playerHasActionsRemaining(Player playerFromCurrentTurn) {
+        int minimumAmountOfActionsRequired = 0;
+        return playerFromCurrentTurn.getActionsRemaining() > minimumAmountOfActionsRequired;
+    }
+
+    public void removeCurrentlySelectedCardFromPlayerCardDeck(Player localPlayer) {
         localPlayer.getPlayerDeck().removeCard(currentlySelectedCard);
-		tradeCardDeck.addCards(currentlySelectedCard);
+    }
+
+    public void addCurrentlySelectedCardToTradeDeck() {
+        Deck tradeCardDeck = getTradeDeck();
+        tradeCardDeck.addCards(currentlySelectedCard);
+    }
+
+    public void decreaseAmountOfActionsRemaining(Player playerFromCurrentTurn) {
+        playerFromCurrentTurn.decreaseAmountOfActionsRemaining();
+    }
+
+	public void depositCardIntoTradingDeck() {
+        if (getCurrentlySelectedCard() == null) return;
+        
+        Player localPlayer = getLocalPlayer();
+        Player playerFromCurrentTurn = getPlayerFromCurrentTurn();
+
+        if (!playerHasActionsRemaining(playerFromCurrentTurn)) return;
+
+        removeCurrentlySelectedCardFromPlayerCardDeck(localPlayer);
+		addCurrentlySelectedCardToTradeDeck();
 		
-        player.decreaseAmountOfActionsRemaining();
-        SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
+        decreaseAmountOfActionsRemaining(playerFromCurrentTurn);
+
+        playDrawCardSoundEffect();
 
         refresh();
 
 	}
+
+	private boolean currentlySelectedCardIsCityCard() {
+        return currentlySelectedCard instanceof CityCard;
+    }
+
+    public boolean currentlySelectedCardIsEventCard() {
+        return currentlySelectedCard instanceof EventCard;
+    }
+
+    private void discardCityCard() {
+        currentGame.getCityCardsDiscardPile().addCards(currentlySelectedCard);
+    }
+
+    private void discardEventCard() {
+        currentGame.getInvasionCardsDiscardPile().addCards(currentlySelectedCard);
+    }
 	
     public void removeSelectedCard() {
-        if (currentlySelectedCard == null) return;
-        Player localPlayer = currentGame.getLocalPlayer();
+        if (getCurrentlySelectedCard() == null) return;
+        Player localPlayer = getLocalPlayer();
 
-        localPlayer.getPlayerDeck().removeCard(currentlySelectedCard);
+        removeCurrentlySelectedCardFromPlayerCardDeck(localPlayer);
 
-        if (currentlySelectedCard instanceof CityCard) {
-        	currentGame.getCityCardsDiscardPile().addCards(currentlySelectedCard);
-        } else if (currentlySelectedCard instanceof EventCard) {
-        	currentGame.getInvasionCardsDiscardPile().addCards(currentlySelectedCard);
+        if (currentlySelectedCardIsCityCard()) {
+        	discardCityCard();
+        } else if (currentlySelectedCardIsEventCard()) {
+        	discardEventCard();
         }
 
-        SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
+        playDrawCardSoundEffect();
         
         refresh();
     }
@@ -93,9 +161,5 @@ public class HandCardDeckController extends Controller {
     public void refresh() {
     	showPreviousView();
     	new HandCardDeckController();
-    }
-
-	public Player getLocalPlayer() {
-        return currentGame.getLocalPlayer();
     }
 }

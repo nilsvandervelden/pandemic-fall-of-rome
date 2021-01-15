@@ -205,9 +205,13 @@ public class BoardController extends Controller {
         shuffleInvasionCardDeck( invasionCardsDeck );
     }
 
+    private List<City> getInvasionRoute(InvasionCard card) {
+        return card.getRoute();
+    }
+
     
     private void invadeCity(InvasionCard card) {
-        List<City> route = card.getRoute();
+        List<City> route = getInvasionRoute(card);
 
         for (int i = 0; i < route.size(); i++) {
         	if(route.get(i).getAmountOfBarbariansLocatedInCurrentCity(card.getFaction().getFactionType(), route.get(i).getBarbarians()) < 1) {

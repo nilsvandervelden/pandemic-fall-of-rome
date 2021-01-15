@@ -139,7 +139,7 @@ public class HandView extends View implements IObserver {
     EventHandler<MouseEvent> depositCard = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-        	handCardDeckController.depositCard();
+        	handCardDeckController.depositCardIntoTradingDeck();
             if (handCardDeckController.getLocalPlayer().getActionsRemaining() <= 0) depositCardButton.setDisable(true);
         }
     };
