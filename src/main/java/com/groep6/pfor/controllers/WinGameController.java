@@ -14,9 +14,13 @@ import javafx.application.Platform;
  */
 public class WinGameController extends Controller {
 
+    private void showWinGameView() {
+        viewController.showView(new WinView(this));
+    }
+
     public WinGameController() {
     	changeMusic();
-        viewController.showView(new WinView(this));
+        showWinGameView();
     }
     
     public void changeMusic() {
