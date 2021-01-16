@@ -12,16 +12,29 @@ import java.text.ParseException;
  * @author Owen Elderbroek
  */
 public class CityFactory {
-    private static final CityFactory SINGLE_INSTANCE = new CityFactory();
+    private static final CityFactory SINGLE_INSTANCE = createCityFactory();
     private City[] cities;
 
-    /** Creates the CityFactory instance */
-    private CityFactory() {
+    private static CityFactory createCityFactory() {
+        return new CityFactory();
+    }
+
+    private CityParser createCityParser() {
+        return new CityParser();
+    }
+
+    private void parseCitiesToCityList(CityParser cityParser) {
         try {
-            cities = new CityParser().parseFile("/cities.json");
+            cities = cityParser.parseFile("/cities.json");
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    /** Creates the CityFactory instance */
+    private CityFactory() {
+        CityParser cityParser = createCityParser();
+        parseCitiesToCityList(cityParser);
     }
 
     /**
