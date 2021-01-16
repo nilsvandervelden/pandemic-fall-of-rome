@@ -107,7 +107,7 @@ public class RoleCardInfoView extends View {
             deselectAllCards();
             UICard source = (UICard) e.getSource();
             source.select();
-            roleCardInfoController.selectCard((RoleCard) source.getCard());
+            roleCardInfoController.chooseRole((RoleCard) source.getCard());
         }
     };
 

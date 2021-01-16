@@ -43,7 +43,7 @@ public class LobbyPlayer extends Observable {
         return roleCard;
     }
 
-    public void setRoleCard(RoleCard roleCard) {
+    public void setRole(RoleCard roleCard) {
         this.roleCard = roleCard;
         notifyObservers();
     }

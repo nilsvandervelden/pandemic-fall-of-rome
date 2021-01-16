@@ -12,33 +12,55 @@ import java.util.List;
 
 public class RoleCardInfoController extends Controller {
 
-    private final Lobby lobby;
+    private final Lobby currentLobby;
     private final RoleCard currentlySelectedRoleCard;
 
-    public RoleCardInfoController(Lobby lobby) {
-        this.lobby = lobby;
-        this.currentlySelectedRoleCard = lobby.getLocalPlayer().getRoleCard();
+    private RoleCard getCurrentlySelectedRoleCard(Lobby currentLobby) {
+        return currentLobby.getLocalPlayer().getRoleCard();
+    }
 
+    private void showRoleCardInfoView() {
         viewController.showView(new RoleCardInfoView(this));
+    }
+
+    public RoleCardInfoController(Lobby lobby) {
+        this.currentLobby = lobby;
+        this.currentlySelectedRoleCard = getCurrentlySelectedRoleCard(currentLobby);
+
+        showRoleCardInfoView();
     }
 
     public List<RoleCard> getRoleCards() {
         return RoleCardFactory.getInstance().getAllRoleCards();
     }
 
-    @Override
-    public void registerObserver(IObserver view) {
-
-    }
-
     public RoleCard getCurrentlySelectedRoleCard() {
         return currentlySelectedRoleCard;
     }
 
-    public void selectCard(RoleCard card) {
-        LobbyPlayer localPlayer = lobby.getLocalPlayer();
-        localPlayer.setRoleCard(card);
-        LobbyService lobbyService = new LobbyService();
+    private LobbyPlayer getLocalPlayer() {
+        return currentLobby.getLocalPlayer();
+    }
+
+    private void setRole(LobbyPlayer localPlayer, RoleCard role) {
+        localPlayer.setRole(role);
+    }
+
+    private LobbyService createLobbyService() {
+        return new LobbyService();
+    }
+
+    private void updatePlayerRole(LobbyService lobbyService, LobbyPlayer localPlayer) {
         lobbyService.updateRoleCard(localPlayer);
     }
+
+    public void chooseRole(RoleCard roleCard) {
+        LobbyPlayer localPlayer = getLocalPlayer();
+        setRole(localPlayer, roleCard);
+        LobbyService lobbyService = createLobbyService();
+        updatePlayerRole(lobbyService, localPlayer);
+    }
+
+    @Override
+    public void registerObserver(IObserver view) {}
 }
