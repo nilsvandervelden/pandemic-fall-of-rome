@@ -15,8 +15,8 @@ import java.util.Stack;
  */
 public class ViewController {
 
-    private static final int MIN_WIDTH = 1280;
-    private static final int MIN_HEIGHT = 720;
+    private static final int MIN_SCREEN_WIDTH = 1280;
+    private static final int MIN_SCREEN_HEIGHT = 720;
 
     private static final ViewController INSTANCE = new ViewController();
     public static ViewController getInstance() { return INSTANCE; }
@@ -29,58 +29,115 @@ public class ViewController {
     /**
      * @param stage
      */
-    public void setPrimaryStage(Stage stage) {
-        this.stage = stage;
-        //stage.setResizable(false);
-        stage.setWidth(MIN_WIDTH);
-        stage.setHeight(MIN_HEIGHT);
-        stage.setFullScreen(true);
+    private void setStageWith() {
+        stage.setWidth(MIN_SCREEN_WIDTH);
     }
 
-    public View getCurrentView() {
-        System.out.println(visitedViews.firstElement());
-        return visitedViews.firstElement();
+    private void setStageHeight() {
+        stage.setHeight(MIN_SCREEN_HEIGHT);
+    }
+
+    private void toggleFullScreen(boolean fullScreen) {
+        stage.setFullScreen(fullScreen);
+    }
+    public void setPrimaryStage(Stage stage) {
+        this.stage = stage;
+
+        setStageWith();
+        setStageHeight();
+        toggleFullScreen(true);
     }
 
     /**
      * Show a specific view
      * @param view
      */
+
+    private void removeFullScreenKeyCombination() {
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    }
+
+    private double getScreenWidth() {
+        return stage.getWidth();
+    }
+
+    private double getScreenHeight() {
+        return  stage.getHeight();
+    }
+
+    private boolean isFullScreen() {
+        return stage.isFullScreen();
+    }
+
+    private void addViewToVisitedViewStack(View visitedView) {
+        visitedViews.push(visitedView);
+    }
+
+    private boolean isDebugMode() {
+        return Config.DEBUG;
+    }
+
+    private void printVisitedViews() {
+        for (View newView: visitedViews) {
+            System.out.println(newView.toString());
+        }
+        System.out.println("------------");
+    }
+
+    private Pane getRootPane(View view) {
+        return view.getRoot();
+    }
+
+    private Scene getScene(Stage stage) {
+        return stage.getScene();
+    }
+
+    private boolean sceneExists(Scene scene) {
+        return scene != null;
+    }
+
+    private void setRoot(Scene scene, Pane root) {
+        scene.setRoot(root);
+    }
+
+    private Scene createScene(Pane root) {
+        return new Scene(root);
+    }
+
+    private void setScene(Scene scene) {
+        stage.setScene(scene);
+    }
+
     public void showView(View view, boolean preventPush) {
     	
-    	stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        removeFullScreenKeyCombination();
 
-        double width = stage.getWidth();
-        double height = stage.getHeight();
-        boolean isFullScreen = stage.isFullScreen();
+        double width = getScreenWidth();
+        double height = getScreenHeight();
 
-        if (!preventPush) visitedViews.push(view);
+        if (!preventPush) addViewToVisitedViewStack(view);
 
-        if (Config.DEBUG) {
-            for (View newView: visitedViews) {
-                System.out.println(newView.toString());
-            }
-            System.out.println("------------");
+        if (isDebugMode()) {
+            printVisitedViews();
         }
         
-        Pane root = view.getRoot();
+        Pane root = getRootPane(view);
 
-        Scene scene = stage.getScene();
+        Scene scene = getScene(stage);
 
-        if (scene != null) {
-            scene.setRoot(root);
+        if (sceneExists(scene)) {
+            setRoot(scene, root);
         } else {
-            Scene newScene = new Scene(root);
-            stage.setScene(newScene);
+            Scene newScene = createScene(root);
+            setScene(newScene);
         }
 
-        if (isFullScreen) {
-            stage.setFullScreen(true);
+        if (isFullScreen()) {
+            toggleFullScreen(true);
         } else {
-            stage.setWidth(width);
-            stage.setHeight(height);
+            setWidth(width);
+            setHeight(height);
         }
-
         stage.show();
     }
 
@@ -89,11 +146,11 @@ public class ViewController {
     }
     
     public void toggleFullscreen() {
-    	if (stage.isFullScreen()) {
-    		stage.setFullScreen(false);
+    	if (isFullScreen()) {
+    		toggleFullScreen(false);
     		return;
     	}
-    	stage.setFullScreen(true);
+    	toggleFullScreen(true);
     }
 
     /**
@@ -116,11 +173,11 @@ public class ViewController {
     	return visitedViews;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(double width) {
         stage.setWidth(width);
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         stage.setHeight(height);
     }
 
