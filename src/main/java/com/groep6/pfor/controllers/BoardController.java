@@ -84,7 +84,7 @@ public class BoardController extends Controller {
         if (!playerIsAllowedToMove(localPlayer, selectedCityToMoveTo)) return;
 
         if (currentCityContainsLegions(localPlayer)) {
-            new MovePlayerToCityController(selectedCityToMoveTo, localPlayer);
+            new MovementController(selectedCityToMoveTo, localPlayer);
         } else localPlayer.moveLocalPlayerToSelectedCity(selectedCityToMoveTo);
     }
 

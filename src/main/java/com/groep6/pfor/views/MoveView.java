@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.MovePlayerToCityController;
+import com.groep6.pfor.controllers.MovementController;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.components.UIButton;
 import com.groep6.pfor.views.components.UIText;
@@ -21,11 +21,11 @@ import javafx.scene.text.FontWeight;
 
 public class MoveView extends View implements IObserver {
     /** The recruitLegionController */
-    private final MovePlayerToCityController moveController;
+    private final MovementController moveController;
 
     private StackPane root;
 
-    public MoveView(MovePlayerToCityController moveController) {
+    public MoveView(MovementController moveController) {
         this.moveController = moveController;
 
         createView();
@@ -88,28 +88,28 @@ public class MoveView extends View implements IObserver {
     EventHandler<MouseEvent> recruitZeroClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            moveController.moveLegionsToSelectedCity(0);
+            moveController.moveLegionsAndPlayerToSelectedCity(0);
         }
     };
 
     EventHandler<MouseEvent> recruitOneClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            moveController.moveLegionsToSelectedCity(1);
+            moveController.moveLegionsAndPlayerToSelectedCity(1);
         }
     };
 
     EventHandler<MouseEvent> recruitTwoClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            moveController.moveLegionsToSelectedCity(2);
+            moveController.moveLegionsAndPlayerToSelectedCity(2);
         }
     };
 
     EventHandler<MouseEvent> recruitThreeClicked = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            moveController.moveLegionsToSelectedCity(3);
+            moveController.moveLegionsAndPlayerToSelectedCity(3);
         }
     };
 
