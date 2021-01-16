@@ -19,15 +19,24 @@ public class FaberFortunaeAction implements IAction {
 	 */
 	public void executeCard() {
 		Game currentGame = Game.getInstance();
-		Deck cityDeck = currentGame.getPlayerCardsDeck();
-		CityCard card = (CityCard) cityDeck.draw();
-		Player player = currentGame.getPlayerFromCurrentTurn();
-		player.getPlayerDeck().addCards(card);
+		CityCard cityCard = drawCityCard(currentGame);
+		Player playerFromCurrentTurn = currentGame.getPlayerFromCurrentTurn();
+		addCityCardToPlayerHandDeck(playerFromCurrentTurn, cityCard);
 		decreaseAmountOfActionsRemaining(currentGame);
 	}
 
-	public void executeSpecialAction() {
+	public CityCard drawCityCard(Game currentGame) {
+		Deck cityDeck = getCityCardDeck(currentGame);
+		return (CityCard) cityDeck.draw();
+	}
 
+	private Deck getCityCardDeck(Game currentGame) {
+
+		return currentGame.getPlayerCardsDeck();
+	}
+
+	public void addCityCardToPlayerHandDeck(Player player, CityCard cityCard) {
+		player.getPlayerDeck().addCards(cityCard);
 	};
 
 	private void decreaseAmountOfActionsRemaining(Game currentGame) {
