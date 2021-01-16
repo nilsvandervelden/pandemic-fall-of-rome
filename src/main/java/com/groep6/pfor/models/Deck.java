@@ -21,14 +21,14 @@ public class Deck extends Observable {
      * @param cards
      */
     public Deck(Card... cards) {
-        this.addCards(cards);
+        this.addCardToDeck(cards);
     }
 
     /**
      * Add one or multiple cards to deck
      * @param cards
      */
-    public void addCards(Card... cards) {
+    public void addCardToDeck(Card... cards) {
         this.cards.addAll(Arrays.asList(cards));
     }
     

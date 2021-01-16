@@ -23,7 +23,7 @@ public class CityFactory {
         return new CityParser();
     }
 
-    private void parseCitiesToCityList(CityParser cityParser) {
+    private void addCitiesToCityList(CityParser cityParser) {
         try {
             cities = cityParser.parseFile("/cities.json");
         } catch (ParseException e) {
@@ -34,7 +34,7 @@ public class CityFactory {
     /** Creates the CityFactory instance */
     private CityFactory() {
         CityParser cityParser = createCityParser();
-        parseCitiesToCityList(cityParser);
+        addCitiesToCityList(cityParser);
     }
 
     /**
@@ -61,16 +61,19 @@ public class CityFactory {
         return cities.length;
     }
 
-    /**
-     * Obtains a city instance by its name
-     * @param name The name of the city
-     * @return The city instance or null if not found
-     */
-    public City getCityByName(String name) {
+    private boolean requestedCityNameEqualsCityName(String requestedCityName, City city) {
+        return city.getName().toUpperCase().equals(requestedCityName.toUpperCase());
+    }
+
+    public City getCityByName(String requestedCityName) {
         for (City city : cities) {
-            if (city.getName().toUpperCase().equals(name.toUpperCase())) return city;
+            if (requestedCityNameEqualsCityName(requestedCityName, city)) return city;
         }
-        if (Config.DEBUG) System.out.printf("[WARNING] No city was found with the name '%s'\n", name);
+        if (inDebugMode()) System.out.printf("[WARNING] No city was found with the name '%s'\n", requestedCityName);
         return null;
+    }
+
+    private boolean inDebugMode() {
+        return Config.DEBUG;
     }
 }

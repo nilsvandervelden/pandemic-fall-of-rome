@@ -14,20 +14,32 @@ import com.groep6.pfor.models.cards.actions.eventActions.VitaMeaAction;
 */
 
 public class EventCardFactory {
-	private static final EventCardFactory SINGLE_INSTANCE = new EventCardFactory();
-	private final Deck eventCardDeck =  new Deck();
+	private static final EventCardFactory SINGLE_INSTANCE = createEventCardFactory();
+	private final Deck eventCardDeck =  createEventCardDeck();
+
+	private static EventCardFactory createEventCardFactory() {
+		return new EventCardFactory();
+	}
+
+	private Deck createEventCardDeck() {
+		return  new Deck();
+	}
+
+	private void addCardsToEventCardDeck() {
+		eventCardDeck.addCardToDeck(new EventCard("Mors Tua, Vita Mea", new VitaMeaAction()));
+
+		eventCardDeck.addCardToDeck(new EventCard("Homo Faber Fortunae Suae", new FaberFortunaeAction()));
+
+		eventCardDeck.addCardToDeck(new EventCard("Audentes Fortuna Iuvat", new AudentesFortunaAction()));
+
+		eventCardDeck.addCardToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
+		eventCardDeck.addCardToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
+		eventCardDeck.addCardToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
+		eventCardDeck.addCardToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
+	}
 	
 	private EventCardFactory() {
-		eventCardDeck.addCards(new EventCard("Mors Tua, Vita Mea", new VitaMeaAction()));
-
-		eventCardDeck.addCards(new EventCard("Homo Faber Fortunae Suae", new FaberFortunaeAction()));
-
-		eventCardDeck.addCards(new EventCard("Audentes Fortuna Iuvat", new AudentesFortunaAction()));
-
-		eventCardDeck.addCards(new EventCard("Carpe Diem", new CarpeDiemAction()));
-		eventCardDeck.addCards(new EventCard("Carpe Diem", new CarpeDiemAction()));
-		eventCardDeck.addCards(new EventCard("Carpe Diem", new CarpeDiemAction()));
-		eventCardDeck.addCards(new EventCard("Carpe Diem", new CarpeDiemAction()));		
+		addCardsToEventCardDeck();
 	}
 	
     public static EventCardFactory getInstance() {
@@ -38,11 +50,19 @@ public class EventCardFactory {
 		return eventCardDeck;
 	}
 
-	public EventCard getCardByName(String name) {
+	private boolean eventCardNameEqualsRequestedEventCardName(Card card, String requestedEventCardName) {
+		return card.getName().equals(requestedEventCardName);
+	}
+
+	public EventCard getCardByName(String requestedEventCardName) {
 		for (Card card : eventCardDeck.getCards()) {
-			if (card.getName().equals(name)) return (EventCard) card;
+			if (eventCardNameEqualsRequestedEventCardName(card, requestedEventCardName)) return (EventCard) card;
 		}
-		if (Config.DEBUG) System.out.printf("[WARNING] Event card with name %s not found!\n", name);
+		if (inDebugMode()) System.out.printf("[WARNING] Event card with name %s not found!\n", requestedEventCardName);
 		return null;
+	}
+
+	private boolean inDebugMode() {
+		return Config.DEBUG;
 	}
 }

@@ -38,13 +38,13 @@ class DeckTest {
 
     @Test
     void addCards() {
-        deck.addCards(card1);
+        deck.addCardToDeck(card1);
         assertEquals(1, deck.getCardCount());
     }
 
     @Test
     void getCards() {
-        deck.addCards(card1, card2);
+        deck.addCardToDeck(card1, card2);
         List<Card> cards = new ArrayList<>();
         cards.add(card1);
         cards.add(card2);
@@ -54,7 +54,7 @@ class DeckTest {
 
     @Test
     void removeCard() {
-        deck.addCards(card1, card2);
+        deck.addCardToDeck(card1, card2);
         deck.removeCard(card1);
         assertEquals(1, deck.getCardCount());
         assertEquals(card2, deck.draw());
@@ -62,7 +62,7 @@ class DeckTest {
 
     @Test
     void merge() {
-        deck.addCards(card1);
+        deck.addCardToDeck(card1);
         Deck deck2 = new Deck(card2);
         deck.merge(deck2);
         assertEquals(2, deck.getCardCount());
@@ -70,14 +70,14 @@ class DeckTest {
 
     @Test
     void draw() {
-        deck.addCards(card1, card2);
+        deck.addCardToDeck(card1, card2);
         Card card = deck.draw();
         assertEquals(card2, card);
     }
 
     @Test
     void getCardCount() {
-        deck.addCards(card1, card2);
+        deck.addCardToDeck(card1, card2);
         assertEquals(2, deck.getCardCount());
     }
 }

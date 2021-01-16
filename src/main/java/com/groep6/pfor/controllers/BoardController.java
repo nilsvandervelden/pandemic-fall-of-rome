@@ -200,7 +200,7 @@ public class BoardController extends Controller {
 
         invadeCities(amountOfInvasions, invasionCards, invasionCardsDeck);
 
-        invasionCardsDeck.addCards(invasionCards);
+        invasionCardsDeck.addCardToDeck(invasionCards);
 
         shuffleInvasionCardDeck( invasionCardsDeck );
     }

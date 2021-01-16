@@ -47,7 +47,7 @@ public class HandCardDeckController extends Controller {
     }
 
     public void addCardToInvasionCardDiscardPile() {
-        currentGame.getInvasionCardsDiscardPile().addCards(currentlySelectedCard);
+        currentGame.getInvasionCardsDiscardPile().addCardToDeck(currentlySelectedCard);
     }
 
     public void executeEventCard() {
@@ -95,7 +95,7 @@ public class HandCardDeckController extends Controller {
 
     public void addCurrentlySelectedCardToTradeDeck() {
         Deck tradeCardDeck = getTradeDeck();
-        tradeCardDeck.addCards(currentlySelectedCard);
+        tradeCardDeck.addCardToDeck(currentlySelectedCard);
     }
 
     public void decreaseAmountOfActionsRemaining(Player playerFromCurrentTurn) {
@@ -130,11 +130,11 @@ public class HandCardDeckController extends Controller {
     }
 
     private void discardCityCard() {
-        currentGame.getCityCardsDiscardPile().addCards(currentlySelectedCard);
+        currentGame.getCityCardsDiscardPile().addCardToDeck(currentlySelectedCard);
     }
 
     private void discardEventCard() {
-        currentGame.getInvasionCardsDiscardPile().addCards(currentlySelectedCard);
+        currentGame.getInvasionCardsDiscardPile().addCardToDeck(currentlySelectedCard);
     }
 	
     public void removeSelectedCard() {
