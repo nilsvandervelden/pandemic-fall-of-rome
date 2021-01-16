@@ -11,37 +11,74 @@ import java.util.List;
 
 public class TradeController extends Controller {
 	
-	private final Game game = Game.getInstance();
-    private Card selectedCard;
+	private final Game currentGame = Game.getInstance();
+    private Card currentlySelectedCard;
+
+    private void showTradeView() {
+        viewController.showView(new TradeView(this));
+    }
 
     public TradeController() {
-    	
-    	viewController.showView(new TradeView(this));
+        showTradeView();
     }
     
-    public List<Card> getTradeCard() {
-        return game.getTradeCardsDeck().getCards();
+    public List<Card> getTradeCards() {
+        return currentGame.getTradeCardsDeck().getCards();
+    }
+
+    private void registerTradeDeckObserver(IObserver view) {
+        currentGame.getTradeCardsDeck().registerObserver(view);
+    }
+
+    private void registerPlayerDeckObserver(IObserver view) {
+        currentGame.getLocalPlayer().getPlayerDeck().registerObserver(view);
     }
 
     @Override
     public void registerObserver(IObserver view) {
-    	game.getTradeCardsDeck().registerObserver(view);
-        game.getLocalPlayer().getPlayerDeck().registerObserver(view);
+    	registerTradeDeckObserver(view);
+        registerPlayerDeckObserver(view);
     }
     
     public void selectCard(Card card) {
-    	this.selectedCard = card;
+    	this.currentlySelectedCard = card;
     }
+
+    private Player getPlayerFromCurrentTurn() {
+        return currentGame.getPlayerFromCurrentTurn();
+    }
+
+    private boolean playerHasActionsRemaining(Player playerFromCurrentTurn) {
+        int minimumAmountOfActionsRequired = 0;
+        return playerFromCurrentTurn.getActionsRemaining() > minimumAmountOfActionsRequired;
+    }
+
+    private void removeCurrentlySelectedCardFromTradeDeck() {
+        currentGame.getTradeCardsDeck().removeCard(currentlySelectedCard);
+    }
+
+    private void addCurrentlySelectedCardToPlayerHandDeck() {
+        currentGame.getLocalPlayer().getPlayerDeck().addCards(currentlySelectedCard);
+    }
+
+    private void decreaseAmountOfActionsRemaining(Player playerFromCurrentTurn) {
+        playerFromCurrentTurn.decreaseAmountOfActionsRemaining();
+    }
+
+    private void playDrawCardSound() {
+        SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
+    }
+
     
     public void withdrawCardFromTradeDeck() {
-        Player player = game.getPlayerFromCurrentTurn();
-        if (player.getActionsRemaining() <= 0) return;
+        Player playerFromCurrentTurn = getPlayerFromCurrentTurn();
+        if (!playerHasActionsRemaining(playerFromCurrentTurn)) return;
 
-        game.getTradeCardsDeck().removeCard(selectedCard);
-        game.getLocalPlayer().getPlayerDeck().addCards(selectedCard);
-    	player.decreaseAmountOfActionsRemaining();
+        removeCurrentlySelectedCardFromTradeDeck();
+        addCurrentlySelectedCardToPlayerHandDeck();
+    	decreaseAmountOfActionsRemaining(playerFromCurrentTurn);
 
-        SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
+        playDrawCardSound();
     	
     	refresh();
     }
@@ -51,11 +88,15 @@ public class TradeController extends Controller {
     }
 
     public Player getLocalPlayer() {
-        return game.getLocalPlayer();
+        return currentGame.getLocalPlayer();
+    }
+
+    private void createTradeView() {
+        new TradeController();
     }
     
     public void refresh() {
     	showPreviousView();
-    	new TradeController();
+    	createTradeView();
     }
 }

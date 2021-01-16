@@ -44,7 +44,7 @@ public class TradeView extends View implements IObserver {
      */
     public TradeView(TradeController tradeController) {
         this.tradeController = tradeController;
-        cards = tradeController.getTradeCard();
+        cards = tradeController.getTradeCards();
         tradeController.registerObserver(this);
         
         createView();
