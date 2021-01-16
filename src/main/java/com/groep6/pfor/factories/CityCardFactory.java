@@ -19,6 +19,11 @@ import java.text.ParseException;
  * @author Owen Elderbroek
  */
 public class CityCardFactory {
+	/** The instance of this singleton class */
+	private static final CityCardFactory INSTANCE = createCityCardFactory();
+
+	/** The list of available city cards */
+	private final Deck cityCardDeck = createCityCardDeck();
 
 	private static CityCardFactory createCityCardFactory() {
 		return new CityCardFactory();
@@ -39,11 +44,6 @@ public class CityCardFactory {
 			e.printStackTrace();
 		}
 	}
-	/** The instance of this singleton class */
-	private static final CityCardFactory INSTANCE = createCityCardFactory();
-
-	/** The list of available city cards */
-	private final Deck cityCardDeck = createCityCardDeck();
 
 	/**
 	 * Creates the CityCardFactory instance
