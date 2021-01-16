@@ -133,7 +133,7 @@ public class LobbyController extends Controller {
     /**
      * @return list of current lobbyPlayers in the lobby
      */
-    public List<LobbyPlayer> getLobbyPlayers() {
+    public List<LobbyPlayer> getPlayersFromCurrentLobby() {
         return currentLobby.getPlayers();
     }
 
@@ -185,23 +185,60 @@ public class LobbyController extends Controller {
         showPreviousView();
     }
 
-    public void startGame() {
-        List<LobbyPlayer> playersInCurrentLobby = currentLobby.getPlayers();
-        Collections.shuffle(playersInCurrentLobby);
-
+    private void setGameCode() {
         game.setGameCode(getLobbyCode());
+    }
+
+    private void addPlayersToCurrentGame(List<LobbyPlayer> playersInCurrentLobby) {
         game.addPlayersToCurrentGame(playersInCurrentLobby.toArray(new LobbyPlayer[0]));
-        game.getAllPlayers().get(0).setTurn();
+    }
 
-        GameService gameService = new GameService();
-        LobbyService lobbyService = new LobbyService();
+    private void shufflePlayersInCurrentLobby( List<LobbyPlayer> playersInCurrentLobby) {
+        Collections.shuffle(playersInCurrentLobby);
+    }
 
+    private void giveTurnToFirstPlayerInGame() {
+        game.getAllPlayers().get(0).setIsTurn();
+    }
+
+    private GameService startGameService() {
+        return new GameService();
+    }
+
+    private LobbyService startLobbyService() {
+        return new LobbyService();
+    }
+
+    private void createGame(GameService gameService) {
         gameService.create(game);
+    }
+
+    private void displayBoardView() {
+        new BoardController();
+    }
+
+    private void deleteLobby(LobbyService lobbyService) {
+        lobbyService.remove(currentLobby);
+    }
+
+
+    public void startGame() {
+        List<LobbyPlayer> playersInCurrentLobby = getPlayersFromCurrentLobby();
+        shufflePlayersInCurrentLobby(playersInCurrentLobby);
+
+        setGameCode();
+        addPlayersToCurrentGame(playersInCurrentLobby);
+        giveTurnToFirstPlayerInGame();
+
+        GameService gameService = startGameService();
+        LobbyService lobbyService = startLobbyService();
+
+        createGame(gameService);
         GameService.gameChangeEvent.subscribe(onGameChange);
 
-        Game.setGameState(GameState.GAME);
-        new BoardController();
-        lobbyService.remove(currentLobby);
+        setGameState();
+        displayBoardView();
+        deleteLobby(lobbyService);
     }
 
     /**
@@ -223,6 +260,14 @@ public class LobbyController extends Controller {
         currentLobby.registerObserver(view);
     }
 
+    private boolean serverLobbyEqualsCurrentLobby(Lobby serverLobby) {
+        return serverLobby.equals(currentLobby);
+    }
+
+    private  void updateCurrentLobby (Lobby serverLobby) {
+        currentLobby.updateLobby(serverLobby);
+    }
+
 
     /**
      * Run code every time the server sends an update
@@ -232,9 +277,9 @@ public class LobbyController extends Controller {
         public void onEvent(Object... eventData) {
             Lobby serverLobby = (Lobby) eventData[0];
 
-            if (!serverLobby.equals(currentLobby)) return;
+            if (!serverLobbyEqualsCurrentLobby(serverLobby)) return;
 
-            currentLobby.updateLobby(serverLobby);
+            updateCurrentLobby(serverLobby);
         }
     };
 }

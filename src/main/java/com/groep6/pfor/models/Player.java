@@ -73,7 +73,7 @@ public class Player extends Observable implements IObserver {
      * Set the player turn to true
      * The player can now perform 4 actions
      */
-    public void setTurn() {
+    public void setIsTurn() {
         turn = true;
         actionsRemaining = 4;
     }

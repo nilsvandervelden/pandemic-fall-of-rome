@@ -85,7 +85,7 @@ public class LobbyView extends View implements IObserver {
         playerContainer.setVgap(50);
         playerContainer.setAlignment(Pos.CENTER);
 
-        players = lobbyController.getLobbyPlayers();
+        players = lobbyController.getPlayersFromCurrentLobby();
 
         for (int i = 0; i < players.size(); i++) {
             LobbyPlayer player = players.get(i);
