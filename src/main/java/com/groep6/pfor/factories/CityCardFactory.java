@@ -19,39 +19,70 @@ import java.text.ParseException;
  * @author Owen Elderbroek
  */
 public class CityCardFactory {
-	/** The instance of this singleton class */
-	private static final CityCardFactory INSTANCE = new CityCardFactory();
 
-	/** The list of available city cards */
-	private final Deck cityCardDeck = new Deck();
+	private CityCardFactory createCityCardFactory() {
+		return new CityCardFactory();
+	}
 
-	/**
-	 * Creates the CityCardFactory instance
-	 * @return The new instance
-	 */
-	private CityCardFactory() {
-		CityCardParser cityCardParser = new CityCardParser();
+	private Deck createCityCardDeck() {
+		return new Deck();
+	}
+
+	private CityCardParser createNewCityCardParser() {
+		return new CityCardParser();
+	}
+
+	private void addCityCardsToCityCardDeck(Deck cityCardDeck, CityCardParser cityCardParser) {
 		try {
 			cityCardDeck.addCards(cityCardParser.parseFile("/citycards.json"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
+	/** The instance of this singleton class */
+	private static final CityCardFactory INSTANCE = getCityCardInstance().createCityCardFactory();
+
+	/** The list of available city cards */
+	private final Deck cityCardDeck = createCityCardDeck();
 
 	/**
-	 * Obtains a city card instance by its name
-	 * @param name The name of the city card
-	 * @return The city card instance or null if not found
+	 * Creates the CityCardFactory instance
+	 * @return The new instance
 	 */
-	public CityCard getCardByName(String name, Faction faction) {
+	private CityCardFactory() {
+		CityCardParser cityCardParser = createNewCityCardParser();
+		addCityCardsToCityCardDeck(cityCardDeck, cityCardParser);
+	}
+
+	private boolean cardIsInstanceOfCiyCard(Card card) {
+		return card instanceof CityCard;
+	}
+
+	private CityCard parseCardToCityCard(Card card) {
+		return (CityCard) card;
+	}
+
+	private boolean cityCardNameEqualsRequestedCardName(CityCard cityCard, String requestedCardName) {
+		return cityCard.getName().equals(requestedCardName);
+	}
+
+	private boolean cityCardFactionEqualsRequestedCardFaction(CityCard cityCard, Faction requestedCardFaction) {
+		return cityCard.getFaction().equals(requestedCardFaction);
+	}
+
+	private boolean isDebugMode() {
+		return Config.DEBUG;
+	}
+
+	public CityCard getCardByName(String requestedCardName, Faction requestedCardFaction) {
 		for (Card card: cityCardDeck.getCards()) {
-			if (card instanceof CityCard) {
-				CityCard cityCard = (CityCard) card;
-				if (cityCard.getName().equals(name) && cityCard.getFaction().equals(faction)) return cityCard;
+			if (cardIsInstanceOfCiyCard(card)) {
+				CityCard cityCard = parseCardToCityCard(card);
+				if (cityCardNameEqualsRequestedCardName(cityCard, requestedCardName) && cityCardFactionEqualsRequestedCardFaction(cityCard, requestedCardFaction)) return cityCard;
 			}
 		}
 
-		if (Config.DEBUG) System.out.println("[ERROR] No city card found");
+		if (isDebugMode()) System.out.println("[ERROR] No city card found");
 		return null;
 	}
 
@@ -59,7 +90,7 @@ public class CityCardFactory {
 	 * Returns the instance of the CityCardFactory
 	 * @return The CityCardFactory instance
 	 */
-	public static CityCardFactory getInstance() {
+	public static CityCardFactory getCityCardInstance() {
 		return INSTANCE;
 	}
 
