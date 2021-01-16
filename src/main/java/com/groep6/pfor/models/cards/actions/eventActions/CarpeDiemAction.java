@@ -14,13 +14,12 @@ public class CarpeDiemAction implements IAction {
 	 * Gives the player 2 extra actions in his turn.
 	 */
 	public void executeCard() {
-		
 		Game currentGame = Game.getInstance();
-		currentGame.getPlayerFromCurrentTurn().addActions(2);
+		addTwoActionsToCurrentPlayer(currentGame);
 	}
 
-	public void executeSpecialAction() {
-
+	public void addTwoActionsToCurrentPlayer(Game currentGame) {
+		currentGame.getPlayerFromCurrentTurn().addActions(2);
 	};
 
 	/**
