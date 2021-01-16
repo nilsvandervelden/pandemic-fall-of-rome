@@ -22,26 +22,75 @@ public class LobbyController extends Controller {
     private final Game game = Game.getInstance();
     private final Lobby currentLoby;
 
+    private void subscribeToLobbyChangeEvent() {
+        LobbyService.lobbyChangeEvent.subscribe(onLobbyChange);
+    }
+
+    private void displayLobbyView() {
+        viewController.showView(new LobbyView(this));
+    }
+
+    private Game getCurrentGame() {
+        return Game.getInstance();
+    }
+
+    private boolean noLocalPlayer(Game currentGame) {
+        return currentGame.getLocalPlayer() != null;
+    }
+
+    private boolean isHost(Game currentGame) {
+        return currentGame.getLocalPlayer().isHost();
+    }
+
+    private  void addPlayersToCurrentGame(Game currentGame) {
+        currentGame.addPlayersToCurrentGame(currentLoby.getLocalPlayer());
+    }
+
+    private void setGameCode(Game currentGame) {
+        currentGame.setGameCode(currentLoby.getCode());
+    }
+
+    private void setGameState() {
+        Game.setGameState(GameState.GAME);
+    }
+
+    private void subscribeToGameChangeEvent() {
+        GameService.gameChangeEvent.subscribe(onGameChange);
+    }
+
+    private void subscribeToGameStartEvent(IEventCallback gameStartEvent) {
+        LobbyService.gameStartEvent.subscribe(gameStartEvent);
+    }
+
+    private void goToBoardView() {
+        Platform.runLater(BoardController::new);
+    }
+
+    private IEventCallback gameStartEvent() {
+        return eventData -> {
+            Game currentGame = getCurrentGame();
+            if (noLocalPlayer(currentGame) && isHost(currentGame)) return;
+
+            addPlayersToCurrentGame(currentGame);
+            setGameCode(currentGame);
+            onGameChange.onEvent(eventData);
+            setGameState();
+            subscribeToGameChangeEvent();
+            goToBoardView();
+        };
+    }
+
     /**
      * @param currentLoby
      */
     public LobbyController(Lobby currentLoby) {
         this.currentLoby = currentLoby;
-        LobbyService.lobbyChangeEvent.subscribe(onLobbyChange);
-        viewController.showView(new LobbyView(this));
+        subscribeToLobbyChangeEvent();
+        displayLobbyView();
 
-        IEventCallback gameStartEvent = eventData -> {
-            Game currentGame = Game.getInstance();
-            if (currentGame.getLocalPlayer() != null && currentGame.getLocalPlayer().isHost()) return;
+        IEventCallback gameStartEvent = gameStartEvent();
 
-            currentGame.addPlayersToCurrentGame(currentLoby.getLocalPlayer());
-            currentGame.setGameCode(currentLoby.getCode());
-            onGameChange.onEvent(eventData);
-            Game.setGameState(GameState.GAME);
-            GameService.gameChangeEvent.subscribe(onGameChange);
-            Platform.runLater(BoardController::new);
-        };
-        LobbyService.gameStartEvent.subscribe(gameStartEvent);
+        subscribeToGameStartEvent(gameStartEvent);
     }
 
     private final IEventCallback onGameChange = eventData -> {
