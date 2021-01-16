@@ -8,23 +8,28 @@ import com.groep6.pfor.views.OptionsView;
 
 public class OptionController extends Controller {
 
-	public OptionController() {
+	public void goToOptionsView() {
 		viewController.showView(new OptionsView(this));
+	}
+
+
+	public OptionController() {
+		goToOptionsView();
 	}
 	
 	public GameState checkGameState() {
 		return Game.getGameState();
 	}
 	
-	public void handleFullscreen() {
+	public void toggleFullscreen() {
 		ViewController.getInstance().toggleFullscreen();
 	}
 	
-	public void handleMute() {
+	public void toggleMute() {
 		Main.musicManager.toggleMute();
 	}
 	
-	public void goToInstructions() {
+	public void goToInstructionsView() {
 		new InstructionController();
 	}
 	

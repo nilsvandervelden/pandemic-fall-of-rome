@@ -110,21 +110,21 @@ public class OptionsView extends View {
     EventHandler<MouseEvent> toggleFullscreen = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent e) {
-			optionController.handleFullscreen();
+			optionController.toggleFullscreen();
 		}
     };
     
     EventHandler<MouseEvent> toggleMute = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent e) {
-			optionController.handleMute();
+			optionController.toggleMute();
 		}
     };
     
     EventHandler<MouseEvent> goToInstructionView = new EventHandler<MouseEvent>() {
     	@Override
     	public void handle(MouseEvent e) {
-    		optionController.goToInstructions();
+    		optionController.goToInstructionsView();
     	}
     };
 
