@@ -1,10 +1,7 @@
 package com.groep6.pfor.controllers;
 
 import com.groep6.pfor.Config;
-import com.groep6.pfor.models.Game;
-import com.groep6.pfor.models.GameState;
-import com.groep6.pfor.models.Lobby;
-import com.groep6.pfor.models.LobbyPlayer;
+import com.groep6.pfor.models.*;
 import com.groep6.pfor.services.GameService;
 import com.groep6.pfor.services.LobbyService;
 import com.groep6.pfor.util.IEventCallback;
@@ -20,7 +17,7 @@ public class LobbyController extends Controller {
     public static final int MIN_PLAYERS = 0;
 
     private final Game game = Game.getInstance();
-    private final Lobby currentLoby;
+    private final Lobby currentLobby;
 
     private void subscribeToLobbyChangeEvent() {
         LobbyService.lobbyChangeEvent.subscribe(onLobbyChange);
@@ -43,11 +40,11 @@ public class LobbyController extends Controller {
     }
 
     private  void addPlayersToCurrentGame(Game currentGame) {
-        currentGame.addPlayersToCurrentGame(currentLoby.getLocalPlayer());
+        currentGame.addPlayersToCurrentGame(currentLobby.getLocalPlayer());
     }
 
     private void setGameCode(Game currentGame) {
-        currentGame.setGameCode(currentLoby.getCode());
+        currentGame.setGameCode(currentLobby.getCode());
     }
 
     private void setGameState() {
@@ -81,10 +78,10 @@ public class LobbyController extends Controller {
     }
 
     /**
-     * @param currentLoby
+     * @param currentLobby
      */
-    public LobbyController(Lobby currentLoby) {
-        this.currentLoby = currentLoby;
+    public LobbyController(Lobby currentLobby) {
+        this.currentLobby = currentLobby;
         subscribeToLobbyChangeEvent();
         displayLobbyView();
 
@@ -93,62 +90,103 @@ public class LobbyController extends Controller {
         subscribeToGameStartEvent(gameStartEvent);
     }
 
-    private final IEventCallback onGameChange = eventData -> {
-        if (Config.DEBUG) System.out.println("Server update...");
-        Game currentGame = (Game) eventData[0];
-        Game.getInstance().updateGame(currentGame);
+    private boolean inDebugMode() {
+        return Config.DEBUG;
+    }
 
-        if (currentGame.isLost()) Platform.runLater(LoseGameController::new);
-        else if (currentGame.isWon()) Platform.runLater(WinGameController::new);
+    private void updatedCurrentGame(Game currentGame) {
+        Game.getInstance().updateGame(currentGame);
+    }
+
+    private void displayLostGameView() {
+        Platform.runLater(LoseGameController::new);
+    }
+
+    private void displayWonGameView() {
+
+    }
+
+    private boolean gameHasBeenLost(Game currentGame) {
+        return currentGame.isLost();
+    }
+
+    private boolean gameHasBeenWon(Game currentGame) {
+        return currentGame.isWon();
+    }
+
+    private final IEventCallback onGameChange = eventData -> {
+        if (inDebugMode()) System.out.println("Server update...");
+        Game currentGame = (Game) eventData[0];
+        updatedCurrentGame(currentGame);
+
+        if (gameHasBeenLost(currentGame)) displayLostGameView();
+        else if (gameHasBeenWon(currentGame)) displayWonGameView();
     };
 
     /**
      * @return lobby code
      */
     public String getLobbyCode() {
-        return currentLoby.getCode();
+        return currentLobby.getCode();
     }
 
     /**
      * @return list of current lobbyPlayers in the lobby
      */
     public List<LobbyPlayer> getLobbyPlayers() {
-        return currentLoby.getPlayers();
+        return currentLobby.getPlayers();
     }
 
     /**
      * Go to a new view: roleCardInfoView
      */
     public void goToRoleCardInfoView() {
-        new RoleCardInfoController(currentLoby);
+        new RoleCardInfoController(currentLobby);
+    }
+
+    public void removeLocalPlayerFromCurrentLobby(LobbyService lobbyService, LobbyPlayer localPlayer) {
+        currentLobby.removePlayerFromCurrentLobby(localPlayer);
+        lobbyService.removePlayerFromCurrentLobby(localPlayer);
+    }
+
+    private boolean localPlayerIsHost(LobbyPlayer localPlayer) {
+        return localPlayer.isHost();
+    }
+
+    private boolean lobbyIsEmpty() {
+        return currentLobby.getPlayers().size() == 0;
+    }
+
+    private void removeLobby(LobbyService lobbyService) {
+        lobbyService.remove(currentLobby);
+    }
+
+    private void setLobbyHost(LobbyService lobbyService) {
+        lobbyService.setHost(currentLobby.getPlayers().get(0));
     }
 
     /**
      * Go to new view: MenuView
      */
-    public void goToMenu() {
+    public void goToMainMenu() {
         // Delete from lobby
         LobbyService lobbyService = new LobbyService();
-        LobbyPlayer localPlayer = currentLoby.getLocalPlayer();
-        currentLoby.removePlayerFromCurrentLobby(localPlayer);
-        lobbyService.removePlayerFromCurrentLobby(localPlayer);
+        LobbyPlayer localPlayer = getLocalPlayer();
+        removeLocalPlayerFromCurrentLobby(lobbyService, localPlayer);
 
-        if (localPlayer.isHost()) {
-            boolean lobbyIsEmpty = currentLoby.getPlayers().size() == 0;
-
-            if (lobbyIsEmpty) {
-                lobbyService.remove(currentLoby);
+        if (localPlayerIsHost(localPlayer)) {
+            if (lobbyIsEmpty()) {
+                removeLobby(lobbyService);
             } else {
-                lobbyService.setHost(currentLoby.getPlayers().get(0));
+                setLobbyHost(lobbyService);
             }
         }
-
         showPreviousView();
         showPreviousView();
     }
 
     public void startGame() {
-        List<LobbyPlayer> playersInCurrentLobby = currentLoby.getPlayers();
+        List<LobbyPlayer> playersInCurrentLobby = currentLobby.getPlayers();
         Collections.shuffle(playersInCurrentLobby);
 
         game.setGameCode(getLobbyCode());
@@ -163,26 +201,26 @@ public class LobbyController extends Controller {
 
         Game.setGameState(GameState.GAME);
         new BoardController();
-        lobbyService.remove(currentLoby);
+        lobbyService.remove(currentLobby);
     }
 
     /**
      * @return local lobbyPlayer
      */
     public LobbyPlayer getLocalPlayer() {
-        return currentLoby.getLocalPlayer();
+        return currentLobby.getLocalPlayer();
     }
 
     /**
      * @return Host of the lobby
      */
     public LobbyPlayer getHost() {
-        return currentLoby.getHost();
+        return currentLobby.getHost();
     }
 
     @Override
     public void registerObserver(IObserver view) {
-        currentLoby.registerObserver(view);
+        currentLobby.registerObserver(view);
     }
 
 
@@ -194,9 +232,9 @@ public class LobbyController extends Controller {
         public void onEvent(Object... eventData) {
             Lobby serverLobby = (Lobby) eventData[0];
 
-            if (!serverLobby.equals(currentLoby)) return;
+            if (!serverLobby.equals(currentLobby)) return;
 
-            currentLoby.updateLobby(serverLobby);
+            currentLobby.updateLobby(serverLobby);
         }
     };
 }

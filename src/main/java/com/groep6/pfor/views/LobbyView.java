@@ -1,6 +1,5 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.Config;
 import com.groep6.pfor.controllers.LobbyController;
 import com.groep6.pfor.models.LobbyPlayer;
 import com.groep6.pfor.util.IObserver;
@@ -114,7 +113,7 @@ public class LobbyView extends View implements IObserver {
     EventHandler<MouseEvent> goToMenu = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            lobbyController.goToMenu();
+            lobbyController.goToMainMenu();
         }
     };
 
