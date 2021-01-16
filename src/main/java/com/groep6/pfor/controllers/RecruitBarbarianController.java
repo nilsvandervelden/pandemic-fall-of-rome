@@ -10,40 +10,76 @@ import com.groep6.pfor.views.RecruitBarbarianView;
 public class RecruitBarbarianController extends Controller {
 
     private final Game game = Game.getInstance();
-    private final Player player;
-    private final City city;
+    private final Player localPlayer;
+    private final City cityLocalPlayerIsCurrentlyStandingIn;
 	
     public RecruitBarbarianController() {
-        player = game.getPlayerFromCurrentTurn();
-        city = player.getCityPlayerIsCurrentlyLocatedIn();
+        localPlayer = getPlayerFromCurrentTurn();
+        cityLocalPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyLocatedIn();
+        showRecruitBarbariansView();
+    }
+
+    private Player getPlayerFromCurrentTurn() {
+        return game.getPlayerFromCurrentTurn();
+    }
+
+    private City getCityPlayerIsCurrentlyLocatedIn() {
+        return localPlayer.getCityPlayerIsCurrentlyLocatedIn();
+    }
+
+    private void showRecruitBarbariansView() {
         viewController.showView(new RecruitBarbarianView(this));
     }
-    
-    public int getAmountOfBarbariansLocatedInCurrentCity() {
-    	return city.getBarbarians().size();
+
+    private Faction[] getFactionsThatAreAllowedInCity() {
+        return cityLocalPlayerIsCurrentlyStandingIn.getFactions();
+    }
+
+    private boolean isNotFriendlyFaction(Faction faction) {
+        return !game.isFriendlyFaction(faction);
+    }
+
+    private boolean noBarbarianInCurrentCity() {
+        return cityLocalPlayerIsCurrentlyStandingIn.getAmountOfBarbariansLocatedInCurrentCity() <= 0;
+    }
+
+    private void removeAlliedBarbariansFromCurrentCity(Faction faction, int amount) {
+        cityLocalPlayerIsCurrentlyStandingIn.removeBarbariansFromCurrentCity(faction.getFactionType(), amount);
+    }
+
+    private void addLegionsToCurrentCity(int amount) {
+        cityLocalPlayerIsCurrentlyStandingIn.addLegionsToCurrentCity(amount);
+    }
+
+    private void decreaseAmountOfActionsRemaining() {
+        localPlayer.decreaseAmountOfActionsRemaining();
     }
     
     public void recruitBarbariansFromCurrentCity(int amount) {
-        Faction[] factions = city.getFactions();
+        Faction[] factionsThatAreAllowedInCity = getFactionsThatAreAllowedInCity();
 
-        for (Faction faction: factions) {
-            if (game.isFriendlyFaction(faction)) {
-                if (city.getAmountOfBarbariansLocatedInCurrentCity() <= 0) return;
-                city.removeBarbariansFromCurrentCity(faction.getFactionType(), amount);
-                city.addLegionsToCurrentCity(amount);
-                player.decreaseAmountOfActionsRemaining();
-                showPreviousView();
-                return;
-            }
+        for (Faction faction: factionsThatAreAllowedInCity) {
+            if (isNotFriendlyFaction(faction)) return;
+            if (noBarbarianInCurrentCity()) return;
+
+            removeAlliedBarbariansFromCurrentCity(faction, amount);
+            addLegionsToCurrentCity(amount);
+
+            decreaseAmountOfActionsRemaining();
+            showPreviousView();
+            return;
         }
     }
 
-    public int getAmountOfBarbariansInFaction() {
-        Player player = game.getLocalPlayer();
-        City city = player.getCityPlayerIsCurrentlyLocatedIn();
-        for (Faction faction: city.getFactions()) {
-            boolean isFriendlyFaction = game.isFriendlyFaction(faction);
-            if (isFriendlyFaction) return city.getAmountOfBarbariansLocatedInCurrentCity(faction.getFactionType());
+    private int getAmountOfBarbariansLocatedInCurrentCity(Faction faction) {
+        return cityLocalPlayerIsCurrentlyStandingIn.getAmountOfBarbariansLocatedInCurrentCity(faction.getFactionType());
+    }
+
+    public int getAmountOfBarbariansInCity() {
+        for (Faction faction: cityLocalPlayerIsCurrentlyStandingIn.getFactions()) {
+            if (isNotFriendlyFaction(faction)) return 0;
+
+            return getAmountOfBarbariansLocatedInCurrentCity(faction);
         }
 
         return 0;
@@ -53,5 +89,4 @@ public class RecruitBarbarianController extends Controller {
 	public void registerObserver(IObserver view) {
 		
 	}
-
 }
