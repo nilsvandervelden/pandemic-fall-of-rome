@@ -12,25 +12,50 @@ import com.groep6.pfor.views.RecruitLegionView;
 
 public class RecruitLegionController extends Controller {
 	
-	private final Game game = Game.getInstance();
-	private final Player player;
-	private final City city;
+	private final Game currentGame = Game.getInstance();
+	private final Player playerFromCurrentTurn;
+	private final City cityPlayerIsCurrentlyLocatedIn;
+
+	private Player getPlayerFromCurrentTurn() {
+		return currentGame.getPlayerFromCurrentTurn();
+	}
+
+	private City getCityPlayerIsCurrentlyLocatedIn() {
+		return playerFromCurrentTurn.getCityPlayerIsCurrentlyLocatedIn();
+	}
+
+	private void showRecruitLegionsView() {
+		viewController.showView(new RecruitLegionView(this));
+	}
 	
     public RecruitLegionController() {
-    	player = game.getPlayerFromCurrentTurn();
-    	city = player.getCityPlayerIsCurrentlyLocatedIn();
-    	viewController.showView(new RecruitLegionView(this));
+    	playerFromCurrentTurn = getPlayerFromCurrentTurn();
+    	cityPlayerIsCurrentlyLocatedIn = getCityPlayerIsCurrentlyLocatedIn();
+    	showRecruitLegionsView();
     }
 
+    private boolean cityHasFort() {
+		return cityPlayerIsCurrentlyLocatedIn.hasFort();
+	}
+
+	private void addLegionsToCityPlayerIsCurrentlyLocatedIn(int amountOfLegions) {
+		cityPlayerIsCurrentlyLocatedIn.addLegionsToCurrentCity(amountOfLegions);
+	}
+
+	private void decreaseAmountOfActionsRemaining() {
+		playerFromCurrentTurn.decreaseAmountOfActionsRemaining();
+	}
+
     public void recruit(int amountOfLegions) {
-		if (city.hasFort()) city.addLegionsToCurrentCity(amountOfLegions);
-		player.decreaseAmountOfActionsRemaining();
+		if (!cityHasFort()) return;
+		addLegionsToCityPlayerIsCurrentlyLocatedIn(amountOfLegions);
+		decreaseAmountOfActionsRemaining();
 		showPreviousView();
 	}
 
 	@Override
 	public void registerObserver(IObserver view) {
-		game.registerObserver(view);
+		currentGame.registerObserver(view);
 	}
 
 }
