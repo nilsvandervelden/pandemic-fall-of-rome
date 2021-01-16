@@ -10,17 +10,25 @@ import java.util.List;
 
 public class FactionFactory {
 
-    private static final FactionFactory SINGLE_INSTANCE = new FactionFactory();
+    private static final FactionFactory SINGLE_INSTANCE = createFactionFactory();
 
     List<Faction> factions = new ArrayList<>();
 
+    private static FactionFactory createFactionFactory() {
+        return new FactionFactory();
+    }
+
+    private void addFactionsToFactionList() {
+        float positionOffset = 0.96662f;
+        factions.add(new Faction(FactionType.ANGLO_SAXSONS_FRANKS, Color.ORANGE, 4, new Vector2f(0.20166f, positionOffset)));
+        factions.add(new Faction(FactionType.VANDALS, Color.BLACK, 5, new Vector2f(0.0545f, positionOffset)));
+        factions.add(new Faction(FactionType.HUNS, Color.GREEN, 4, new Vector2f(0.1483f, positionOffset)));
+        factions.add(new Faction(FactionType.VISIGOTHS, Color.WHITE, 5, new Vector2f(0.10083f, positionOffset)));
+        factions.add(new Faction(FactionType.OSTROGOTHS, Color.BLUE, 3, new Vector2f(0.25666f, positionOffset)));
+    }
+
     private FactionFactory() {
-        float y = 0.96662f;
-        factions.add(new Faction(FactionType.ANGLO_SAXSONS_FRANKS, Color.ORANGE, 4, new Vector2f(0.20166f, y)));
-        factions.add(new Faction(FactionType.VANDALS, Color.BLACK, 5, new Vector2f(0.0545f, y)));
-        factions.add(new Faction(FactionType.HUNS, Color.GREEN, 4, new Vector2f(0.1483f, y)));
-        factions.add(new Faction(FactionType.VISIGOTHS, Color.WHITE, 5, new Vector2f(0.10083f, y)));
-        factions.add(new Faction(FactionType.OSTROGOTHS, Color.BLUE, 3, new Vector2f(0.25666f, y)));
+        addFactionsToFactionList();
     }
 
     public static FactionFactory getInstance() {
@@ -31,11 +39,14 @@ public class FactionFactory {
         return factions;
     }
 
+    public boolean factionTypeEqualsRequestedFactionType(Faction faction, FactionType factionType) {
+        return faction.getFactionType() == factionType;
+    }
+
     public Faction getFaction(FactionType factionType) {
         for (Faction faction: factions) {
-            if (faction.getFactionType() == factionType) return faction;
+            if (factionTypeEqualsRequestedFactionType(faction, factionType)) return faction;
         }
-
         return null;
     }
 }
