@@ -45,6 +45,6 @@ public class PlayerDTO {
      */
     public Player toModel() {
         return new Player(username, CityFactory.getInstance().getCityByName(city),
-                RoleCardFactory.getInstance().getCardByName(role), turn, false, actions);
+                RoleCardFactory.getInstance().getRoleCardByName(role), turn, false, actions);
     }
 }

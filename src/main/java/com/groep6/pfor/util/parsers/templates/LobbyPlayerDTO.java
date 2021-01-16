@@ -50,7 +50,7 @@ public class LobbyPlayerDTO {
      * @return The model this DTO represents
      */
     public LobbyPlayer toModel(String lobby) {
-        return new LobbyPlayer(username, RoleCardFactory.getInstance().getCardByName(role), host, false, lobby);
+        return new LobbyPlayer(username, RoleCardFactory.getInstance().getRoleCardByName(role), host, false, lobby);
     }
 
     /**

@@ -14,18 +14,31 @@ import java.text.ParseException;
  */
 public class InvasionCardFactory {
     /** The instance of this singleton class */
-    private static final InvasionCardFactory SINGLE_INSTANCE = new InvasionCardFactory();
+    private static final InvasionCardFactory SINGLE_INSTANCE = createInvasionCardFactory();
 
     /** The list of available invasion cards */
-    private InvasionCard[] cards;
+    private InvasionCard[] invasionCards;
 
-    /** Creates the InvasionCardFactory instance */
-    private InvasionCardFactory() {
+    private static InvasionCardFactory createInvasionCardFactory() {
+        return new InvasionCardFactory();
+    }
+
+    private InvasionCardParser createInvasionCardParser() {
+        return new InvasionCardParser();
+    }
+
+    private void addInvasionCardsToInvasionCardDeck(InvasionCardParser invasionCardParser) {
         try {
-            cards = new InvasionCardParser().parseFile("/invasions.json");
+            invasionCards = invasionCardParser.parseFile("/invasions.json");
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    /** Creates the InvasionCardFactory instance */
+    private InvasionCardFactory() {
+        InvasionCardParser invasionCardParser = createInvasionCardParser();
+        addInvasionCardsToInvasionCardDeck(invasionCardParser);
     }
 
     /**
@@ -41,7 +54,7 @@ public class InvasionCardFactory {
      * @return An array of available invasion cards
      */
     public InvasionCard[] getAllInvasionCards() {
-        return cards;
+        return invasionCards;
     }
 
     /**
@@ -49,19 +62,35 @@ public class InvasionCardFactory {
      * @return The amount of invasion cards in the game
      */
     public int cardCount() {
-        return cards.length;
+        return invasionCards.length;
     }
 
     /**
      * Obtains an invasion card instance by its name
-     * @param name The name of the invasion card
      * @return The invasion card instance or null if not found
      */
-    public InvasionCard getInvasionCardByName(String name, Faction faction) {
-        for (InvasionCard card : cards) {
-            if (card.getName().toUpperCase().equals(name.toUpperCase()) && card.getFaction().equals(faction)) return card;
+
+    private boolean invasionCardNameEqualsRequestedInvasionCardName(InvasionCard invasionCard, String requestedInvasionCardName) {
+        return invasionCard.getName().toUpperCase().equals(requestedInvasionCardName.toUpperCase());
+    }
+
+    private boolean invasionCardFactionEqualsRequestedInvasionCardFaction(InvasionCard invasionCard, Faction requestedInvasionCardFaction) {
+        return invasionCard.getFaction().equals(requestedInvasionCardFaction);
+    }
+
+    public InvasionCard getInvasionCardByName(String requestedInvasionCardName, Faction requestedInvasionCardFaction) {
+        for (InvasionCard invasionCard : invasionCards) {
+            if (invasionCardNameEqualsRequestedInvasionCardName(invasionCard, requestedInvasionCardName) && invasionCardFactionEqualsRequestedInvasionCardFaction(invasionCard, requestedInvasionCardFaction)) return invasionCard;
         }
-        if (Config.DEBUG) System.out.printf("[WARNING] No InvasionCard was found with the name '%s'\n", name);
+        if (inDebugMode()) printInvasionCardWasNotFound(requestedInvasionCardName);
         return null;
+    }
+
+    private boolean inDebugMode() {
+        return Config.DEBUG;
+    }
+
+    private void printInvasionCardWasNotFound(String requestedInvasionCardName) {
+        System.out.printf("[WARNING] No InvasionCard was found with the name '%s'\n", requestedInvasionCardName);
     }
 }

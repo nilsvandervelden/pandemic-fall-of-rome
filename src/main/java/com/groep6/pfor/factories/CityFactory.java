@@ -69,8 +69,12 @@ public class CityFactory {
         for (City city : cities) {
             if (requestedCityNameEqualsCityName(requestedCityName, city)) return city;
         }
-        if (inDebugMode()) System.out.printf("[WARNING] No city was found with the name '%s'\n", requestedCityName);
+        if (inDebugMode()) printCityWasNotFound(requestedCityName);
         return null;
+    }
+
+    private void printCityWasNotFound(String requestedCityName) {
+        System.out.printf("[WARNING] No city was found with the name '%s'\n", requestedCityName);
     }
 
     private boolean inDebugMode() {

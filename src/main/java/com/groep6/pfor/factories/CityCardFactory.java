@@ -81,9 +81,12 @@ public class CityCardFactory {
 				if (cityCardNameEqualsRequestedCardName(cityCard, requestedCardName) && cityCardFactionEqualsRequestedCardFaction(cityCard, requestedCardFaction)) return cityCard;
 			}
 		}
-
-		if (inDebugMode()) System.out.println("[ERROR] No city card found");
+		if (inDebugMode()) printNoCityCardNotFound();
 		return null;
+	}
+
+	private void printNoCityCardNotFound() {
+		System.out.println("[ERROR] No city card found");
 	}
 
 	/**

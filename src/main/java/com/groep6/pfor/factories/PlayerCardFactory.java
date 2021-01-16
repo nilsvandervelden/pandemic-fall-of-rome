@@ -6,12 +6,28 @@ import com.groep6.pfor.models.factions.FactionType;
 
 public class PlayerCardFactory {
 	
-	private static final PlayerCardFactory INSTANCE = new PlayerCardFactory();
-	private final Deck playerCardDeck = new Deck();
-	
-	private PlayerCardFactory() {
-        FactionFactory factionFactory = FactionFactory.getInstance();
-        CityFactory cityFactory = CityFactory.getInstance();
+	private static final PlayerCardFactory INSTANCE = createPlayerCardFactory();
+	private final Deck playerCardDeck = createPlayerCardDeck();
+
+	private static PlayerCardFactory createPlayerCardFactory() {
+		return new PlayerCardFactory();
+	}
+
+	private Deck createPlayerCardDeck() {
+		return new Deck();
+	}
+
+	private FactionFactory getFactionFactory() {
+		return FactionFactory.getInstance();
+	}
+
+	private CityFactory getCityFactory() {
+		return 	CityFactory.getInstance();
+	}
+
+	private void addCityCardsToPlayerCardDeck() {
+		FactionFactory factionFactory = getFactionFactory();
+		CityFactory cityFactory = getCityFactory();
 		playerCardDeck.addCardToDeck(new CityCard(cityFactory.getCityByName("Carnuntum"), factionFactory.getFaction(FactionType.OSTROGOTHS)));
 		playerCardDeck.addCardToDeck(new CityCard(cityFactory.getCityByName("Aquileia"), factionFactory.getFaction(FactionType.OSTROGOTHS)));
 		playerCardDeck.addCardToDeck(new CityCard(cityFactory.getCityByName("Chersonesus"), factionFactory.getFaction(FactionType.OSTROGOTHS)));
@@ -62,12 +78,12 @@ public class PlayerCardFactory {
 		playerCardDeck.addCardToDeck(new CityCard(cityFactory.getCityByName("Syracusae"), factionFactory.getFaction(FactionType.VANDALS)));
 		playerCardDeck.addCardToDeck(new CityCard(cityFactory.getCityByName("Tingi"), factionFactory.getFaction(FactionType.VANDALS)));
 	}
+	
+	private PlayerCardFactory() {
+        addCityCardsToPlayerCardDeck();
+	}
 
 	public static PlayerCardFactory getInstance() {
 		return INSTANCE;
-	}
-
-	public Deck getPlayerCardDeck() {
-		return playerCardDeck;
 	}
 }

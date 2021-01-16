@@ -58,8 +58,12 @@ public class EventCardFactory {
 		for (Card card : eventCardDeck.getCards()) {
 			if (eventCardNameEqualsRequestedEventCardName(card, requestedEventCardName)) return (EventCard) card;
 		}
-		if (inDebugMode()) System.out.printf("[WARNING] Event card with name %s not found!\n", requestedEventCardName);
+		if (inDebugMode()) printEventCardWasNotFound(requestedEventCardName);
 		return null;
+	}
+
+	private void printEventCardWasNotFound(String requestedEventCardName) {
+		System.out.printf("[WARNING] Event card with name %s not found!\n", requestedEventCardName);
 	}
 
 	private boolean inDebugMode() {
