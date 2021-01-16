@@ -1,6 +1,7 @@
 package com.groep6.pfor.controllers;
 
 import com.groep6.pfor.util.IObserver;
+import com.groep6.pfor.views.LoseView;
 import com.groep6.pfor.views.MenuView;
 
 /**
@@ -9,6 +10,10 @@ import com.groep6.pfor.views.MenuView;
 public class MainMenuController extends Controller {
 
     public MainMenuController() {
+        goToMainMenuView();
+    }
+
+    private void goToMainMenuView() {
         viewController.showView(new MenuView(this));
     }
 
