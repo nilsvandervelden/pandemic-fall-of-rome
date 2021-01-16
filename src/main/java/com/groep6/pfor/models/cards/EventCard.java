@@ -30,6 +30,6 @@ public class EventCard extends Card {
      * Executes an IAction event
      */
     public void executeEvent() {
-        event.execute();
+        event.executeCard();
     }
 }

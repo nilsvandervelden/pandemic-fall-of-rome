@@ -18,11 +18,15 @@ public class MagisterMilitumAction implements IAction {
 	 * Reduces the amount of barbarians in the current city by 2.
 	 * 
 	 */
-	public void execute() {
+	public void executeCard() {
 		Player player = game.getLocalPlayer();
 		City city = player.getCityPlayerIsCurrentlyLocatedIn();
 		city.removeBarbariansFromCurrentCity(2);
 	}
+
+	public void executeSpecialAction() {
+
+	};
 
 	/**
 	 * Gets the name of the role.

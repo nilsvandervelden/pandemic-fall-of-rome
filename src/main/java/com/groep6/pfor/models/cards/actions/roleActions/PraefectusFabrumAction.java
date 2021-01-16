@@ -19,12 +19,16 @@ public class PraefectusFabrumAction implements IAction {
 	 * barbarians from the city.
 	 * 
 	 */
-	public void execute() {
+	public void executeCard() {
 		Player player = game.getLocalPlayer();
 		City city = player.getCityPlayerIsCurrentlyLocatedIn();
 
 		if (city.hasFort()) city.removeBarbariansFromCurrentCity(2);
 	}
+
+	public void executeSpecialAction() {
+
+	};
 
 	/**
 	 * Gets the name of the role.

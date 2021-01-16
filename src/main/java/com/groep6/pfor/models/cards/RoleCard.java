@@ -26,7 +26,7 @@ public class RoleCard extends Card {
      * Executes an IAction event
      */
     public void executeAbility() {
-        ability.execute();
+        ability.executeCard();
     }
 
     @Override

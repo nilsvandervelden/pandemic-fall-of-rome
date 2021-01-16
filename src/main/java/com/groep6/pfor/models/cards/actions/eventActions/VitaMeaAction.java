@@ -15,14 +15,23 @@ public class VitaMeaAction implements IAction {
 	/**
 	 * Replace 1 barbarian with 1 legion in the current city.
 	 */
-	public void execute() {
-		Game game = Game.getInstance();
-		Player player = game.getLocalPlayer();
+	public void executeCard() {
+		Game currentGame = Game.getInstance();
+		Player player = currentGame.getLocalPlayer();
 		City city = player.getCityPlayerIsCurrentlyLocatedIn();
 		city.removeBarbariansFromCurrentCity(1);
 		city.addLegionsToCurrentCity(1);
-		player.decreaseAmountOfActionsRemaining();
+		decreaseAmountOfActionsRemaining(currentGame);
 	}
+
+	public void executeSpecialAction() {
+
+	};
+
+	private void decreaseAmountOfActionsRemaining(Game currentGame) {
+		currentGame.getPlayerFromCurrentTurn().decreaseAmountOfActionsRemaining();
+	}
+
 
 	/**
 	 * Gets the name of the event.

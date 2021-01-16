@@ -19,12 +19,16 @@ public class MercatorAction implements IAction {
 	 * Deletes 1 legion from the current city.
 	 * 
 	 */
-	public void execute() {
+	public void executeCard() {
 		Player player = game.getLocalPlayer();
 		City city = player.getCityPlayerIsCurrentlyLocatedIn();
 		city.removeBarbariansFromCurrentCity(1);
 		city.removeLegions(1);
 	}
+
+	public void executeSpecialAction() {
+
+	};
 
 	/**
 	 * Gets the name of the role.

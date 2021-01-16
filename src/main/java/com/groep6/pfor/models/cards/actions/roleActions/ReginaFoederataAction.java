@@ -18,12 +18,16 @@ public class ReginaFoederataAction implements IAction {
 	 * Gets the battle result. If the current city still has barbarians after the battle,
 	 * 1 extra barbarian gets deleted. The legion count in the city is incremented. 
 	 */
-	public void execute() {
+	public void executeCard() {
 		Player player = game.getLocalPlayer();
 		City city = player.getCityPlayerIsCurrentlyLocatedIn();
 		city.removeBarbariansFromCurrentCity(1);
 		city.addLegionsToCurrentCity(1);
 	}
+
+	public void executeSpecialAction() {
+
+	};
 
 	/**
 	 * Gets the name of the role.

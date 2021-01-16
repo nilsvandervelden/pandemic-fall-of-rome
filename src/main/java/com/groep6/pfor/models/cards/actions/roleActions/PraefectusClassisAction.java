@@ -18,12 +18,16 @@ public class PraefectusClassisAction implements IAction {
 	 * Checks if the current city is a port city. If it is, removes a
 	 * barbarian from the city.
 	 */
-	public void execute() {
+	public void executeCard() {
 		Player player = game.getLocalPlayer();
 		City city = player.getCityPlayerIsCurrentlyLocatedIn();
 
 		if (city.hasHarbour()) city.removeBarbariansFromCurrentCity(1);
 	}
+
+	public void executeSpecialAction() {
+
+	};
 
 	/**
 	 * Gets the name of the role.

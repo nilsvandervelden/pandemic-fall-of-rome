@@ -18,11 +18,15 @@ public class VestalinAction implements IAction {
 	 * Decreases the amount of legions in the current city by 1.
 	 * 
 	 */
-	public void execute() {
+	public void executeCard() {
 		Player player = game.getLocalPlayer();
 		City city = player.getCityPlayerIsCurrentlyLocatedIn();
 		city.removeLegions(1);
 	}
+
+	public void executeSpecialAction() {
+
+	};
 
 	/**
 	 * Gets the name of the role.

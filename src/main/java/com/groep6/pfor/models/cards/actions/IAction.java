@@ -9,7 +9,7 @@ public interface IAction {
     /**
      * Execute this action
      */
-    void execute();
+    void executeCard();
 
     /**
      * @return String
