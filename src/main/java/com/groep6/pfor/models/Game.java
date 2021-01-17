@@ -52,11 +52,11 @@ public class Game extends Observable implements IObserver {
     private Game() {
         Random rand = new Random();
         playerCardsDeck = new Deck(CityCardFactory.getCityCardInstance().getCityCardDeck().getCards().toArray(new Card[0]));
-        playerCardsDeck.merge(EventCardFactory.getInstance().getEventCardDeck());
-        playerCardsDeck.shuffle();
+        playerCardsDeck.mergeDecks(EventCardFactory.getInstance().getEventCardDeck());
+        playerCardsDeck.shuffleDeck();
 
         invasionCardsDeck = new Deck(InvasionCardFactory.getInstance().getAllInvasionCards());
-        invasionCardsDeck.shuffle();
+        invasionCardsDeck.shuffleDeck();
 
         // Create new dice instances
         for (int i = 0; i < die.length; i++) die[i] = new Dice();

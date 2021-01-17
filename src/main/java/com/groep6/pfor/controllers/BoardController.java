@@ -89,7 +89,7 @@ public class BoardController extends Controller {
     }
 
     private void addTwoCardToPlayerDeck(Player localPlayer) {
-        localPlayer.getPlayerDeck().addCards(currentGame.getPlayerCardsDeck().draw(), currentGame.getPlayerCardsDeck().draw());
+        localPlayer.getPlayerDeck().addCards(currentGame.getPlayerCardsDeck().drawCardFromDeck(), currentGame.getPlayerCardsDeck().drawCardFromDeck());
     }
 
     private void showPlayerHandDeck() {
@@ -181,14 +181,14 @@ public class BoardController extends Controller {
 
     private void invadeCities(int amountOfInvasions, Card[] invasionCards, Deck invasionCardsDeck) {
         for (int i = 0; i < amountOfInvasions; i++) {
-            InvasionCard invasionCard = (InvasionCard) invasionCardsDeck.draw();
+            InvasionCard invasionCard = (InvasionCard) invasionCardsDeck.drawCardFromDeck();
             invadeCity(invasionCard);
             invasionCards[i] = invasionCard;
         }
     }
 
     private void shuffleInvasionCardDeck(Deck invasionCardsDeck) {
-        invasionCardsDeck.shuffle();
+        invasionCardsDeck.shuffleDeck();
     }
 
     private void handleBarbarianInvasions() {
@@ -200,7 +200,7 @@ public class BoardController extends Controller {
 
         invadeCities(amountOfInvasions, invasionCards, invasionCardsDeck);
 
-        invasionCardsDeck.addCardToDeck(invasionCards);
+        invasionCardsDeck.addCardsToDeck(invasionCards);
 
         shuffleInvasionCardDeck( invasionCardsDeck );
     }

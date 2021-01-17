@@ -26,16 +26,16 @@ public class EventCardFactory {
 	}
 
 	private void addCardsToEventCardDeck() {
-		eventCardDeck.addCardToDeck(new EventCard("Mors Tua, Vita Mea", new VitaMeaAction()));
+		eventCardDeck.addCardsToDeck(new EventCard("Mors Tua, Vita Mea", new VitaMeaAction()));
 
-		eventCardDeck.addCardToDeck(new EventCard("Homo Faber Fortunae Suae", new FaberFortunaeAction()));
+		eventCardDeck.addCardsToDeck(new EventCard("Homo Faber Fortunae Suae", new FaberFortunaeAction()));
 
-		eventCardDeck.addCardToDeck(new EventCard("Audentes Fortuna Iuvat", new AudentesFortunaAction()));
+		eventCardDeck.addCardsToDeck(new EventCard("Audentes Fortuna Iuvat", new AudentesFortunaAction()));
 
-		eventCardDeck.addCardToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
-		eventCardDeck.addCardToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
-		eventCardDeck.addCardToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
-		eventCardDeck.addCardToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
+		eventCardDeck.addCardsToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
+		eventCardDeck.addCardsToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
+		eventCardDeck.addCardsToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
+		eventCardDeck.addCardsToDeck(new EventCard("Carpe Diem", new CarpeDiemAction()));
 	}
 	
 	private EventCardFactory() {

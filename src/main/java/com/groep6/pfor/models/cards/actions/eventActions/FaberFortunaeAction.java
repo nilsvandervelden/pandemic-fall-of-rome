@@ -27,7 +27,7 @@ public class FaberFortunaeAction implements IAction {
 
 	public CityCard drawCityCard(Game currentGame) {
 		Deck cityDeck = getCityCardDeck(currentGame);
-		return (CityCard) cityDeck.draw();
+		return (CityCard) cityDeck.drawCardFromDeck();
 	}
 
 	private Deck getCityCardDeck(Game currentGame) {

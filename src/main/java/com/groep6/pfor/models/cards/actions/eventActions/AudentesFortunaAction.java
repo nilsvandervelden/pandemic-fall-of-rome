@@ -26,7 +26,7 @@ public class AudentesFortunaAction implements IAction {
 	}
 
 	private CityCard drawCardFromCityDeck(Deck cityDeck) {
-		return (CityCard) cityDeck.draw();
+		return (CityCard) cityDeck.drawCardFromDeck();
 	}
 
 	public void addTwoCardsToPlayerHandDeck(Player playerFromCurrentTurn, Game currentGame) {

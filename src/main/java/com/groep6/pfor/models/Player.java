@@ -42,7 +42,7 @@ public class Player extends Observable implements IObserver {
 
         int cardAmount = 3;
         for (int i = 0; i < cardAmount; i++) {
-            playerDeck.addCards(game.getPlayerCardsDeck().draw());
+            playerDeck.addCards(game.getPlayerCardsDeck().drawCardFromDeck());
         }
 
         // Set start city

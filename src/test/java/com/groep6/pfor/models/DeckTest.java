@@ -38,46 +38,46 @@ class DeckTest {
 
     @Test
     void addCards() {
-        deck.addCardToDeck(card1);
-        assertEquals(1, deck.getCardCount());
+        deck.addCardsToDeck(card1);
+        assertEquals(1, deck.getAmountOfCardsInDeck());
     }
 
     @Test
     void getCards() {
-        deck.addCardToDeck(card1, card2);
+        deck.addCardsToDeck(card1, card2);
         List<Card> cards = new ArrayList<>();
         cards.add(card1);
         cards.add(card2);
-        assertEquals(2, deck.getCardCount());
+        assertEquals(2, deck.getAmountOfCardsInDeck());
         assertEquals(cards, deck.getCards());
     }
 
     @Test
     void removeCard() {
-        deck.addCardToDeck(card1, card2);
+        deck.addCardsToDeck(card1, card2);
         deck.removeCard(card1);
-        assertEquals(1, deck.getCardCount());
-        assertEquals(card2, deck.draw());
+        assertEquals(1, deck.getAmountOfCardsInDeck());
+        assertEquals(card2, deck.drawCardFromDeck());
     }
 
     @Test
     void merge() {
-        deck.addCardToDeck(card1);
+        deck.addCardsToDeck(card1);
         Deck deck2 = new Deck(card2);
-        deck.merge(deck2);
-        assertEquals(2, deck.getCardCount());
+        deck.mergeDecks(deck2);
+        assertEquals(2, deck.getAmountOfCardsInDeck());
     }
 
     @Test
     void draw() {
-        deck.addCardToDeck(card1, card2);
-        Card card = deck.draw();
+        deck.addCardsToDeck(card1, card2);
+        Card card = deck.drawCardFromDeck();
         assertEquals(card2, card);
     }
 
     @Test
     void getCardCount() {
-        deck.addCardToDeck(card1, card2);
-        assertEquals(2, deck.getCardCount());
+        deck.addCardsToDeck(card1, card2);
+        assertEquals(2, deck.getAmountOfCardsInDeck());
     }
 }
