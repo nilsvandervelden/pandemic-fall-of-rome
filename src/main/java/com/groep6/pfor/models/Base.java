@@ -14,41 +14,45 @@ import java.util.List;
  * @author Nils van der Velden
  */
 
-public class Base<T extends Piece> extends Tile {
-	private List<T> pieces = new ArrayList<T>();
+public class Base<boardPiece extends Piece> extends Tile {
+	private List<boardPiece> boardPieces = new ArrayList<>();
 
 	/**
 	 * Initializes a new Base with the given components.
-	 * @param position The Vector2f (position) of a specific base
-	 * @param factions What faction is allowed in a specific base
+	 * @param positionOfBarbarianBase The Vector2f (positionOfBarbarianBase) of a specific base
+	 * @param factionsAllowedInBarbarianBase What faction is allowed in a specific base
 	 */
-	public Base(Vector2f position, Faction[] factions, T... pieces) {
-		super(position, factions);
+	public Base(Vector2f positionOfBarbarianBase, Faction[] factionsAllowedInBarbarianBase) {
+		super(positionOfBarbarianBase, factionsAllowedInBarbarianBase);
 	}
 
 	/**
 	 * Intializes a new Base from Firebase data
-	 * @param factions the factions allowed in this base
-	 * @param pieces The pieces in the base
+	 * @param factionsAllowedInBarbarianBase the factionsAllowedInBarbarianBase allowed in this base
+	 * @param boardPieces The pieces in the base
 	 */
-	public Base(Faction[] factions, T... pieces) {
-		super(null, factions);
-		this.pieces.addAll(Arrays.asList(pieces));
+	public Base(Faction[] factionsAllowedInBarbarianBase, boardPiece... boardPieces) {
+		super(null, factionsAllowedInBarbarianBase);
+		addBarbariansToBarbarianBase(boardPieces);
+	}
+
+	private void addBarbariansToBarbarianBase(boardPiece... boardPieces) {
+		this.boardPieces.addAll(Arrays.asList(boardPieces));
 	}
 
 	/**
-	 * Overwrite the pieces in this base with those in a Firebase instance
-	 * @param base The firebase instance of the base
+	 * Overwrite the pieces in this barbarianBase with those in a Firebase instance
+	 * @param barbarianBase The firebase instance of the barbarianBase
 	 */
-	public void updateBase(Base base) {
-		this.pieces = base.pieces;
+	public void updateBarbarianBase(Base barbarianBase) {
+		this.boardPieces = barbarianBase.boardPieces;
 	}
 	
     /**
      * @returns what faction has access to a specific base
      */
 	
-	public Faction getFaction() {
+	public Faction getFactionsAllowedInBase() {
 		return factions[0];
 	}
 	
@@ -57,34 +61,6 @@ public class Base<T extends Piece> extends Tile {
      */
 	
 	public int getPieceCount() {
-		return pieces.size();
-	}
-	
-    /**
-     * @param pieces Adds a variable amount of pieces to base
-     */
-	
-	public void addPieces(T... pieces) {
-		this.pieces.addAll(Arrays.asList(pieces));
-	}
-	
-    /**
-     * @returns the piece that was removed
-     */
-	
-	public T removePiece() {
-		if (pieces.size() <= 0) return null;
-		return pieces.remove(0);
-	}
-	
-    /**
-     * @param pieceCount The specified amount of pieces that need to be removed from a base
-     * @returns a list with the pieces that where removed
-     */
-	
-	public List<T> removePieces(int pieceCount) {
-		List<T> removed = new ArrayList<T>();
-		for(int i = 0; i < Math.min(pieceCount, pieces.size()); i++) removed.add(this.pieces.remove(0));
-		return removed;
+		return boardPieces.size();
 	}
 }

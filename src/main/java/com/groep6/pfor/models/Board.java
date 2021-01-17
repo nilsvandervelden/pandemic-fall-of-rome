@@ -41,8 +41,8 @@ public class Board {
 	 * @param board A board containing data from firebase
 	 */
 	public void updateBoard(Board board) {
-		this.legionBase.updateBase(board.getLegionBase());
-		for (Base<Barbarian> base : barbarianBases.values()) base.updateBase(board.getBarbarianBase(base.getFaction()));
+		this.legionBase.updateBarbarianBase(board.getLegionBase());
+		for (Base<Barbarian> base : barbarianBases.values()) base.updateBarbarianBase(board.getBarbarianBase(base.getFactionsAllowedInBase()));
 		for (Tile tile : this.tiles.values()) {
 			City city = (City) tile;
 			city.updateCity((City) board.getTileByName(city.getName()));
