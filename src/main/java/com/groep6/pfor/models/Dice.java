@@ -10,28 +10,28 @@ import java.util.Random;
  */
 public class Dice {
 	
-	DiceFace[] faces = new DiceFace[6];
-	Random r = new Random();
+	DiceFace[] diceFaces = new DiceFace[6];
+	Random rolledDiceFace = new Random();
 	
 	/**
 	 * Initialise dice faces on creation.
 	 * 
 	 */
 	public Dice() {
-		facesInit();
+		setDiceFaces();
 	}
 	
 	/**
 	 * Initialise faces. BARBARIAN face is put on the dice twice. 
 	 * 
 	 */
-	public void facesInit() {
-		faces[0] = DiceFace.BARBARIAN;
-		faces[1] = DiceFace.BARBARIAN;
-		faces[2] = DiceFace.LEGION;
-		faces[3] = DiceFace.BOTH;
-		faces[4] = DiceFace.TWO_BARBARIAN_LEGION;
-		faces[5] = DiceFace.SPECIAL;
+	public void setDiceFaces() {
+		diceFaces[0] = DiceFace.BARBARIAN;
+		diceFaces[1] = DiceFace.BARBARIAN;
+		diceFaces[2] = DiceFace.LEGION;
+		diceFaces[3] = DiceFace.BOTH;
+		diceFaces[4] = DiceFace.TWO_BARBARIAN_LEGION;
+		diceFaces[5] = DiceFace.SPECIAL;
 	}
 	
 	/**
@@ -39,11 +39,23 @@ public class Dice {
 	 * @return DiceFace representation of the outcome in a battle.
 	 * 
 	 */
-	public DiceFace roll(City city) {
-		int randomIndex = r.nextInt(6);
-		DiceFace outcome = faces[randomIndex];
-		outcome.execute(city);
-		return outcome;
+	public DiceFace determineBattleOutcome(City cityPlayerIsCurrentlyStandingIn) {
+		int rolledDiceFaceIndex = roleDice();
+		DiceFace rolledDiceFace = getRolledDiceFace(rolledDiceFaceIndex);
+		executeDiceFace(cityPlayerIsCurrentlyStandingIn, rolledDiceFace);
+		return rolledDiceFace;
+	}
+
+	private int roleDice() {
+		return rolledDiceFace.nextInt(6);
+	}
+
+	private DiceFace getRolledDiceFace(int rolledDiceFaceIndex) {
+		return diceFaces[rolledDiceFaceIndex];
+	}
+
+	private void executeDiceFace(City cityPlayerIsCurrentlyStandingIn, DiceFace rolledDiceFace) {
+		rolledDiceFace.execute(cityPlayerIsCurrentlyStandingIn);
 	}
 	
 }

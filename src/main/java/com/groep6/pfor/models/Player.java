@@ -124,7 +124,7 @@ public class Player extends Observable implements IObserver {
 
         DiceFace[] diceFaces = new DiceFace[diceAmount];
     	for (int i = 0; i < diceAmount; i++) {
-            diceFaces[i] = dice.roll(city);
+            diceFaces[i] = dice.determineBattleOutcome(city);
     	}
 
     	decreaseAmountOfActionsRemaining();
