@@ -187,39 +187,46 @@ public class City extends Tile {
 	}
 	
     /**
-     * @param factionType The faction to count the barbarians of
+     * @param requestedFactionType The faction to count the barbarians of
      * @returns the amount of barbarians in this city of the specified faction
      */
 	
-    public int getAmountOfBarbariansLocatedInCurrentCity(FactionType factionType, List<Barbarian> barbarians) {
-		int count = 0;
+    public int getAmountOfBarbariansLocatedInCurrentCity(FactionType requestedFactionType, List<Barbarian> barbariansInCity) {
+		int amountOfBarbariansInCity = 0;
 
-		for (Barbarian barbarian : barbarians) {
-			if (factionType == barbarian.getFactionType()) count++;
+		for (Barbarian barbarianInCity : barbariansInCity) {
+			if (barbarianFactionEqualsRequestedFactionType(requestedFactionType, barbarianInCity)) amountOfBarbariansInCity++;
 		}
-		
-		return count;
+
+		return amountOfBarbariansInCity;
 	}
 
-	public int getAmountOfBarbariansLocatedInCurrentCity(FactionType factionType) {
-		int count = 0;
+	public int getAmountOfBarbariansLocatedInCurrentCity(FactionType requestedFactionType) {
+		int amountOfBarbariansInCity = 0;
 
-		for (Barbarian barbarian : barbariansInCity) {
-			if (factionType == barbarian.getFactionType()) count++;
+		for (Barbarian barbarianInCity : barbariansInCity) {
+			if (barbarianFactionEqualsRequestedFactionType(requestedFactionType, barbarianInCity)) amountOfBarbariansInCity++;
 		}
 
-		return count;
+		return amountOfBarbariansInCity;
+	}
+
+	private boolean barbarianFactionEqualsRequestedFactionType(FactionType requestedFactionType, Barbarian barbarian) {
+    	return requestedFactionType == barbarian.getFactionType();
 	}
 	
     /**
      * adds a legion to a specific city
      */
-	public void addLegionsToCurrentCity(int amount) {
-		for (int i = 0; i < amount; i++) {
-			legionsInCity.add(new Legion());
+	public void addLegionsToCurrentCity(int amountOfLegions) {
+		for (int i = 0; i < amountOfLegions; i++) {
+			addLegionToCity();
 		}
-
 		notifyObservers();
+	}
+
+	private void addLegionToCity() {
+		legionsInCity.add(new Legion());
 	}
 	
     /**
@@ -227,29 +234,49 @@ public class City extends Tile {
      * @return a barbarian and removes that specific barbarian from a specific city
      */
 	
-	public void removeBarbariansFromCurrentCity(FactionType factionType, int amount) {
-		for (int x = 0; x < barbariansInCity.size(); x++) {
-			Barbarian barbarian = barbariansInCity.get(x);
-			for (int i = 0; i < amount; i++) {
-				if (barbarian.getFactionType() == factionType) {
-					barbariansInCity.remove(x);
+	public void removeBarbariansFromCurrentCity(FactionType factionType, int amountOfBarbariansToRemove) {
+		Barbarian barbarian = getBarbarian();
+			for (int i = 0; i < amountOfBarbariansToRemove; i++) {
+				if (isBarbarian(barbarian) && barbarianFactionEqualsRequestedFactionType(factionType, barbarian)) {
+					removeBarbarian(barbarian);
 				}
 			}
-		}
-
 		notifyObservers();
 	}
 
+	private Barbarian getBarbarian() {
+		for (Barbarian barbarian : barbariansInCity) {
+			return barbarian;
+		}
+		return null;
+	}
+
+	private boolean isBarbarian(Barbarian barbarian) {
+		return barbarian != null;
+	}
+
+	private void removeBarbarian(Barbarian barbarian) {
+		barbariansInCity.remove(barbarian);
+	}
+
+
 	/**
-	 * @param amount
+	 * @param amountOfBarbariansToRemove
 	 * @return Removed barbarian
 	 */
-	public void removeBarbariansFromCurrentCity(int amount) {
-		for (int i = 0; i < amount; i++) {
-			if (barbariansInCity.size() > 0) barbariansInCity.remove(0);
+	public void removeBarbariansFromCurrentCity(int amountOfBarbariansToRemove) {
+		for (int i = 0; i < amountOfBarbariansToRemove; i++) {
+			if (cityContainsBarbarians()) removeBarbarian();
 		}
-
 		notifyObservers();
+	}
+
+	private boolean cityContainsBarbarians() {
+		return barbariansInCity.size() > 0;
+	}
+
+	private void removeBarbarian() {
+		barbariansInCity.remove(0);
 	}
 
     /**
