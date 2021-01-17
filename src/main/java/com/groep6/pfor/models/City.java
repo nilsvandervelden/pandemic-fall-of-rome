@@ -280,30 +280,31 @@ public class City extends Tile {
 	}
 
     /**
-	 * @param amount
+	 * @param amountOfLegionsToRemove
      */
 	
-	public void removeLegions(int amount) {
-		for (int i = 0; i < amount; i++) {
-			if (legionsInCity.size() > 0) legionsInCity.remove(0);
+	public void removeLegions(int amountOfLegionsToRemove) {
+		for (int i = 0; i < amountOfLegionsToRemove; i++) {
+			if (cityContainsLegions()) removeLegion();
 		}
 
 		notifyObservers();
+	}
+
+	private boolean cityContainsLegions() {
+		return legionsInCity.size() > 0;
+	}
+
+	private void removeLegion() {
+		legionsInCity.remove(0);
 	}
 	
     /**
      * places a fort in a specific city
      */
-	public void placeFort() {
+	public void placeFortInCity() {
 		this.hasFort = true;
 		notifyObservers();
-	}
-	
-    /**
-     * removes a fort from a specific city
-     */
-	public void removeFort() {
-		this.hasFort = false;
 	}
 
 	@Override

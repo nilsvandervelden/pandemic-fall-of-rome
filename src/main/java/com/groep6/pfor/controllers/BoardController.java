@@ -230,7 +230,7 @@ public class BoardController extends Controller {
     }
 
     private void placeFortInCurrentCity(City cityPlayerIsCurrentlyStandingIn) {
-        cityPlayerIsCurrentlyStandingIn.placeFort();
+        cityPlayerIsCurrentlyStandingIn.placeFortInCity();
     }
 
     private void decreaseAmountOfActionsRemaining(Player localPlayer) {

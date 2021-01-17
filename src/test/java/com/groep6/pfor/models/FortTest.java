@@ -29,7 +29,7 @@ public class FortTest {
 
 	@Test
 	void placeFort() {
-		city.placeFort();
+		city.placeFortInCity();
 		assertTrue(city.hasFort());
 	}
 }
