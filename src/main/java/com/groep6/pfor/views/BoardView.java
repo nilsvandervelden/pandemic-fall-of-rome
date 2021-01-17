@@ -349,7 +349,7 @@ public class BoardView extends View implements IObserver {
             	final float OVERLAP = 0.1f; // The percentage overlap barbarians are allowed to have, between 0-1.
             	final int MAX_ITERATIONS = 1000; // The max amount of random position to try before giving up.
             	List<Vector2f> barbpos = new ArrayList<>();
-            	for (Barbarian barbarian : city.getBarbarians()) {
+            	for (Barbarian barbarian : city.getBarbariansInCity()) {
                     Vector2f pos = null;
                     int size = barbpos.size();
                     for (int i = 0; i < MAX_ITERATIONS; i++) {
@@ -376,7 +376,7 @@ public class BoardView extends View implements IObserver {
 
             	// Render the barbarians
             	for (int i = 0; i < city.getAmountOfBarbariansLocatedInCurrentCity(); i++) {
-            	    Barbarian barbarian = city.getBarbarians().get(i);
+            	    Barbarian barbarian = city.getBarbariansInCity().get(i);
             	    gc.setFill(FactionFactory.getInstance().getFaction(barbarian.getFactionType()).getFactionColor());
             	    Vector2f pos = barbpos.get(i);
             	    gc.fillRect(pos.x - BARB_SIZE, pos.y - BARB_SIZE, BARB_SIZE * 2, BARB_SIZE * 2);
@@ -384,7 +384,7 @@ public class BoardView extends View implements IObserver {
                 }
             	
             	// Draw legions
-            	if (city.getLegions().size() > 0) {
+            	if (city.getLegionsInCity().size() > 0) {
             		gc.setFill(Color.WHITE);
             		gc.setFont(new Font("Arial", 20));
             		gc.setFill(Color.RED);

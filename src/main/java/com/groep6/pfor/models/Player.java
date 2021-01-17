@@ -113,8 +113,8 @@ public class Player extends Observable implements IObserver {
     public DiceFace[] battle() {
     	
     	Dice dice = new Dice();
-    	List<Legion> legionsBefore = city.getLegions();
-    	List<Barbarian> barbariansBefore = city.getBarbarians();
+    	List<Legion> legionsBefore = city.getLegionsInCity();
+    	List<Barbarian> barbariansBefore = city.getBarbariansInCity();
     	int diceAmount = 3;
 
     	// Decide amount of dice to roll.
@@ -195,7 +195,7 @@ public class Player extends Observable implements IObserver {
         // Loop through all factions
         for (Faction faction : factions) {
             // If current city does not have this faction, continue
-            if (!city.hasFaction(faction)) continue;
+            if (!city.requestedFactionInCity(faction)) continue;
 
             int cardCount = 0;
 

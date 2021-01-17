@@ -50,7 +50,7 @@ public class BoardDTO {
         Map<String, CityDTO> cities = new HashMap<>();
         for (Tile tile : board.getTiles()) {
             City city = (City) tile;
-            cities.put(city.getName(), CityDTO.fromModel(city));
+            cities.put(city.getCityName(), CityDTO.fromModel(city));
         }
         Map<String, Integer> barbarianBases = new HashMap<>();
         for (Base<Barbarian> base : board.getBarbarianBases().values())

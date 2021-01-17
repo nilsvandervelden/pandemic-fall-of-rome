@@ -17,38 +17,39 @@ import java.util.Stack;
 
 public class City extends Tile {
 	
-	private List<Barbarian> barbarians = new ArrayList<>();
-	private List<Legion> legions = new ArrayList<>();
-	private boolean fort = false;
-	private boolean harbour;
-	private String name;
+	private List<Barbarian> barbariansInCity = new ArrayList<>();
+	private List<Legion> legionsInCity = new ArrayList<>();
+	private boolean hasFort = false;
+	private boolean isHarbour;
+	private String cityName;
 
 	/**
 	 * Initializes a new City with the given components.
-     * @param name The name of a specific city
-     * @param harbour Whether or not a city has a harbour
-     * @param position The Vector2f (position) of a specific city
-     * @param factions What factions are allowed in a specific city
+     * @param cityName The name of a specific city
+     * @param isHarbour Whether or not a city has a harbour
+     * @param positionOfCity The Vector2f (positionOfCity) of a specific city
+     * @param factionsAllowedInCity What factionsAllowedInCity are allowed in a specific city
      */
-	public City(String name, boolean harbour, Vector2f position, Faction[] factions) {
-		super(position, factions);
-		this.name = name;
-		this.harbour = harbour;
+	public City(String cityName, boolean isHarbour, Vector2f positionOfCity, Faction[] factionsAllowedInCity) {
+		super(positionOfCity, factionsAllowedInCity);
+		this.cityName = cityName;
+		this.isHarbour = isHarbour;
 	}
 
 	/**
 	 * Constructs a new city with data from a city from the remote server
-	 * @param name The name of the city
-	 * @param legions The legions in this city
-	 * @param barbarians The barbarians in this city
-	 * @param fort whether this city has a fort in it
+	 * @param cityName The name of the city
+	 * @param legionsInCity The legions in this city
+	 * @param barbariansInCity The barbarians in this city
+	 * @param hasFort whether this city has a fort in it
 	 * @return A new city instance
 	 */
-	public City(String name, Stack<Legion> legions, Stack<Barbarian> barbarians, boolean fort) {
-		super(CityFactory.getInstance().getCityByName(name).position, CityFactory.getInstance().getCityByName(name).getFactions());
-		this.legions = legions;
-		this.barbarians = barbarians;
-		this.fort = fort;
+
+	public City(String cityName, Stack<Legion> legionsInCity, Stack<Barbarian> barbariansInCity, boolean hasFort) {
+		super(CityFactory.getInstance().getCityByName(cityName).position, CityFactory.getInstance().getCityByName(cityName).getFactions());
+		this.legionsInCity = legionsInCity;
+		this.barbariansInCity = barbariansInCity;
+		this.hasFort = hasFort;
 	}
 
 	/**
@@ -56,9 +57,9 @@ public class City extends Tile {
 	 * @param city The city to copy the data from
 	 */
 	public void updateCity(City city) {
-		this.barbarians = city.barbarians;
-		this.legions = city.legions;
-		this.fort = city.fort;
+		this.barbariansInCity = city.barbariansInCity;
+		this.legionsInCity = city.legionsInCity;
+		this.hasFort = city.hasFort;
 	}
 
     /**
@@ -71,15 +72,15 @@ public class City extends Tile {
 	/**
      * @returns the name of a specific city
      */
-	public String getName() {
-		return name;
+	public String getCityName() {
+		return cityName;
 	}
 
 	/**
 	 * @return The total amount of barbarians in this city of all factions combined
 	 */
 	public int getAmountOfBarbariansLocatedInCurrentCity() {
-    	return barbarians.size();
+    	return barbariansInCity.size();
 	}
 	
     /**
@@ -87,23 +88,23 @@ public class City extends Tile {
      */
 	
 	public int getLegionCount() {
-		return legions.size();
+		return legionsInCity.size();
 	}
 	
     /**
      * @returns a arrayList with barbarians in a specific city
      */
 	
-	public List<Barbarian> getBarbarians() {
-		return barbarians;
+	public List<Barbarian> getBarbariansInCity() {
+		return barbariansInCity;
 	}
 	
 	/**
      * @returns a arrayList with legions in a specific city
      */
 	
-	public List<Legion> getLegions() {
-		return legions;
+	public List<Legion> getLegionsInCity() {
+		return legionsInCity;
 	}
 	
     /**
@@ -111,7 +112,7 @@ public class City extends Tile {
      */
 	
 	public boolean hasFort() {
-		return fort;
+		return hasFort;
 	}
 	
     /**
@@ -119,35 +120,68 @@ public class City extends Tile {
      */
 	
 	public boolean hasHarbour() {
-		return harbour;
+		return isHarbour;
 	}
 
 	/**
-	 * Check if a city has a specific faction (barbarian) in it
-	 * @param faction The faction you want to check for
-	 * @return Whether the faction is in it or not
+	 * Check if a city has a specific requestedFaction (barbarian) in it
+	 * @param requestedFaction The requestedFaction you want to check for
+	 * @return Whether the requestedFaction is in it or not
 	 */
-	public boolean hasFaction(Faction faction) {
-		for (Barbarian barbarian : barbarians) {
-			if (faction.getFactionType().equals(barbarian.getFactionType())) return true;
+	public boolean requestedFactionInCity(Faction requestedFaction) {
+		for (Barbarian barbarianInCity : barbariansInCity) {
+			if (barbarianOfRequestedFactionInCity(barbarianInCity, requestedFaction)) return true;
 		}
 		return false;
+	}
+
+	private boolean barbarianOfRequestedFactionInCity(Barbarian barbarianInCity, Faction requestedFaction) {
+		return requestedFaction.getFactionType().equals(getFactionType(barbarianInCity));
+	}
+
+	private FactionType getFactionType(Barbarian barbarianInCity) {
+		return barbarianInCity.getFactionType();
+	}
+
+	private void addBarbarianToCity(FactionType factionType) {
+		barbariansInCity.add(new Barbarian(factionType));
+	}
+
+	private boolean maximumAmountOfBarbariansInCity() {
+		int maximumAmountOfBarbariansInCity = 4;
+		return barbariansInCity.size() >= maximumAmountOfBarbariansInCity;
+	}
+
+	private void removeAllBarbariansFromCity() {
+		barbariansInCity.clear();
+	}
+
+	private Game getGame() {
+		return Game.getInstance();
+	}
+
+	private void increaseDecayLevel(Game currentGame) {
+		currentGame.increaseDecayLevel(1);
+	}
+
+	private boolean gameExists(Game currentGame) {
+		return currentGame != null;
 	}
 	
     /**
      * adds barbarians to a specific city
-     * @param factionType
+     * @param factionTypeOfBarbarian
      */
-	public void addBarbarians(FactionType factionType, int amount) {
-		for (int i = 0; i < amount; i++) {
-			barbarians.add(new Barbarian(factionType));
+	public void addBarbariansToCity(FactionType factionTypeOfBarbarian, int amountOfBarbariansToAdd) {
+		for (int i = 0; i < amountOfBarbariansToAdd; i++) {
+			addBarbarianToCity(factionTypeOfBarbarian);
 
-			if (barbarians.size() >= 4) {
-				barbarians.clear();
-				Game game = Game.getInstance();
-				
-				if (game != null) game.increaseDecayLevel(1);
-				return; 
+			if (maximumAmountOfBarbariansInCity()) {
+				removeAllBarbariansFromCity();
+
+				Game currentGame = getGame();
+				if (gameExists(currentGame)) increaseDecayLevel(currentGame);
+				return;
 			}
 		}
 	}
@@ -170,7 +204,7 @@ public class City extends Tile {
 	public int getAmountOfBarbariansLocatedInCurrentCity(FactionType factionType) {
 		int count = 0;
 
-		for (Barbarian barbarian : barbarians) {
+		for (Barbarian barbarian : barbariansInCity) {
 			if (factionType == barbarian.getFactionType()) count++;
 		}
 
@@ -182,7 +216,7 @@ public class City extends Tile {
      */
 	public void addLegionsToCurrentCity(int amount) {
 		for (int i = 0; i < amount; i++) {
-			legions.add(new Legion());
+			legionsInCity.add(new Legion());
 		}
 
 		notifyObservers();
@@ -194,11 +228,11 @@ public class City extends Tile {
      */
 	
 	public void removeBarbariansFromCurrentCity(FactionType factionType, int amount) {
-		for (int x = 0; x < barbarians.size(); x++) {
-			Barbarian barbarian = barbarians.get(x);
+		for (int x = 0; x < barbariansInCity.size(); x++) {
+			Barbarian barbarian = barbariansInCity.get(x);
 			for (int i = 0; i < amount; i++) {
 				if (barbarian.getFactionType() == factionType) {
-					barbarians.remove(x);
+					barbariansInCity.remove(x);
 				}
 			}
 		}
@@ -212,7 +246,7 @@ public class City extends Tile {
 	 */
 	public void removeBarbariansFromCurrentCity(int amount) {
 		for (int i = 0; i < amount; i++) {
-			if (barbarians.size() > 0) barbarians.remove(0);
+			if (barbariansInCity.size() > 0) barbariansInCity.remove(0);
 		}
 
 		notifyObservers();
@@ -224,7 +258,7 @@ public class City extends Tile {
 	
 	public void removeLegions(int amount) {
 		for (int i = 0; i < amount; i++) {
-			if (legions.size() > 0) legions.remove(0);
+			if (legionsInCity.size() > 0) legionsInCity.remove(0);
 		}
 
 		notifyObservers();
@@ -234,7 +268,7 @@ public class City extends Tile {
      * places a fort in a specific city
      */
 	public void placeFort() {
-		this.fort = true;
+		this.hasFort = true;
 		notifyObservers();
 	}
 	
@@ -242,19 +276,19 @@ public class City extends Tile {
      * removes a fort from a specific city
      */
 	public void removeFort() {
-		this.fort = false;
+		this.hasFort = false;
 	}
 
 	@Override
 	public String toString() {
-		String s = String.format("City: %s, harbour: %b, position: %s, factions: [", name, harbour, position);
+		String s = String.format("City: %s, harbour: %b, position: %s, factions: [", cityName, isHarbour, position);
 		for (Faction f : factions) {
 			s += f.getFactionType().name() + ", ";
 		}
 		if (factions.length > 0) s = s.substring(0, s.length()-2);
 		s += "], neighbours: [";
 		for (City neighbour : neighbouringCities) {
-			s += neighbour.getName() + ", ";
+			s += neighbour.getCityName() + ", ";
 		}
 		if (neighbouringCities.size() > 0) s = s.substring(0, s.length()-2);
 		return s + "]";

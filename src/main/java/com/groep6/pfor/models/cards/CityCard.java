@@ -24,7 +24,7 @@ public class CityCard extends Card {
 
     @Override
     public String getCardName() {
-        return correspondingCity.getName();
+        return correspondingCity.getCityName();
     }
 
     /**

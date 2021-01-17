@@ -55,7 +55,7 @@ public class CardDTO {
     public static CardDTO fromModel(Card model) {
         if (model instanceof CityCard) {
             CityCard card = (CityCard) model;
-            return new CardDTO("city", card.getCardName(), card.getFactionCityCardBelongsTo().getFactionType().toString(), card.getCorrespondingCity().getName());
+            return new CardDTO("city", card.getCardName(), card.getFactionCityCardBelongsTo().getFactionType().toString(), card.getCorrespondingCity().getCityName());
         } else if (model instanceof EventCard) {
             return new CardDTO("event", model.getCardName());
         } else if (model instanceof InvasionCard) {

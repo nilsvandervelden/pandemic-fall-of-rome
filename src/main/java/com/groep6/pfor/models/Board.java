@@ -55,7 +55,7 @@ public class Board {
 		City[] cities = getAllCitiesFromCityFactory();
 
 		for (City city : cities) {
-			tiles.put(city.getName(), city);
+			tiles.put(city.getCityName(), city);
 		}
 	}
 
@@ -85,7 +85,7 @@ public class Board {
 	}
 
 	private String  getCityName(City city) {
-		return city.getName();
+		return city.getCityName();
 	}
 
 	private void updateLegionBase(Board fireBaseBoard) {

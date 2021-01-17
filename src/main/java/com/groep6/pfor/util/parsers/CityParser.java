@@ -40,7 +40,7 @@ public class CityParser extends JsonParser {
         for (Iterator<JsonElement> it = json.iterator(); it.hasNext();) {
             JsonObject cityField = (JsonObject) it.next();
             City city = new Gson().fromJson(cityField, JsonCity.class).toModel();
-            cities.put(city.getName().toUpperCase(), city);
+            cities.put(city.getCityName().toUpperCase(), city);
         }
 
         for (Iterator<JsonElement> it = json.iterator(); it.hasNext();) {

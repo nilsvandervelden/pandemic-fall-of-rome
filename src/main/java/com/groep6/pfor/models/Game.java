@@ -66,7 +66,7 @@ public class Game extends Observable implements IObserver {
             City[] cities = CityFactory.getInstance().getAllCities();
             City city = cities[rand.nextInt(cities.length)];
 
-            if (invadedCities.contains(city) || city.getName().equals("Roma")) {
+            if (invadedCities.contains(city) || city.getCityName().equals("Roma")) {
                 i--;
                 continue;
             }
@@ -80,7 +80,7 @@ public class Game extends Observable implements IObserver {
             }
 
             Faction[] factions = city.getFactions();
-            city.addBarbarians(factions[rand.nextInt(factions.length)].getFactionType(), barbariansCount);
+            city.addBarbariansToCity(factions[rand.nextInt(factions.length)].getFactionType(), barbariansCount);
         }
     }
 

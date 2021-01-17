@@ -34,7 +34,7 @@ public class CityDTO {
     public static CityDTO fromModel(City city) {
         Map<String, Integer> barbarians = new HashMap<>();
         for (Faction faction : FactionFactory.getInstance().getFactions()) barbarians.put(faction.getFactionType().toString(), 0);
-        for (Barbarian barbarian : city.getBarbarians())
+        for (Barbarian barbarian : city.getBarbariansInCity())
             barbarians.put(barbarian.getFactionType().toString(), barbarians.get(barbarian.getFactionType().toString()) + 1);
 
         int barbs = barbarians.get(FactionType.VISIGOTHS.toString());
@@ -42,7 +42,7 @@ public class CityDTO {
         barbs |= (int) (barbarians.get(FactionType.ANGLO_SAXSONS_FRANKS.toString()) * Math.pow(64, 2));
         barbs |= (int) (barbarians.get(FactionType.HUNS.toString()) * Math.pow(64, 3));
         barbs |= (int) (barbarians.get(FactionType.OSTROGOTHS.toString()) * Math.pow(64, 4));
-        return new CityDTO(city.getName(), city.hasFort(), city.getLegionCount(), barbs);
+        return new CityDTO(city.getCityName(), city.hasFort(), city.getLegionCount(), barbs);
     }
 
     public City toModel() {

@@ -58,7 +58,7 @@ public class MovementController extends Controller {
     }
 
     public int getAmountOfLegionsInCurrentCity() {
-    	return player.getCityPlayerIsCurrentlyLocatedIn().getLegions().size();
+    	return player.getCityPlayerIsCurrentlyLocatedIn().getLegionsInCity().size();
 	}
 
 	@Override

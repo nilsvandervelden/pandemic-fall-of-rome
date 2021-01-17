@@ -62,7 +62,7 @@ public class CityFactory {
     }
 
     private boolean requestedCityNameEqualsCityName(String requestedCityName, City city) {
-        return city.getName().toUpperCase().equals(requestedCityName.toUpperCase());
+        return city.getCityName().toUpperCase().equals(requestedCityName.toUpperCase());
     }
 
     public City getCityByName(String requestedCityName) {
