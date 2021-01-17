@@ -20,15 +20,23 @@ public class MercatorAction implements IAction {
 	 * 
 	 */
 	public void executeCard() {
-		Player player = game.getLocalPlayer();
-		City city = player.getCityPlayerIsCurrentlyLocatedIn();
-		city.removeBarbariansFromCurrentCity(1);
-		city.removeLegions(1);
+		Player localPlayer = game.getLocalPlayer();
+		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
+		removeOneLegionAndBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}
 
-	public void executeSpecialAction() {
+	private void removeOneBarbarianFromCurrentCity(City cityPlayerIsCurrentlyLocatedIn) {
+		cityPlayerIsCurrentlyLocatedIn.removeBarbariansFromCurrentCity(1);
+	}
 
-	};
+	private void removeOneLegionFromCurrentCity(City cityPlayerIsCurrentlyLocatedIn) {
+		cityPlayerIsCurrentlyLocatedIn.removeLegions(1);
+	}
+
+	public void removeOneLegionAndBarbarianFromCurrentCity(City cityPlayerIsCurrentlyLocatedIn) {
+		removeOneBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
+		removeOneLegionFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
+	}
 
 	/**
 	 * Gets the name of the role.
