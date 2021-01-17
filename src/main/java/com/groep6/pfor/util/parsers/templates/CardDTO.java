@@ -60,7 +60,7 @@ public class CardDTO {
             return new CardDTO("event", model.getEventName());
         } else if (model instanceof InvasionCard) {
             InvasionCard card = (InvasionCard) model;
-            return new CardDTO("invasion", card.getEventName(), card.getFaction().getFactionType().toString());
+            return new CardDTO("invasion", card.getEventName(), card.getInvadingFaction().getFactionType().toString());
         } else if (model instanceof RevoltCard) {
             return new CardDTO("revolt");
         }

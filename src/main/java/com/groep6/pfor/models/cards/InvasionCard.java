@@ -11,48 +11,35 @@ import java.util.List;
  */
 public class InvasionCard extends Card {
 
-    private final String name;
-    private final List<City> route;
-    private final Faction faction;
+    private final String invasionCardName;
+    private final List<City> invasionRoute;
+    private final Faction invadingFaction;
 
     /**
-     * @param name
-     * @param faction
-     * @param route
+     * @param invasionCardName
+     * @param invadingFaction
+     * @param invasionRoute
      */
-    public InvasionCard(String name, Faction faction, List<City> route) {
-        this.name = name;
-        this.route = route;
-        this.faction = faction;
-    }
-
-    /**
-     * @return City
-     */
-    public City invade() {
-        return null;
+    public InvasionCard(String invasionCardName, Faction invadingFaction, List<City> invasionRoute) {
+        this.invasionCardName = invasionCardName;
+        this.invasionRoute = invasionRoute;
+        this.invadingFaction = invadingFaction;
     }
 
     @Override
     public String getEventName() {
-        return name;
+        return invasionCardName;
     }
 
     /**
      * @return Faction
      */
-    public Faction getFaction() {
-        return faction;
+
+    public Faction getInvadingFaction() {
+        return invadingFaction;
     }
 
-    /**
-     * @return City
-     */
-    public City getDestination() {
-        return route.get(route.size() - 1);
-    }
-
-    public List<City> getRoute() {
-        return route;
+    public List<City> getInvasionRoute() {
+        return invasionRoute;
     }
 }

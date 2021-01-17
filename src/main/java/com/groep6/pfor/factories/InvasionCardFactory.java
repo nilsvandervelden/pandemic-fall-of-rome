@@ -75,7 +75,7 @@ public class InvasionCardFactory {
     }
 
     private boolean invasionCardFactionEqualsRequestedInvasionCardFaction(InvasionCard invasionCard, Faction requestedInvasionCardFaction) {
-        return invasionCard.getFaction().equals(requestedInvasionCardFaction);
+        return invasionCard.getInvadingFaction().equals(requestedInvasionCardFaction);
     }
 
     public InvasionCard getInvasionCardByName(String requestedInvasionCardName, Faction requestedInvasionCardFaction) {

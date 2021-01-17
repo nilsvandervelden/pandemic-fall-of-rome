@@ -206,7 +206,7 @@ public class BoardController extends Controller {
     }
 
     private List<City> getInvasionRoute(InvasionCard card) {
-        return card.getRoute();
+        return card.getInvasionRoute();
     }
 
     
@@ -214,14 +214,14 @@ public class BoardController extends Controller {
         List<City> route = getInvasionRoute(card);
 
         for (int i = 0; i < route.size(); i++) {
-        	if(route.get(i).getAmountOfBarbariansLocatedInCurrentCity(card.getFaction().getFactionType(), route.get(i).getBarbarians()) < 1) {
-                route.get(i).addBarbarians(card.getFaction().getFactionType(), 1);
-                if (i > 0) route.get(i - 1).addBarbarians(card.getFaction().getFactionType(), 1);
+        	if(route.get(i).getAmountOfBarbariansLocatedInCurrentCity(card.getInvadingFaction().getFactionType(), route.get(i).getBarbarians()) < 1) {
+                route.get(i).addBarbarians(card.getInvadingFaction().getFactionType(), 1);
+                if (i > 0) route.get(i - 1).addBarbarians(card.getInvadingFaction().getFactionType(), 1);
                 break;
         	}
         }
-        if (route.get(route.size() - 1).getAmountOfBarbariansLocatedInCurrentCity(card.getFaction().getFactionType(), route.get(route.size() - 1).getBarbarians()) >= 1){
-    		route.get(route.size() - 1).addBarbarians(card.getFaction().getFactionType(), 1);
+        if (route.get(route.size() - 1).getAmountOfBarbariansLocatedInCurrentCity(card.getInvadingFaction().getFactionType(), route.get(route.size() - 1).getBarbarians()) >= 1){
+    		route.get(route.size() - 1).addBarbarians(card.getInvadingFaction().getFactionType(), 1);
         }
     }
 
