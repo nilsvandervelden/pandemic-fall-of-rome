@@ -19,13 +19,13 @@ public class ConsulAction implements IAction {
 	 * 
 	 */
 	public void executeCard() {
-		Player player = game.getLocalPlayer();
-		City city = player.getCityPlayerIsCurrentlyLocatedIn();
-		city.addLegionsToCurrentCity(1);
+		Player localPlayer = game.getLocalPlayer();
+		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
+		addLegionToCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}
 
-	public void executeSpecialAction() {
-
+	public void addLegionToCurrentCity(City cityPlayerIsCurrentlyLocatedIn) {
+		cityPlayerIsCurrentlyLocatedIn.addLegionsToCurrentCity(1);
 	};
 
 	/**

@@ -19,7 +19,7 @@ public class VitaMeaAction implements IAction {
 		Game currentGame = Game.getInstance();
 		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
-		executeSpecialAction(cityPlayerIsCurrentlyLocatedIn);
+		exchangeOneBarbarianForOneLegion(cityPlayerIsCurrentlyLocatedIn);
 		decreaseAmountOfActionsRemaining(currentGame);
 	}
 
@@ -31,7 +31,7 @@ public class VitaMeaAction implements IAction {
 		cityPlayerIsCurrentlyLocatedIn.addLegionsToCurrentCity(1);
 	}
 
-	public void executeSpecialAction(City cityPlayerIsCurrentlyLocatedIn) {
+	public void exchangeOneBarbarianForOneLegion(City cityPlayerIsCurrentlyLocatedIn) {
 		removeOneBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 		addLegionToCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}

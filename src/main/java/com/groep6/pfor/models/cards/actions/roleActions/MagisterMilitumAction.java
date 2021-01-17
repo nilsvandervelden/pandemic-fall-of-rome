@@ -19,13 +19,13 @@ public class MagisterMilitumAction implements IAction {
 	 * 
 	 */
 	public void executeCard() {
-		Player player = game.getLocalPlayer();
-		City city = player.getCityPlayerIsCurrentlyLocatedIn();
-		city.removeBarbariansFromCurrentCity(2);
+		Player localPlayer = game.getLocalPlayer();
+		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
+		removeTwoBarbariansFromPlayerCity(cityPlayerIsCurrentlyLocatedIn);
 	}
 
-	public void executeSpecialAction() {
-
+	public void removeTwoBarbariansFromPlayerCity(City cityPlayerIsCurrentlyLocatedIn) {
+		cityPlayerIsCurrentlyLocatedIn.removeBarbariansFromCurrentCity(2);
 	};
 
 	/**
@@ -43,8 +43,7 @@ public class MagisterMilitumAction implements IAction {
 	 * 
 	 */
 	public String getDescription() {
-		String description = "Verwijder 2 barbaren uit jouw stad.";
-		return description;
+		return "Verwijder 2 barbaren uit jouw stad.";
 	}
 
 }
