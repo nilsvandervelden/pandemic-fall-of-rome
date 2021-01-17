@@ -55,7 +55,7 @@ public class Dice {
 	}
 
 	private void executeDiceFace(City cityPlayerIsCurrentlyStandingIn, DiceFace rolledDiceFace) {
-		rolledDiceFace.execute(cityPlayerIsCurrentlyStandingIn);
+		rolledDiceFace.executeDiceAction(cityPlayerIsCurrentlyStandingIn);
 	}
 	
 }

@@ -8,8 +8,8 @@ package com.groep6.pfor.models;
 public enum DiceFace {
 	BARBARIAN {
 		@Override
-		public void execute(City city) {
-			city.removeBarbariansFromCurrentCity(1);
+		public void executeDiceAction(City currentCity) {
+			removeBarbariansFromCurrentCity(currentCity, 1);
 		}
 		@Override
 		public int getBarbarianCount() {
@@ -22,8 +22,8 @@ public enum DiceFace {
 	},
 	LEGION {
 		@Override
-		public void execute(City city) {
-			city.removeLegions(1);
+		public void executeDiceAction(City currentCity) {
+			removeLegionsFromCurrentCity(currentCity, 1);
 		}
 		@Override
 		public int getBarbarianCount() {
@@ -36,9 +36,9 @@ public enum DiceFace {
 	},
 	BOTH {
 		@Override
-		public void execute(City city) {
-			city.removeBarbariansFromCurrentCity(1);
-			city.removeLegions(1);
+		public void executeDiceAction(City currentCity) {
+			removeBarbariansFromCurrentCity(currentCity,1);
+			removeLegionsFromCurrentCity(currentCity, 1);
 		}
 		@Override
 		public int getBarbarianCount() {
@@ -51,9 +51,9 @@ public enum DiceFace {
 	},
 	TWO_BARBARIAN_LEGION {
 		@Override
-		public void execute(City city) {
-			city.removeBarbariansFromCurrentCity(2);
-			city.removeLegions(1);
+		public void executeDiceAction(City currentCity) {
+			removeBarbariansFromCurrentCity(currentCity,2);
+			removeLegionsFromCurrentCity(currentCity, 1);
 		}
 		@Override
 		public int getBarbarianCount() {
@@ -66,10 +66,10 @@ public enum DiceFace {
 	},
 	SPECIAL {
 		@Override
-		public void execute(City city) {
-			Game game = Game.getInstance();
-			Player player =  game.getPlayerFromCurrentTurn();
-			player.getRoleCard().executeRoleCardAbility();
+		public void executeDiceAction(City currentCity) {
+			Game currentGame = Game.getInstance();
+			Player playerFromCurrentTurn = currentGame.getPlayerFromCurrentTurn();
+			executeRoleCardAbility(playerFromCurrentTurn);
 		}
 		@Override
 		public int getBarbarianCount() {
@@ -80,8 +80,20 @@ public enum DiceFace {
 			return 0;
 		}
 	};
+
+	private static void executeRoleCardAbility(Player playerFromCurrentTurn) {
+		playerFromCurrentTurn.getRoleCard().executeRoleCardAbility();
+	}
+
+	private static void removeBarbariansFromCurrentCity(City currentCity, int amountOfBarbariansToRemove) {
+		currentCity.removeBarbariansFromCurrentCity(amountOfBarbariansToRemove);
+	}
+	private static void removeLegionsFromCurrentCity(City currentCity, int amountOfLegionsToRemove) {
+		currentCity.removeLegions(amountOfLegionsToRemove);
+	}
+
 	
-	public abstract void execute(City city);
+	public abstract void executeDiceAction(City city);
 	public abstract int getBarbarianCount();
 	public abstract int getLegionCount();
 }
