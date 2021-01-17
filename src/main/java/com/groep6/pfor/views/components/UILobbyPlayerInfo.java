@@ -48,7 +48,7 @@ public class UILobbyPlayerInfo extends VBox {
         UIText roleLabelText = new UIText("Karakter:");
         roleLabelText.setFill(Color.WHITE);
 
-        UIText roleValueText = new UIText(roleCard.getName());
+        UIText roleValueText = new UIText(roleCard.getEventName());
         roleValueText.setFill(Color.WHITE);
 
         UIText colorLabelText = new UIText("Kleur:");

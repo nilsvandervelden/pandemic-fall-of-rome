@@ -24,7 +24,7 @@ public class RevoltCard extends Card {
     }
 
     @Override
-    public String getName() {
+    public String getEventName() {
         return name;
     }
 

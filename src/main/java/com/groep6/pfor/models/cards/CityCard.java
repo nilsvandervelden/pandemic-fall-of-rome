@@ -10,36 +10,34 @@ import com.groep6.pfor.models.factions.Faction;
  */
 public class CityCard extends Card {
 
-    private final String name;
-    private final City city;
-    private final Faction faction;
+    private final City correspondingCity;
+    private final Faction factionCityCardBelongsTo;
 
     /**
-     * @param city
-     * @param faction
+     * @param correspondingCity
+     * @param factionCityCardBelongsTo
      */
-    public CityCard(City city, Faction faction) {
-        this.city = city;
-        this.faction = faction;
-        this.name = this.city.getName();
+    public CityCard(City correspondingCity, Faction factionCityCardBelongsTo) {
+        this.correspondingCity = correspondingCity;
+        this.factionCityCardBelongsTo = factionCityCardBelongsTo;
     }
 
     @Override
-    public String getName() {
-        return city.getName();
+    public String getEventName() {
+        return correspondingCity.getName();
     }
 
     /**
      * @return City
      */
-    public City getCity() {
-        return city;
+    public City getCorrespondingCity() {
+        return correspondingCity;
     }
 
     /**
      * @return Faction
      */
-    public Faction getFaction() {
-        return faction;
+    public Faction getFactionCityCardBelongsTo() {
+        return factionCityCardBelongsTo;
     }
 }

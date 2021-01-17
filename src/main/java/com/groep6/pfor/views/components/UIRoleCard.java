@@ -21,7 +21,7 @@ public class UIRoleCard extends UICard {
     }
 
     private void createView() {
-        UIText nameText = new UIText(card.getName());
+        UIText nameText = new UIText(card.getEventName());
         nameText.setWeight(FontWeight.BOLD).setSize(18).setColor(Color.web("#D5544F"));
 
         UIText descriptionText = new UIText(card.getAbility().getDescription());

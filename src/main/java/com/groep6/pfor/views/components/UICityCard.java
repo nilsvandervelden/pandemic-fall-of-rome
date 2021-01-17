@@ -27,16 +27,16 @@ public class UICityCard extends UICard {
         centerBox.setAlignment(Pos.CENTER);
 
 
-        UIText nameText = new UIText(card.getName());
+        UIText nameText = new UIText(card.getEventName());
         nameText.setWeight(FontWeight.BOLD).setSize(18).setColor(Color.web("#D5544F"));
 
         HBox factionBox = new HBox(5);
         factionBox.setAlignment(Pos.CENTER);
 
-        UIText factionText = new UIText(card.getFaction().getFactionType().getName());
+        UIText factionText = new UIText(card.getFactionCityCardBelongsTo().getFactionType().getName());
 
         Circle factionColorDot = new Circle();
-        factionColorDot.setFill(card.getFaction().getColor());
+        factionColorDot.setFill(card.getFactionCityCardBelongsTo().getColor());
         factionColorDot.setRadius(7);
 
         factionBox.getChildren().addAll(factionText, factionColorDot);

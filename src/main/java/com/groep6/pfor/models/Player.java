@@ -201,7 +201,7 @@ public class Player extends Observable implements IObserver {
 
             // Check if player has required card count to form alliance
             for (Card card : cards) {
-                if (card instanceof CityCard && ((CityCard) card).getFaction().equals(faction)) {
+                if (card instanceof CityCard && ((CityCard) card).getFactionCityCardBelongsTo().equals(faction)) {
                     cardCount++;
                 }
             }
@@ -219,7 +219,7 @@ public class Player extends Observable implements IObserver {
         List<Card> cards = getPlayerDeck().getCards();
         List<Card> factionCards = new ArrayList<>();
         for (Card card : cards) {
-            if (card instanceof CityCard && ((CityCard) card).getFaction().equals(faction)) {
+            if (card instanceof CityCard && ((CityCard) card).getFactionCityCardBelongsTo().equals(faction)) {
                 factionCards.add(card);
             }
         }

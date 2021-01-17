@@ -30,7 +30,7 @@ public class RoleCard extends Card {
     }
 
     @Override
-    public String getName() {
+    public String getEventName() {
         return name;
     }
 

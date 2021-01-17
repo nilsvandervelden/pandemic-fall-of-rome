@@ -294,7 +294,7 @@ public class BoardView extends View implements IObserver {
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
 
-            UIPlayerInfo uiPlayerInfo = new UIPlayerInfo(player.getRoleCard().getColor(), i + 1, player.getUsername(), player.getRoleCard().getName(), player.isCurrentTurn(), player.getActionsRemaining());
+            UIPlayerInfo uiPlayerInfo = new UIPlayerInfo(player.getRoleCard().getColor(), i + 1, player.getUsername(), player.getRoleCard().getEventName(), player.isCurrentTurn(), player.getActionsRemaining());
             playerList.getChildren().add(uiPlayerInfo);
         }
 

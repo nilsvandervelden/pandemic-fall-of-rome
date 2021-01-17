@@ -63,11 +63,11 @@ public class CityCardFactory {
 	}
 
 	private boolean cityCardNameEqualsRequestedCardName(CityCard cityCard, String requestedCardName) {
-		return cityCard.getName().equals(requestedCardName);
+		return cityCard.getEventName().equals(requestedCardName);
 	}
 
 	private boolean cityCardFactionEqualsRequestedCardFaction(CityCard cityCard, Faction requestedCardFaction) {
-		return cityCard.getFaction().equals(requestedCardFaction);
+		return cityCard.getFactionCityCardBelongsTo().equals(requestedCardFaction);
 	}
 
 	private boolean inDebugMode() {

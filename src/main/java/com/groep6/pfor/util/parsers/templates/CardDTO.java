@@ -55,12 +55,12 @@ public class CardDTO {
     public static CardDTO fromModel(Card model) {
         if (model instanceof CityCard) {
             CityCard card = (CityCard) model;
-            return new CardDTO("city", card.getName(), card.getFaction().getFactionType().toString(), card.getCity().getName());
+            return new CardDTO("city", card.getEventName(), card.getFactionCityCardBelongsTo().getFactionType().toString(), card.getCorrespondingCity().getName());
         } else if (model instanceof EventCard) {
-            return new CardDTO("event", model.getName());
+            return new CardDTO("event", model.getEventName());
         } else if (model instanceof InvasionCard) {
             InvasionCard card = (InvasionCard) model;
-            return new CardDTO("invasion", card.getName(), card.getFaction().getFactionType().toString());
+            return new CardDTO("invasion", card.getEventName(), card.getFaction().getFactionType().toString());
         } else if (model instanceof RevoltCard) {
             return new CardDTO("revolt");
         }

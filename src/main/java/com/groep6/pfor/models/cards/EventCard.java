@@ -8,21 +8,21 @@ import com.groep6.pfor.models.cards.actions.IAction;
  */
 public class EventCard extends Card {
 
-    private final String name;
-    private final IAction event;
+    private final String eventName;
+    private final IAction correspondingEvent;
 
-    public EventCard(String name, IAction event) {
-        this.name = name;
-        this.event = event;
+    public EventCard(String eventName, IAction event) {
+        this.eventName = eventName;
+        this.correspondingEvent = event;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getEventName() {
+        return eventName;
     }
 
-    public IAction getEvent() {
-        return event;
+    public IAction getCorrespondingEvent() {
+        return correspondingEvent;
     }
 
 
@@ -30,6 +30,6 @@ public class EventCard extends Card {
      * Executes an IAction event
      */
     public void executeEvent() {
-        event.executeCard();
+        correspondingEvent.executeCard();
     }
 }

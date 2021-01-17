@@ -1,11 +1,9 @@
 package com.groep6.pfor.factories;
 
 import com.groep6.pfor.Config;
-import com.groep6.pfor.models.cards.InvasionCard;
 import com.groep6.pfor.models.cards.RoleCard;
 import com.groep6.pfor.models.cards.actions.roleActions.*;
 import javafx.scene.paint.Color;
-import sun.dc.pr.PRError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +75,7 @@ public class RoleCardFactory {
      * @return The rolecard with the specified name
      */
     private boolean roleCardNameEqualsRequestedRoleCardName(RoleCard roleCard, String requestedRoleCardName) {
-        return roleCard.getName().toUpperCase().equals(requestedRoleCardName.toUpperCase());
+        return roleCard.getEventName().toUpperCase().equals(requestedRoleCardName.toUpperCase());
     }
 
     public RoleCard getRoleCardByName(String requestedRoleCardName) {

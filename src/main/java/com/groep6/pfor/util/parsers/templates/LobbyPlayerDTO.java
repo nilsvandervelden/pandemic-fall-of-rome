@@ -59,6 +59,6 @@ public class LobbyPlayerDTO {
      * @return The DTO of the model
      */
     public static LobbyPlayerDTO fromModel(LobbyPlayer player) {
-        return new LobbyPlayerDTO(player.getUsername(), player.getRoleCard().getName(), player.isHost());
+        return new LobbyPlayerDTO(player.getUsername(), player.getRoleCard().getEventName(), player.isHost());
     }
 }

@@ -82,7 +82,7 @@ public class LobbyService {
      */
     public void updateRoleCard(LobbyPlayer player) {
         DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobby());
-        doc.update(FieldPath.of("players", player.getUsername(), "role"), player.getRoleCard().getName());
+        doc.update(FieldPath.of("players", player.getUsername(), "role"), player.getRoleCard().getEventName());
     }
 
     /**
