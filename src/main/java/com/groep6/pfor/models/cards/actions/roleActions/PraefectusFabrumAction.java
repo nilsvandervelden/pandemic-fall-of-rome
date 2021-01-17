@@ -20,15 +20,19 @@ public class PraefectusFabrumAction implements IAction {
 	 * 
 	 */
 	public void executeCard() {
-		Player player = game.getLocalPlayer();
-		City city = player.getCityPlayerIsCurrentlyLocatedIn();
+		Player localPlayer = game.getLocalPlayer();
+		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 
-		if (city.hasFort()) city.removeBarbariansFromCurrentCity(2);
+		if (cityHasFort(cityPlayerIsCurrentlyLocatedIn)) removeTwoBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}
 
-	public void executeSpecialAction() {
+	private boolean cityHasFort(City cityPlayerIsCurrentlyLocatedIn) {
+		return cityPlayerIsCurrentlyLocatedIn.hasFort();
+	}
 
-	};
+	private void removeTwoBarbarianFromCurrentCity(City cityPlayerIsCurrentlyLocatedIn) {
+		cityPlayerIsCurrentlyLocatedIn.removeBarbariansFromCurrentCity(2);
+	}
 
 	/**
 	 * Gets the name of the role.
