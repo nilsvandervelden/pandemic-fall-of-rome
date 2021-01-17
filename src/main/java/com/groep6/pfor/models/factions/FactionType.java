@@ -10,19 +10,19 @@ public enum FactionType {
     VISIGOTHS("Visigoten"),
     OSTROGOTHS("Ostrogoten");
 
-    private final String name;
+    private final String factionName;
 
     /**
-     * @param name
+     * @param factionName
      */
-    FactionType(String name) {
-        this.name = name;
+    FactionType(String factionName) {
+        this.factionName = factionName;
     }
 
     /**
      * @return Dutch name of faction
      */
-    public String getName() {
-        return name;
+    public String getFactionName() {
+        return factionName;
     }
 }

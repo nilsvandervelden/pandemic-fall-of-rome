@@ -33,7 +33,7 @@ public class UICityCard extends UICard {
         HBox factionBox = new HBox(5);
         factionBox.setAlignment(Pos.CENTER);
 
-        UIText factionText = new UIText(card.getFactionCityCardBelongsTo().getFactionType().getName());
+        UIText factionText = new UIText(card.getFactionCityCardBelongsTo().getFactionType().getFactionName());
 
         Circle factionColorDot = new Circle();
         factionColorDot.setFill(card.getFactionCityCardBelongsTo().getFactionColor());
