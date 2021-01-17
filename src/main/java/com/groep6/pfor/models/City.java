@@ -20,20 +20,20 @@ public class City extends Tile {
 	private List<Barbarian> barbariansInCity = new ArrayList<>();
 	private List<Legion> legionsInCity = new ArrayList<>();
 	private boolean hasFort = false;
-	private boolean isHarbour;
+	private boolean hasHarbour;
 	private String cityName;
 
 	/**
 	 * Initializes a new City with the given components.
      * @param cityName The name of a specific city
-     * @param isHarbour Whether or not a city has a harbour
+     * @param hasHarbour Whether or not a city has a harbour
      * @param positionOfCity The Vector2f (positionOfCity) of a specific city
      * @param factionsAllowedInCity What factionsAllowedInCity are allowed in a specific city
      */
-	public City(String cityName, boolean isHarbour, Vector2f positionOfCity, Faction[] factionsAllowedInCity) {
+	public City(String cityName, boolean hasHarbour, Vector2f positionOfCity, Faction[] factionsAllowedInCity) {
 		super(positionOfCity, factionsAllowedInCity);
 		this.cityName = cityName;
-		this.isHarbour = isHarbour;
+		this.hasHarbour = hasHarbour;
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class City extends Tile {
      */
 	
 	public boolean hasHarbour() {
-		return isHarbour;
+		return hasHarbour;
 	}
 
 	/**
@@ -309,17 +309,17 @@ public class City extends Tile {
 
 	@Override
 	public String toString() {
-		String s = String.format("City: %s, harbour: %b, position: %s, factions: [", cityName, isHarbour, position);
-		for (Faction f : factions) {
-			s += f.getFactionType().name() + ", ";
+		String formattedString = String.format("City: %formattedString, harbour: %b, position: %formattedString, factions: [", cityName, hasHarbour, position);
+		for (Faction faction : factions) {
+			formattedString += faction.getFactionType().name() + ", ";
 		}
-		if (factions.length > 0) s = s.substring(0, s.length()-2);
-		s += "], neighbours: [";
+		if (factions.length > 0) formattedString = formattedString.substring(0, formattedString.length()-2);
+		formattedString += "], neighbours: [";
 		for (City neighbour : neighbouringCities) {
-			s += neighbour.getCityName() + ", ";
+			formattedString += neighbour.getCityName() + ", ";
 		}
-		if (neighbouringCities.size() > 0) s = s.substring(0, s.length()-2);
-		return s + "]";
+		if (neighbouringCities.size() > 0) formattedString = formattedString.substring(0, formattedString.length()-2);
+		return formattedString + "]";
 	}
 	
 }
