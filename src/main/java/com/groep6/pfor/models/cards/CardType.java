@@ -8,14 +8,14 @@ public enum CardType {
     REVOLT("Opstandskaart"),
     INVASION("Invasiekaart");
 
-    private final String name;
+    private final String cartTypeName;
 
-    CardType(String name) {
-        this.name = name;
+    CardType(String cartTypeName) {
+        this.cartTypeName = cartTypeName;
     }
 
     @Override
     public String toString() {
-        return name;
+        return cartTypeName;
     }
 }
