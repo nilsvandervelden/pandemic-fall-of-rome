@@ -10,17 +10,17 @@ import com.groep6.pfor.util.Vector3f;
 
 public class Color {
 	private final Vector3f rgb;
-	private final String name;
+	private final String colorName;
 
 	/**
 	 * Initializes a new Color with the given components.
 	 * @param rgb The Vector3f of a specific color
-	 * @param name The name of the specific color
+	 * @param ColorName The name of the specific color
 	 */
 	
-	public Color(Vector3f rgb, String name) {
+	public Color(Vector3f rgb, String ColorName) {
 		this.rgb = rgb;
-		this.name = name;
+		this.colorName = ColorName;
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class Color {
 	 * @returns the name of a specific color
 	 */
 	
-	public String getName() {
-		return name;
+	public String getColorName() {
+		return colorName;
 	}
 }
