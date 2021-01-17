@@ -6,6 +6,7 @@ import com.groep6.pfor.models.factions.Faction;
 import com.groep6.pfor.util.Vector2f;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,12 +17,51 @@ import java.util.Map;
 public class Board {
 	private Map<String, Tile> tiles = new HashMap<>();
 	private Map<Faction, Base<Barbarian>> barbarianBases = new HashMap<>();
-	private Base<Legion> legionBase = new Base<Legion>(new Vector2f(0, 0), new Faction[] {});
+	private Base<Legion> legionBase = new Base<>(new Vector2f(0, 0), new Faction[] {});
 
 	public Board() {
-		for (City city : CityFactory.getInstance().getAllCities()) tiles.put(city.getName(), city);
-		for (Faction faction : FactionFactory.getInstance().getFactions())
-			barbarianBases.put(faction, new Base(new Vector2f(0, 0), new Faction[]{faction}));
+		initiateBoard();
+	}
+
+	private FactionFactory getFactionFactory() {
+		return FactionFactory.getInstance();
+	}
+
+	private List<Faction> getAllFactions() {
+		FactionFactory factionFactory = getFactionFactory();
+		return factionFactory.getFactions();
+	}
+
+	private Base createBarbarianBase(Faction faction) {
+		return new Base(new Vector2f(0, 0), new Faction[]{faction});
+	}
+
+	private void createBarbarianBases() {
+		List<Faction> factions = getAllFactions();
+		for (Faction faction : factions)
+			barbarianBases.put(faction, createBarbarianBase(faction));
+	}
+
+	private CityFactory getCityFactory() {
+		return CityFactory.getInstance();
+	}
+
+	private City[] getAllCitiesFromCityFactory() {
+		CityFactory cityFactory = getCityFactory();
+		return cityFactory.getAllCities();
+	}
+
+	private void addAllCitiesToBoard() {
+		City[] cities = getAllCitiesFromCityFactory();
+
+		for (City city : cities) {
+			tiles.put(city.getName(), city);
+		}
+	}
+
+	private void initiateBoard() {
+		addAllCitiesToBoard();
+		createBarbarianBases();
 	}
 
 	/**
