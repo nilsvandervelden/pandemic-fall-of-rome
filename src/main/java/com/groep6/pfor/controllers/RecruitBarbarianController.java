@@ -62,6 +62,8 @@ public class RecruitBarbarianController extends Controller {
             if (isNotFriendlyFaction(faction)) return;
             if (noBarbarianInCurrentCity()) return;
 
+            System.out.println("test");
+
             removeAlliedBarbariansFromCurrentCity(faction, amount);
             addLegionsToCurrentCity(amount);
 

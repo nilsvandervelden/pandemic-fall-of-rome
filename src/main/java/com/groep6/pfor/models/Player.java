@@ -205,7 +205,7 @@ public class Player extends Observable implements IObserver {
                     cardCount++;
                 }
             }
-            if (cardCount >= faction.getCardCountForAlliance()) formableAlliances.add(faction);
+            if (cardCount >= faction.getRequiredAmountOfCardsToFormAAlliance()) formableAlliances.add(faction);
         }
         return formableAlliances;
     }

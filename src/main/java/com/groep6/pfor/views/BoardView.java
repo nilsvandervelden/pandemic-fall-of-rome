@@ -316,9 +316,9 @@ public class BoardView extends View implements IObserver {
         List<Player> players = Game.getInstance().getAllPlayers();
 
         for (Faction faction : boardController.getFriendlyFactions()) {
-            Vector2f pos = new Vector2f(faction.getPosition()).mul(CANVAS_SIZE);
+            Vector2f pos = new Vector2f(faction.getFactionPosition()).mul(CANVAS_SIZE);
             float r = CIRCLE_RADIUS * CANVAS_SIZE.y;
-            gc.setFill(faction.getColor());
+            gc.setFill(faction.getFactionColor());
             gc.fillOval(pos.x - r, pos.y - r, r / 1.35, r / 1.35);
         }
 
@@ -377,7 +377,7 @@ public class BoardView extends View implements IObserver {
             	// Render the barbarians
             	for (int i = 0; i < city.getAmountOfBarbariansLocatedInCurrentCity(); i++) {
             	    Barbarian barbarian = city.getBarbarians().get(i);
-            	    gc.setFill(FactionFactory.getInstance().getFaction(barbarian.getFactionType()).getColor());
+            	    gc.setFill(FactionFactory.getInstance().getFaction(barbarian.getFactionType()).getFactionColor());
             	    Vector2f pos = barbpos.get(i);
             	    gc.fillRect(pos.x - BARB_SIZE, pos.y - BARB_SIZE, BARB_SIZE * 2, BARB_SIZE * 2);
             	    gc.strokeRect(pos.x - BARB_SIZE, pos.y - BARB_SIZE, BARB_SIZE * 2, BARB_SIZE * 2);

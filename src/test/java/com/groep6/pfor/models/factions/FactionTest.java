@@ -33,23 +33,23 @@ class FactionTest {
 
     @Test
     void getColor() {
-        assertEquals(Color.ORANGE, faction.getColor());
+        assertEquals(Color.ORANGE, faction.getFactionColor());
     }
 
     @Test
     void getCardCountForAlliance() {
-        assertEquals(3, faction.getCardCountForAlliance());
+        assertEquals(3, faction.getRequiredAmountOfCardsToFormAAlliance());
     }
 
     @Test
     void ally() {
         Game game = Game.getInstance();
-        faction.makeAlly();
+        faction.allyEnemyFaction();
         assertEquals(faction, game.getFriendlyFactions().get(0));
     }
 
     @Test
     void getPosition() {
-        assertEquals(new Vector2f(10, 20), faction.getPosition());
+        assertEquals(new Vector2f(10, 20), faction.getFactionPosition());
     }
 }

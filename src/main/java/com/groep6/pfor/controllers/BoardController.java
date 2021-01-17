@@ -302,7 +302,7 @@ public class BoardController extends Controller {
     }
 
     private void changeFactionStatusToAllied(Faction factionToBecomeAllied) {
-        factionToBecomeAllied.makeAlly();
+        factionToBecomeAllied.allyEnemyFaction();
     }
 
     private void removeCardsFromAlliedFactions(Player localPlayer, Faction factionToBecomeAllied) {
