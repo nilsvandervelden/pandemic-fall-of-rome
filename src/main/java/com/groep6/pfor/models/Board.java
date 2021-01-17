@@ -76,17 +76,47 @@ public class Board {
 		this.barbarianBases = barbarianBases;
 	}
 
-	/**
-	 * Update this board with data from a firebase board
-	 * @param board A board containing data from firebase
-	 */
-	public void updateBoard(Board board) {
-		this.legionBase.updateBarbarianBase(board.getLegionBase());
-		for (Base<Barbarian> base : barbarianBases.values()) base.updateBarbarianBase(board.getBarbarianBase(base.getFactionsAllowedInBase()));
+	private void updateCity(City city, Board board) {
+		city.updateCity(getCityByName(city, board));
+	}
+
+	private City getCityByName(City city, Board board) {
+		return (City) board.getTileByName(getCityName(city));
+	}
+
+	private String  getCityName(City city) {
+		return city.getName();
+	}
+
+	private void updateLegionBase(Board fireBaseBoard) {
+		this.legionBase.updateBase(fireBaseBoard.getLegionBase());
+	}
+
+	private Faction getFactionsAllowedInBase(Base <Barbarian> barbarianBase) {
+		return barbarianBase.getFactionAllowedInBase();
+	}
+
+
+	private void updatedBarbarianBases(Board fireBaseBoard) {
+		for (Base <Barbarian> barbarianBase : barbarianBases.values()) {
+			barbarianBase.updateBase(fireBaseBoard.getBarbarianBase(getFactionsAllowedInBase(barbarianBase)));
+		}
+	}
+
+	private void updateCities(Board fireBaseBoard) {
 		for (Tile tile : this.tiles.values()) {
 			City city = (City) tile;
-			city.updateCity((City) board.getTileByName(city.getName()));
+			updateCity(city, fireBaseBoard);
 		}
+	}
+	/**
+	 * Update this fireBaseBoard with data from a firebase fireBaseBoard
+	 * @param fireBaseBoard A fireBaseBoard containing data from firebase
+	 */
+	public void updateBoard(Board fireBaseBoard) {
+		updateLegionBase(fireBaseBoard);
+		updatedBarbarianBases(fireBaseBoard);
+		updateCities(fireBaseBoard);
 	}
 
 	public Tile[] getTiles() {

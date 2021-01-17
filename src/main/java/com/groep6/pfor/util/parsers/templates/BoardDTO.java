@@ -54,7 +54,7 @@ public class BoardDTO {
         }
         Map<String, Integer> barbarianBases = new HashMap<>();
         for (Base<Barbarian> base : board.getBarbarianBases().values())
-            barbarianBases.put(base.getFactionsAllowedInBase().getFactionType().toString(), base.getPieceCount());
+            barbarianBases.put(base.getFactionAllowedInBase().getFactionType().toString(), base.getPieceCount());
 
         return new BoardDTO(cities, board.getLegionBase().getPieceCount(), barbarianBases);
     }

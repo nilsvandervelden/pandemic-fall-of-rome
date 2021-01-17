@@ -41,18 +41,18 @@ public class Base<boardPiece extends Piece> extends Tile {
 	}
 
 	/**
-	 * Overwrite the pieces in this barbarianBase with those in a Firebase instance
-	 * @param barbarianBase The firebase instance of the barbarianBase
+	 * Overwrite the pieces in this base with those in a Firebase instance
+	 * @param base The firebase instance of the base
 	 */
-	public void updateBarbarianBase(Base barbarianBase) {
-		this.boardPieces = barbarianBase.boardPieces;
+	public void updateBase(Base base) {
+		this.boardPieces = base.boardPieces;
 	}
 	
     /**
      * @returns what faction has access to a specific base
      */
 	
-	public Faction getFactionsAllowedInBase() {
+	public Faction getFactionAllowedInBase() {
 		return factions[0];
 	}
 	
