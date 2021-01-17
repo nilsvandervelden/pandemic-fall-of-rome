@@ -19,13 +19,13 @@ public class VestalinAction implements IAction {
 	 * 
 	 */
 	public void executeCard() {
-		Player player = game.getLocalPlayer();
-		City city = player.getCityPlayerIsCurrentlyLocatedIn();
-		city.removeLegions(1);
+		Player localPlayer = game.getLocalPlayer();
+		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
+		removeOneLegionFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}
 
-	public void executeSpecialAction() {
-
+	public void removeOneLegionFromCurrentCity(City cityPlayerIsCurrentlyLocatedIn) {
+		cityPlayerIsCurrentlyLocatedIn.removeLegions(1);
 	};
 
 	/**
