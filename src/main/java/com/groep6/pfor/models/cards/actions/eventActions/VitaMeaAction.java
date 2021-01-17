@@ -17,21 +17,28 @@ public class VitaMeaAction implements IAction {
 	 */
 	public void executeCard() {
 		Game currentGame = Game.getInstance();
-		Player player = currentGame.getLocalPlayer();
-		City city = player.getCityPlayerIsCurrentlyLocatedIn();
-		city.removeBarbariansFromCurrentCity(1);
-		city.addLegionsToCurrentCity(1);
+		Player localPlayer = currentGame.getLocalPlayer();
+		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
+		executeSpecialAction(cityPlayerIsCurrentlyLocatedIn);
 		decreaseAmountOfActionsRemaining(currentGame);
 	}
 
-	public void executeSpecialAction() {
+	private void removeOneBarbarianFromCurrentCity(City cityPlayerIsCurrentlyLocatedIn) {
+		cityPlayerIsCurrentlyLocatedIn.removeBarbariansFromCurrentCity(1);
+	}
 
-	};
+	private void addLegionToCurrentCity(City cityPlayerIsCurrentlyLocatedIn) {
+		cityPlayerIsCurrentlyLocatedIn.addLegionsToCurrentCity(1);
+	}
+
+	public void executeSpecialAction(City cityPlayerIsCurrentlyLocatedIn) {
+		removeOneBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
+		addLegionToCurrentCity(cityPlayerIsCurrentlyLocatedIn);
+	}
 
 	private void decreaseAmountOfActionsRemaining(Game currentGame) {
 		currentGame.getPlayerFromCurrentTurn().decreaseAmountOfActionsRemaining();
 	}
-
 
 	/**
 	 * Gets the name of the event.
