@@ -27,7 +27,7 @@ public class UICityCard extends UICard {
         centerBox.setAlignment(Pos.CENTER);
 
 
-        UIText nameText = new UIText(card.getEventName());
+        UIText nameText = new UIText(card.getCardName());
         nameText.setWeight(FontWeight.BOLD).setSize(18).setColor(Color.web("#D5544F"));
 
         HBox factionBox = new HBox(5);

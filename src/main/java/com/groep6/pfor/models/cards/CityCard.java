@@ -23,7 +23,7 @@ public class CityCard extends Card {
     }
 
     @Override
-    public String getEventName() {
+    public String getCardName() {
         return correspondingCity.getName();
     }
 

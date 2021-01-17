@@ -75,7 +75,7 @@ public class RoleCardFactory {
      * @return The rolecard with the specified name
      */
     private boolean roleCardNameEqualsRequestedRoleCardName(RoleCard roleCard, String requestedRoleCardName) {
-        return roleCard.getEventName().toUpperCase().equals(requestedRoleCardName.toUpperCase());
+        return roleCard.getCardName().toUpperCase().equals(requestedRoleCardName.toUpperCase());
     }
 
     public RoleCard getRoleCardByName(String requestedRoleCardName) {

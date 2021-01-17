@@ -20,7 +20,7 @@ public class UIEventCard extends UICard {
     }
 
     private void createView() {
-        UIText nameText = new UIText(card.getEventName());
+        UIText nameText = new UIText(card.getCardName());
         nameText.setWeight(FontWeight.BOLD).setSize(18).setColor(Color.web("#D5544F"));
 
         UIText descriptionText = new UIText(card.getCorrespondingEvent().getDescription());

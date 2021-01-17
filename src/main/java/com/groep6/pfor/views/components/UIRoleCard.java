@@ -21,10 +21,10 @@ public class UIRoleCard extends UICard {
     }
 
     private void createView() {
-        UIText nameText = new UIText(card.getEventName());
+        UIText nameText = new UIText(card.getCardName());
         nameText.setWeight(FontWeight.BOLD).setSize(18).setColor(Color.web("#D5544F"));
 
-        UIText descriptionText = new UIText(card.getAbility().getDescription());
+        UIText descriptionText = new UIText(card.getRoleCardAbility().getDescription());
         descriptionText.setAlignment(TextAlignment.CENTER);
         descriptionText.setWrappingWidth(super.getMaxWidth() - super.getPadding().getRight() * 2);
 

@@ -8,37 +8,37 @@ import javafx.scene.paint.Color;
  */
 public class RoleCard extends Card {
 
-    private final String name;
-    private final Color color;
-    private final IAction ability;
+    private final String roleCardName;
+    private final Color roleCardColor;
+    private final IAction roleCardAbility;
 
     /**
-     * @param name
-     * @param ability
+     * @param roleCardName
+     * @param roleCardAbility
      */
-    public RoleCard(String name, Color color, IAction ability) {
-        this.name = name;
-        this.color = color;
-        this.ability = ability;
+    public RoleCard(String roleCardName, Color roleCardColor, IAction roleCardAbility) {
+        this.roleCardName = roleCardName;
+        this.roleCardColor = roleCardColor;
+        this.roleCardAbility = roleCardAbility;
     }
 
     /**
      * Executes an IAction event
      */
-    public void executeAbility() {
-        ability.executeCard();
+    public void executeRoleCardAbility() {
+        roleCardAbility.executeCard();
     }
 
     @Override
-    public String getEventName() {
-        return name;
+    public String getCardName() {
+        return roleCardName;
     }
 
-    public Color getColor() {
-        return color;
+    public Color getRoleCardColor() {
+        return roleCardColor;
     }
 
-    public IAction getAbility() {
-        return ability;
+    public IAction getRoleCardAbility() {
+        return roleCardAbility;
     }
 }

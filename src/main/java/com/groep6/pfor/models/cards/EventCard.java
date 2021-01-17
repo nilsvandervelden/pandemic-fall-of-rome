@@ -17,7 +17,7 @@ public class EventCard extends Card {
     }
 
     @Override
-    public String getEventName() {
+    public String getCardName() {
         return eventName;
     }
 

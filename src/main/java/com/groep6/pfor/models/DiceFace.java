@@ -69,7 +69,7 @@ public enum DiceFace {
 		public void execute(City city) {
 			Game game = Game.getInstance();
 			Player player =  game.getPlayerFromCurrentTurn();
-			player.getRoleCard().executeAbility();
+			player.getRoleCard().executeRoleCardAbility();
 		}
 		@Override
 		public int getBarbarianCount() {

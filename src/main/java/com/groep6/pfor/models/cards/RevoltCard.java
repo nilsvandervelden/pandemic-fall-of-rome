@@ -8,37 +8,37 @@ import com.groep6.pfor.models.factions.FactionType;
  * @author Bastiaan Jansen
  */
 public class RevoltCard extends Card {
-    private final String name;
-    private final City location;
-    private final FactionType factionType;
+    private final String revoltCardName;
+    private final City revoltingCity;
+    private final FactionType revoltingFactionType;
 
     /**
-     * @param name
-     * @param location
-     * @param factionType
+     * @param revoltCardName
+     * @param revoltingCity
+     * @param revoltingFactionType
      */
-    public RevoltCard(String name, City location, FactionType factionType) {
-        this.name = name;
-        this.location = location;
-        this.factionType = factionType;
+    public RevoltCard(String revoltCardName, City revoltingCity, FactionType revoltingFactionType) {
+        this.revoltCardName = revoltCardName;
+        this.revoltingCity = revoltingCity;
+        this.revoltingFactionType = revoltingFactionType;
     }
 
     @Override
-    public String getEventName() {
-        return name;
+    public String getCardName() {
+        return revoltCardName;
     }
 
     /**
      * @return City
      */
-    public City getLocation() {
-        return location;
+    public City getRevoltingCity() {
+        return revoltingCity;
     }
 
     /**
      * @return Faction
      */
-    public FactionType getFactionType() {
-        return factionType;
+    public FactionType getRevoltingFactionType() {
+        return revoltingFactionType;
     }
 }

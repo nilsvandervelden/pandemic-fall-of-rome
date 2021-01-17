@@ -27,7 +27,7 @@ public class InvasionCard extends Card {
     }
 
     @Override
-    public String getEventName() {
+    public String getCardName() {
         return invasionCardName;
     }
 

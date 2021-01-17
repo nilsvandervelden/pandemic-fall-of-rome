@@ -48,14 +48,14 @@ public class UILobbyPlayerInfo extends VBox {
         UIText roleLabelText = new UIText("Karakter:");
         roleLabelText.setFill(Color.WHITE);
 
-        UIText roleValueText = new UIText(roleCard.getEventName());
+        UIText roleValueText = new UIText(roleCard.getCardName());
         roleValueText.setFill(Color.WHITE);
 
         UIText colorLabelText = new UIText("Kleur:");
         colorLabelText.setFill(Color.WHITE);
 
         Circle colorValueDot = new Circle();
-        colorValueDot.setFill(roleCard.getColor());
+        colorValueDot.setFill(roleCard.getRoleCardColor());
         colorValueDot.setRadius(12);
 
         gridPane.add(playerLabelText, 0, 0);

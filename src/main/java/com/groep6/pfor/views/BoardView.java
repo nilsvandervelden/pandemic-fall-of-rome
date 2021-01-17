@@ -294,7 +294,7 @@ public class BoardView extends View implements IObserver {
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
 
-            UIPlayerInfo uiPlayerInfo = new UIPlayerInfo(player.getRoleCard().getColor(), i + 1, player.getUsername(), player.getRoleCard().getEventName(), player.isCurrentTurn(), player.getActionsRemaining());
+            UIPlayerInfo uiPlayerInfo = new UIPlayerInfo(player.getRoleCard().getRoleCardColor(), i + 1, player.getUsername(), player.getRoleCard().getCardName(), player.isCurrentTurn(), player.getActionsRemaining());
             playerList.getChildren().add(uiPlayerInfo);
         }
 
@@ -332,7 +332,7 @@ public class BoardView extends View implements IObserver {
                 // Draw players
             	for (Player player: players) {
             		if (player.getCityPlayerIsCurrentlyLocatedIn().equals(city)) {
-	            		gc.setFill(player.getRoleCard().getColor());
+	            		gc.setFill(player.getRoleCard().getRoleCardColor());
 	                	gc.strokeOval(cityPos.x - r, cityPos.y - r, r / 1.35, r / 1.35);
 	                	gc.fillOval(cityPos.x - r, cityPos.y - r, r / 1.35, r / 1.35);
 	                	gc.setFill(Color.TRANSPARENT);

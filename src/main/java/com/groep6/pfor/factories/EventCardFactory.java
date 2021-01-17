@@ -51,7 +51,7 @@ public class EventCardFactory {
 	}
 
 	private boolean eventCardNameEqualsRequestedEventCardName(Card card, String requestedEventCardName) {
-		return card.getEventName().equals(requestedEventCardName);
+		return card.getCardName().equals(requestedEventCardName);
 	}
 
 	public EventCard getCardByName(String requestedEventCardName) {
