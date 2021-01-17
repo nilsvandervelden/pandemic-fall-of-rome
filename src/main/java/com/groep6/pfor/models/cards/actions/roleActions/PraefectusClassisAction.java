@@ -19,15 +19,19 @@ public class PraefectusClassisAction implements IAction {
 	 * barbarian from the city.
 	 */
 	public void executeCard() {
-		Player player = game.getLocalPlayer();
-		City city = player.getCityPlayerIsCurrentlyLocatedIn();
+		Player localPlayer = game.getLocalPlayer();
+		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 
-		if (city.hasHarbour()) city.removeBarbariansFromCurrentCity(1);
+		if (cityHasHarbour(cityPlayerIsCurrentlyLocatedIn)) removeOneBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}
 
-	public void executeSpecialAction() {
+	private boolean cityHasHarbour(City cityPlayerIsCurrentlyLocatedIn) {
+		return cityPlayerIsCurrentlyLocatedIn.hasHarbour();
+	}
 
-	};
+	private void removeOneBarbarianFromCurrentCity(City cityPlayerIsCurrentlyLocatedIn) {
+		cityPlayerIsCurrentlyLocatedIn.removeBarbariansFromCurrentCity(1);
+	}
 
 	/**
 	 * Gets the name of the role.
