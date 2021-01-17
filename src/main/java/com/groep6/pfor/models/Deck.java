@@ -31,11 +31,11 @@ public class Deck extends Observable {
     public void addCardsToDeck(Card... cards) {
         this.cards.addAll(Arrays.asList(cards));
     }
-    
+
     public List<Card> getCards() {
         return cards;
     }
-    
+
     public void removeCard(Card cardToRemove) {
         cards.remove(cardToRemove);
         notifyObservers();
@@ -57,7 +57,7 @@ public class Deck extends Observable {
     }
 
     private boolean deckContainsCards() {
-        return cards.size() <= 0;
+        return cards.size() > 0;
     }
 
     /**
@@ -92,3 +92,4 @@ public class Deck extends Observable {
         return cards.size();
     }
 }
+
