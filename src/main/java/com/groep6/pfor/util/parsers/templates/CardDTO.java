@@ -42,7 +42,7 @@ public class CardDTO {
     public Card toModel() {
         switch (type) {
             case "city":
-                return CityCardFactory.getCityCardInstance().getCardByName(name, FactionFactory.getInstance().getFaction(FactionType.valueOf(faction)));
+                return CityCardFactory.getCityCardFactoryInstance().getCardByName(name, FactionFactory.getInstance().getFaction(FactionType.valueOf(faction)));
             case "event":
                 return EventCardFactory.getInstance().getCardByName(name);
             case "invasion":

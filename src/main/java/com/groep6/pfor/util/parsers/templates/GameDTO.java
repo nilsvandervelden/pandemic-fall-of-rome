@@ -41,15 +41,15 @@ public class GameDTO {
     }
 
     public static GameDTO fromModel(Game game) {
-        BoardDTO board = BoardDTO.fromModel(game.getBoard());
+        BoardDTO board = BoardDTO.fromModel(game.getGameBoard());
         Map<String, PlayerDTO> players = new HashMap<>();
         for (Player player : game.getAllPlayers()) players.put(player.getUsername(), PlayerDTO.fromModel(player));
         List<String> factions = new ArrayList<>();
         for (Faction faction : game.getFriendlyFactions()) factions.add(faction.getFactionType().toString());
 
         return new GameDTO(board, players, factions, game.getDecayLevel(), game.getInvasionLevel(),
-                createList(game.getTradeCardsDeck()), createList(game.getInvasionCardsDeck()), createList(game.getPlayerCardsDeck()),
-                createList(game.getInvasionCardsDiscardPile()), createList(game.getCityCardsDiscardPile()), game.isLost(), game.isWon());
+                createList(game.getTradeCardDeck()), createList(game.getInvasionCardDeck()), createList(game.getPlayerCardDeck()),
+                createList(game.getInvasionCardDiscardPile()), createList(game.getCityCardDiscardPile()), game.isGameLost(), game.isGameWon());
     }
 
     public GameDTO() {}

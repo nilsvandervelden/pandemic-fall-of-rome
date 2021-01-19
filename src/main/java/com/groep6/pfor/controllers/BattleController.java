@@ -14,7 +14,7 @@ import com.groep6.pfor.views.BattleView;
 
 public class BattleController extends Controller {
 
-	private final Game game = Game.getInstance();
+	private final Game game = Game.getGameInstance();
 
 	/**
 	 * Constructor for BattleController. First performs a battle, then places the result in a new BattleView.

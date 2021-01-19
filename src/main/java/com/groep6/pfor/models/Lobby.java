@@ -146,7 +146,7 @@ public class Lobby extends Observable implements IObserver {
     }
 
     public Game start() {
-        return Game.getInstance();
+        return Game.getGameInstance();
     }
 
     public LobbyPlayer getLocalPlayer() {

@@ -12,7 +12,7 @@ import com.groep6.pfor.views.RecruitLegionView;
 
 public class RecruitLegionController extends Controller {
 	
-	private final Game currentGame = Game.getInstance();
+	private final Game currentGame = Game.getGameInstance();
 	private final Player playerFromCurrentTurn;
 	private final City cityPlayerIsCurrentlyLocatedIn;
 

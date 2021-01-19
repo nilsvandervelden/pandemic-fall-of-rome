@@ -17,7 +17,7 @@ public class AudentesFortunaAction implements IAction {
 	 * Allows player to draw 2 extra cards during drawPlayerCards phase.
 	 */
 	public void executeCard() {
-		Game currentGame = Game.getInstance();
+		Game currentGame = Game.getGameInstance();
 		Player playerFromCurrentTurn = currentGame.getPlayerFromCurrentTurn();
 
 		addTwoCardsToPlayerHandDeck(playerFromCurrentTurn, currentGame);
@@ -39,7 +39,7 @@ public class AudentesFortunaAction implements IAction {
 	}
 	
 	private Deck getPlayerCardDeck(Game currentGame) {
-		return currentGame.getPlayerCardsDeck();
+		return currentGame.getPlayerCardDeck();
 	}
 
 	/**

@@ -22,7 +22,7 @@ public class HandTest {
 
     @BeforeEach
     void setUp() {
-        CityCardFactory cityCardFactory = CityCardFactory.getCityCardInstance();
+        CityCardFactory cityCardFactory = CityCardFactory.getCityCardFactoryInstance();
         List<Card> cards = cityCardFactory.getCityCardDeck().getCards();
         this.card1 = cards.get(0);
         this.card2 = cards.get(1);

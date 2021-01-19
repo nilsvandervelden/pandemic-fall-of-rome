@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TradeController extends Controller {
 	
-	private final Game currentGame = Game.getInstance();
+	private final Game currentGame = Game.getGameInstance();
     private Card currentlySelectedCard;
 
     private void showTradeView() {
@@ -23,11 +23,11 @@ public class TradeController extends Controller {
     }
     
     public List<Card> getTradeCards() {
-        return currentGame.getTradeCardsDeck().getCards();
+        return currentGame.getTradeCardDeck().getCards();
     }
 
     private void registerTradeDeckObserver(IObserver view) {
-        currentGame.getTradeCardsDeck().registerObserver(view);
+        currentGame.getTradeCardDeck().registerObserver(view);
     }
 
     private void registerPlayerDeckObserver(IObserver view) {
@@ -54,7 +54,7 @@ public class TradeController extends Controller {
     }
 
     private void removeCurrentlySelectedCardFromTradeDeck() {
-        currentGame.getTradeCardsDeck().removeCard(currentlySelectedCard);
+        currentGame.getTradeCardDeck().removeCard(currentlySelectedCard);
     }
 
     private void addCurrentlySelectedCardToPlayerHandDeck() {

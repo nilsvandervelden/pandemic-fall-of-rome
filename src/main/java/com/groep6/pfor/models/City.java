@@ -157,7 +157,7 @@ public class City extends Tile {
 	}
 
 	private Game getGame() {
-		return Game.getInstance();
+		return Game.getGameInstance();
 	}
 
 	private void increaseDecayLevel(Game currentGame) {

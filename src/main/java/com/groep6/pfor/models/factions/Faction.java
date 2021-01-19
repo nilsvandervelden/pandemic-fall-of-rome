@@ -32,7 +32,7 @@ public class Faction {
     }
 
     private Game getCurrentGame() {
-        return Game.getInstance();
+        return Game.getGameInstance();
     }
 
     public void allyEnemyFaction() {

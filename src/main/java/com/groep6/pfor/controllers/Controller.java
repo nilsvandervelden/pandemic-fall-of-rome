@@ -9,7 +9,7 @@ import com.groep6.pfor.util.IObserver;
 public abstract class Controller {
 
     protected ViewController viewController;
-    protected Game game = Game.getInstance();
+    protected Game game = Game.getGameInstance();
 
     public Controller() {
         viewController = ViewController.getInstance();

@@ -7,9 +7,11 @@ import com.groep6.pfor.factories.EventCardFactory;
 import com.groep6.pfor.factories.InvasionCardFactory;
 import com.groep6.pfor.models.cards.Card;
 import com.groep6.pfor.models.factions.Faction;
+import com.groep6.pfor.models.factions.FactionType;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.util.Observable;
 
+import javax.xml.ws.FaultAction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,25 +21,25 @@ public class Game extends Observable implements IObserver {
     private static final Game SINGLE_INSTANCE = new Game();
     private static GameState GAME_STATE = GameState.MENU;
 
-    private Board board = new Board();
-    private List<Player> players = new ArrayList<>();
+    private Board gameBoard = new Board();
+    private List<Player> playersInGame = new ArrayList<>();
     private final List<City> invadedCities = new ArrayList<>();
     private int decayLevel = 0;
     private final int MAX_DECAY_LEVEL = 9;
     private int invasionLevel = 0;
     private final int MAX_INVASION_LEVEL = 7;
-    private Deck tradeCardsDeck = new Deck();
-    private Deck invasionCardsDeck = new Deck();
-    private Deck playerCardsDeck;
-    private Deck invasionCardsDiscardPile = new Deck();
-    private Deck cityCardsDiscardPile = new Deck();
+    private Deck tradeCardDeck = new Deck();
+    private Deck invasionCardDeck;
+    private Deck playerCardDeck;
+    private Deck invasionCardDiscardPile = new Deck();
+    private Deck cityCardDiscardPile = new Deck();
     private final Dice[] die = new Dice[3];
     private List<Faction> friendlyFactions = new ArrayList<>();
-    private String code;
-    private boolean lost = false;
-    private boolean won = false;
+    private String gameCode;
+    private boolean gameLost = false;
+    private boolean gameWon = false;
 
-    public static Game getInstance() {
+    public static Game getGameInstance() {
         return SINGLE_INSTANCE;
     }
     
@@ -49,55 +51,164 @@ public class Game extends Observable implements IObserver {
     	GAME_STATE = state;
     }
 
-    private Game() {
-        Random rand = new Random();
-        playerCardsDeck = new Deck(CityCardFactory.getCityCardInstance().getCityCardDeck().getCards().toArray(new Card[0]));
-        playerCardsDeck.mergeDecks(EventCardFactory.getInstance().getEventCardDeck());
-        playerCardsDeck.shuffleDeck();
+    private Deck createPlayerCardDeck() {
+        return new Deck(parseCityCardListToArray());
+    }
 
-        invasionCardsDeck = new Deck(InvasionCardFactory.getInstance().getAllInvasionCards());
-        invasionCardsDeck.shuffleDeck();
+    private Card[] parseCityCardListToArray() {
+        return getCardsFromCityCardDeck().toArray(new Card[0]);
+    }
+
+    private List<Card> getCardsFromCityCardDeck() {
+        return getCityCardDeck().getCards();
+    }
+
+    private Deck getCityCardDeck() {
+        return getCityCardFactory().getCityCardDeck();
+    }
+
+    private CityCardFactory getCityCardFactory() {
+        return CityCardFactory.getCityCardFactoryInstance();
+    }
+
+    private EventCardFactory getEventCardFactory() {
+        return EventCardFactory.getInstance();
+    }
+
+    private Deck getEventCardDeck() {
+        return getEventCardFactory().getEventCardDeck();
+    }
+
+    private void mergePlayerCardAndEventCardDecks(Deck playerCardDeck) {
+        playerCardDeck.mergeDecks(getEventCardDeck());
+    }
+
+    private void shuffleDeck(Deck deckToShuffle) {
+        deckToShuffle.shuffleDeck();
+    }
+
+    private InvasionCardFactory getInvasionCardFactory() {
+        return InvasionCardFactory.getInstance();
+    }
+
+    private Card[] getInvasionCards() {
+        return getInvasionCardFactory().getAllInvasionCards();
+    }
+
+    private Deck createInvasionCardDeck() {
+        return new Deck(getInvasionCards());
+    }
+
+    private Random createRandomNumberGenerator() {
+        return new Random();
+    }
+
+    private CityFactory getCityFactory() {
+        return CityFactory.getInstance();
+    }
+
+    private City[] getCities() {
+        return getCityFactory().getAllCities();
+    }
+
+    private City determineWhatCityToInvade(City[] cities, Random randomAmountOfBarbarians) {
+       return cities[randomAmountOfBarbarians.nextInt(cities.length)];
+    }
+
+    private boolean cityHasAlreadyBeenInvaded(City cityToInvade) {
+        return invadedCities.contains(cityToInvade);
+    }
+
+    private boolean cityToInvadeIsRome(City cityToInvade) {
+        return cityToInvade.getCityName().equals("Roma");
+    }
+
+    private int determineAmountOfBarbariansToInvade(Random randomAmountOfBarbarians) {
+        int maximumAmountOfInvadingBarbarian = 2;
+        return randomAmountOfBarbarians.nextInt(maximumAmountOfInvadingBarbarian);
+    }
+
+    private boolean moreThenTwoBarbariansInCityToInvade(City cityToInvade) {
+        return cityToInvade.getAmountOfBarbariansLocatedInCurrentCity() > 2;
+    }
+
+    private void addCityToInvadedCityList(City cityToInvade) {
+        invadedCities.add(cityToInvade);
+    }
+
+    private Faction[] getFactionsAllowedInCity(City cityToInvade) {
+        return cityToInvade.getFactions();
+    }
+
+    private FactionType getFactionTypeOfAllowedFaction(City cityToInvade, Random randomNumberGenerator ) {
+        return getFactionsAllowedInCity(cityToInvade)[generateRandomInt(randomNumberGenerator, getFactionsAllowedInCity(cityToInvade))].getFactionType();
+    }
+
+    private int generateRandomInt(Random randomNumberGenerator, Faction[] factionsAllowedInCityToInvade) {
+        return randomNumberGenerator.nextInt(factionsAllowedInCityToInvade.length);
+    }
+
+    private void addBarbariansToCityToInvade(City cityToInvade, Random randomNumberGenerator, int amountOfBarbarianToInvadeCity) {
+        cityToInvade.addBarbariansToCity(getFactionTypeOfAllowedFaction(cityToInvade, randomNumberGenerator), amountOfBarbarianToInvadeCity);
+//        cityToInvade.addBarbariansToCity(factionsAllowedInCityToInvade[randomNumberGenerator.nextInt(factionsAllowedInCityToInvade.length)].getFactionType(), amountOfBarbarianToInvadeCity);
+    }
+
+
+
+    private void invadeCities() {
+        int amountOfCitiesToInvade = 20;
+        Random randomNumberGenerator = createRandomNumberGenerator();
+        City[] cities = getCities();
+
+        for (int i = 0; i < amountOfCitiesToInvade; i++) {
+            City cityToInvade = determineWhatCityToInvade(cities, randomNumberGenerator);
+
+            if (cityHasAlreadyBeenInvaded(cityToInvade) || cityToInvadeIsRome(cityToInvade)) {
+                i--;
+                continue;
+            }
+
+            int amountOfBarbarianToInvadeCity = determineAmountOfBarbariansToInvade(randomNumberGenerator);
+
+            if (moreThenTwoBarbariansInCityToInvade(cityToInvade)) {
+                addCityToInvadedCityList(cityToInvade);
+                amountOfBarbarianToInvadeCity = 2;
+                i--;
+            }
+
+            addBarbariansToCityToInvade(cityToInvade, randomNumberGenerator, amountOfBarbarianToInvadeCity);
+        }
+    }
+
+    private Game() {
+        playerCardDeck = createPlayerCardDeck();
+        mergePlayerCardAndEventCardDecks(playerCardDeck);
+        shuffleDeck(playerCardDeck);
+
+        invasionCardDeck = createInvasionCardDeck();
+        shuffleDeck(invasionCardDeck);
 
         // Create new dice instances
         for (int i = 0; i < die.length; i++) die[i] = new Dice();
 
         // Add barbarians to cities
-        for (int i = 0; i < 20; i++) {
-            City[] cities = CityFactory.getInstance().getAllCities();
-            City city = cities[rand.nextInt(cities.length)];
-
-            if (invadedCities.contains(city) || city.getCityName().equals("Roma")) {
-                i--;
-                continue;
-            }
-
-            int barbariansCount = rand.nextInt(2);
-
-            if (city.getAmountOfBarbariansLocatedInCurrentCity() > 2) {
-                invadedCities.add(city);
-                barbariansCount = 2;
-                i--;
-            }
-
-            Faction[] factions = city.getFactions();
-            city.addBarbariansToCity(factions[rand.nextInt(factions.length)].getFactionType(), barbariansCount);
-        }
+        invadeCities();
     }
 
-    public Game(Board board, List<Player> players, List<Faction> friendlyFactions, int decayLevel, int invasionLevel,
-                Deck tradeDeck, Deck invasionDeck, Deck cityDeck, Deck invasionDiscardPile, Deck cityDiscardPile, boolean lost, boolean won) {
-        this.board = board;
-        this.players = players;
+    public Game(Board gameBoard, List<Player> playersInGame, List<Faction> friendlyFactions, int decayLevel, int invasionLevel,
+                Deck tradeDeck, Deck invasionDeck, Deck cityDeck, Deck invasionDiscardPile, Deck cityDiscardPile, boolean gameLost, boolean gameWon) {
+        this.gameBoard = gameBoard;
+        this.playersInGame = playersInGame;
         this.friendlyFactions = friendlyFactions;
         this.decayLevel = decayLevel;
         this.invasionLevel = invasionLevel;
-        this.tradeCardsDeck = tradeDeck;
-        this.invasionCardsDeck = invasionDeck;
-        this.playerCardsDeck = cityDeck;
-        this.invasionCardsDiscardPile = invasionDiscardPile;
-        this.cityCardsDiscardPile = cityDiscardPile;
-        this.lost = lost;
-        this.won = won;
+        this.tradeCardDeck = tradeDeck;
+        this.invasionCardDeck = invasionDeck;
+        this.playerCardDeck = cityDeck;
+        this.invasionCardDiscardPile = invasionDiscardPile;
+        this.cityCardDiscardPile = cityDiscardPile;
+        this.gameLost = gameLost;
+        this.gameWon = gameWon;
 
         // Create new dice instances
         for (int i = 0; i < die.length; i++) {
@@ -105,12 +216,12 @@ public class Game extends Observable implements IObserver {
         }
     }
 
-    public String getCode() {
-        return code;
+    public String getGameCode() {
+        return gameCode;
     }
 
     public void setGameCode(String code) {
-        this.code = code;
+        this.gameCode = code;
     }
 
     /**
@@ -119,7 +230,7 @@ public class Game extends Observable implements IObserver {
      */
     public void updateGame(Game remote) {
         Player local = getLocalPlayer();
-        players.clear();
+        playersInGame.clear();
 
         for (Player player: remote.getAllPlayers()) {
             addPlayersToCurrentGame(player);
@@ -129,14 +240,14 @@ public class Game extends Observable implements IObserver {
             }
         }
 
-        board.updateBoard(remote.board);
+        gameBoard.updateBoard(remote.gameBoard);
         decayLevel = remote.decayLevel;
         invasionLevel = remote.invasionLevel;
-        invasionCardsDeck = remote.invasionCardsDeck;
-        invasionCardsDiscardPile = remote.invasionCardsDiscardPile;
-        playerCardsDeck = remote.playerCardsDeck;
-        cityCardsDiscardPile = remote.cityCardsDiscardPile;
-        tradeCardsDeck = remote.tradeCardsDeck;
+        invasionCardDeck = remote.invasionCardDeck;
+        invasionCardDiscardPile = remote.invasionCardDiscardPile;
+        playerCardDeck = remote.playerCardDeck;
+        cityCardDiscardPile = remote.cityCardDiscardPile;
+        tradeCardDeck = remote.tradeCardDeck;
         friendlyFactions = remote.friendlyFactions;
 
         notifyObservers();
@@ -144,22 +255,22 @@ public class Game extends Observable implements IObserver {
 
     public void addPlayersToCurrentGame(Player... players) {
         for (Player player: players) {
-            this.players.add(player);
+            this.playersInGame.add(player);
             player.registerObserver(this);
         }
     }
 
     public void nextTurn() {
-        if (players.size() <= 0) return;
+        if (playersInGame.size() <= 0) return;
 
         // Get current turn player
         Player currentPlayer = getPlayerFromCurrentTurn();
         Player nextPlayer;
 
-        int index = players.indexOf(currentPlayer);
+        int index = playersInGame.indexOf(currentPlayer);
 
-        if (players.size() > index + 1) nextPlayer = players.get(index + 1);
-        else nextPlayer = players.get(0);
+        if (playersInGame.size() > index + 1) nextPlayer = playersInGame.get(index + 1);
+        else nextPlayer = playersInGame.get(0);
 
         currentPlayer.notTurn();
         nextPlayer.setIsTurn();
@@ -175,7 +286,7 @@ public class Game extends Observable implements IObserver {
         for (LobbyPlayer lobbyPlayer: lobbyPlayers) {
             Player player = new Player(lobbyPlayer);
             player.registerObserver(this);
-            players.add(player);
+            playersInGame.add(player);
         }
         notifyObservers();
     }
@@ -183,19 +294,19 @@ public class Game extends Observable implements IObserver {
     /**
      * @return board object
      */
-    public Board getBoard() {
-        return board;
+    public Board getGameBoard() {
+        return gameBoard;
     }
 
     /**
      * @return All players in game
      */
     public List<Player> getAllPlayers() {
-        return players;
+        return playersInGame;
     }
 
     public Player getPlayerFromCurrentTurn() {
-        for (Player player: players) {
+        for (Player player: playersInGame) {
             if (player.isCurrentTurn()) return player;
         }
 
@@ -206,7 +317,7 @@ public class Game extends Observable implements IObserver {
      * @return player with current turn
      */
     public Player getCurrentPlayer() {
-        for (Player player: players) {
+        for (Player player: playersInGame) {
             if (player.isCurrentTurn()) return player;
         }
 
@@ -216,16 +327,16 @@ public class Game extends Observable implements IObserver {
     /**
      * @return invasion deck
      */
-    public Deck getInvasionCardsDeck() {
-        return invasionCardsDeck;
+    public Deck getInvasionCardDeck() {
+        return invasionCardDeck;
     }
 
     public int getInvasionLevel() {
         return invasionLevel;
     }
 
-    public Deck getTradeCardsDeck() {
-    	return tradeCardsDeck;
+    public Deck getTradeCardDeck() {
+    	return tradeCardDeck;
     }
 
     /**
@@ -263,16 +374,16 @@ public class Game extends Observable implements IObserver {
         notifyObservers();
     }
 
-    public Deck getPlayerCardsDeck() {
-        return playerCardsDeck;
+    public Deck getPlayerCardDeck() {
+        return playerCardDeck;
     }
 
-    public Deck getInvasionCardsDiscardPile() {
-        return invasionCardsDiscardPile;
+    public Deck getInvasionCardDiscardPile() {
+        return invasionCardDiscardPile;
     }
 
-    public Deck getCityCardsDiscardPile() {
-        return cityCardsDiscardPile;
+    public Deck getCityCardDiscardPile() {
+        return cityCardDiscardPile;
     }
 
     public Dice[] getDie() {
@@ -284,7 +395,7 @@ public class Game extends Observable implements IObserver {
     }
 
     public Player getLocalPlayer() {
-        for (Player player: players) {
+        for (Player player: playersInGame) {
             if (player.isLocal()) return player;
         }
 
@@ -311,19 +422,19 @@ public class Game extends Observable implements IObserver {
         return friendlyFactions;
     }
 
-    public boolean isWon() {
-        return won;
+    public boolean isGameWon() {
+        return gameWon;
     }
 
-    public boolean isLost() {
-        return lost;
+    public boolean isGameLost() {
+        return gameLost;
     }
 
-    public void setWon(boolean won) {
-        this.won = won;
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
     }
 
-    public void setLost(boolean lost) {
-        this.lost = lost;
+    public void setGameLost(boolean gameLost) {
+        this.gameLost = gameLost;
     }
 }

@@ -43,7 +43,7 @@ class FactionTest {
 
     @Test
     void ally() {
-        Game game = Game.getInstance();
+        Game game = Game.getGameInstance();
         faction.allyEnemyFaction();
         assertEquals(faction, game.getFriendlyFactions().get(0));
     }

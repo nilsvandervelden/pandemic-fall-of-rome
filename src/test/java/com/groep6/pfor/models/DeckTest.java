@@ -22,7 +22,7 @@ class DeckTest {
 
     @BeforeEach
     void setUp() {
-        CityCardFactory cityCardFactory = CityCardFactory.getCityCardInstance();
+        CityCardFactory cityCardFactory = CityCardFactory.getCityCardFactoryInstance();
         List<Card> cards = cityCardFactory.getCityCardDeck().getCards();
         this.deck = new Deck();
         this.card1 = cards.get(0);

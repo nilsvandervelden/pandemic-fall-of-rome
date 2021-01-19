@@ -16,7 +16,7 @@ public class LobbyController extends Controller {
 
     public static final int MIN_PLAYERS = 0;
 
-    private final Game game = Game.getInstance();
+    private final Game game = Game.getGameInstance();
     private final Lobby currentLobby;
 
     private void subscribeToLobbyChangeEvent() {
@@ -28,7 +28,7 @@ public class LobbyController extends Controller {
     }
 
     private Game getCurrentGame() {
-        return Game.getInstance();
+        return Game.getGameInstance();
     }
 
     private boolean noLocalPlayer(Game currentGame) {
@@ -95,7 +95,7 @@ public class LobbyController extends Controller {
     }
 
     private void updatedCurrentGame(Game currentGame) {
-        Game.getInstance().updateGame(currentGame);
+        Game.getGameInstance().updateGame(currentGame);
     }
 
     private void displayLostGameView() {
@@ -107,11 +107,11 @@ public class LobbyController extends Controller {
     }
 
     private boolean gameHasBeenLost(Game currentGame) {
-        return currentGame.isLost();
+        return currentGame.isGameLost();
     }
 
     private boolean gameHasBeenWon(Game currentGame) {
-        return currentGame.isWon();
+        return currentGame.isGameWon();
     }
 
     private final IEventCallback onGameChange = eventData -> {

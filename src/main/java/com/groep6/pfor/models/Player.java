@@ -38,11 +38,11 @@ public class Player extends Observable implements IObserver {
         isLocal = player.isLocal();
 
         // Add starting cards to hand
-        Game game = Game.getInstance();
+        Game game = Game.getGameInstance();
 
         int cardAmount = 3;
         for (int i = 0; i < cardAmount; i++) {
-            playerDeck.addCards(game.getPlayerCardsDeck().drawCardFromDeck());
+            playerDeck.addCards(game.getPlayerCardDeck().drawCardFromDeck());
         }
 
         // Set start city
@@ -89,7 +89,7 @@ public class Player extends Observable implements IObserver {
 
         // Sync with server
         GameService gameService = new GameService();
-        gameService.setGame(Game.getInstance());
+        gameService.setGame(Game.getGameInstance());
     }
 
     public void setActionsRemaining(int actionsRemaining) {
@@ -153,7 +153,7 @@ public class Player extends Observable implements IObserver {
         notifyObservers();
 
         GameService gameService = new GameService();
-        gameService.setGame(Game.getInstance());
+        gameService.setGame(Game.getGameInstance());
     }
 
     public void setLocal(boolean local) {

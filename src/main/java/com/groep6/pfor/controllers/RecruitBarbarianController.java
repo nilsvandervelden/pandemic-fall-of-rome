@@ -9,7 +9,7 @@ import com.groep6.pfor.views.RecruitBarbarianView;
 
 public class RecruitBarbarianController extends Controller {
 
-    private final Game game = Game.getInstance();
+    private final Game game = Game.getGameInstance();
     private final Player localPlayer;
     private final City cityLocalPlayerIsCurrentlyStandingIn;
 	

@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class BoardController extends Controller {
 
-    private final Game currentGame = Game.getInstance();
+    private final Game currentGame = Game.getGameInstance();
 
     public BoardController() {
     	changeMusic();
@@ -46,7 +46,7 @@ public class BoardController extends Controller {
     }
 
     public Tile[] getTiles() {
-        return currentGame.getBoard().getTiles();
+        return currentGame.getGameBoard().getTiles();
     }
     
     public List<Player> getPlayers() {
@@ -89,7 +89,7 @@ public class BoardController extends Controller {
     }
 
     private void addTwoCardToPlayerDeck(Player localPlayer) {
-        localPlayer.getPlayerDeck().addCards(currentGame.getPlayerCardsDeck().drawCardFromDeck(), currentGame.getPlayerCardsDeck().drawCardFromDeck());
+        localPlayer.getPlayerDeck().addCards(currentGame.getPlayerCardDeck().drawCardFromDeck(), currentGame.getPlayerCardDeck().drawCardFromDeck());
     }
 
     private void showPlayerHandDeck() {
@@ -98,7 +98,7 @@ public class BoardController extends Controller {
 
     private void gameHasBeenLost() {
         new LoseGameController();
-        currentGame.setLost(true);
+        currentGame.setGameLost(true);
     }
     // Open hand when there are more than 7 cards in hand
     private boolean maximumAmountOfCardsInHandDeckHaveBeenReached(Player localPlayer) {
@@ -137,7 +137,7 @@ public class BoardController extends Controller {
 
     private boolean playerHasNoMoreCards() {
         int minimumAmountOfCardsInPlayerCardDeck = 1;
-        return currentGame.getPlayerCardsDeck().getCards().size() <= minimumAmountOfCardsInPlayerCardDeck;
+        return currentGame.getPlayerCardDeck().getCards().size() <= minimumAmountOfCardsInPlayerCardDeck;
     }
 
     public void checkLoseConditions() {
@@ -150,7 +150,7 @@ public class BoardController extends Controller {
 
     private void gameHasBeenWon() {
         new WinGameController();
-        currentGame.setWon(true);
+        currentGame.setGameWon(true);
     }
     
     public void checkWinConditions() {
@@ -162,7 +162,7 @@ public class BoardController extends Controller {
     public int getAmountOfFortsInCity() {
         int amountOfFortsInCity = 0;
 
-        for (Tile tile: currentGame.getBoard().getTiles()) {
+        for (Tile tile: currentGame.getGameBoard().getTiles()) {
             if (tile instanceof City) {
                 City city = (City) tile;
                 if (city.hasFort()) amountOfFortsInCity++;
@@ -172,7 +172,7 @@ public class BoardController extends Controller {
     }
 
     private Deck getInvasionCardsDeck() {
-        return currentGame.getInvasionCardsDeck();
+        return currentGame.getInvasionCardDeck();
     }
 
     private Card[] getInvasionCards(int amountOfInvasions) {
@@ -332,7 +332,7 @@ public class BoardController extends Controller {
     }
 
     public List<Faction> getFriendlyFactions() {
-        return Game.getInstance().getFriendlyFactions();
+        return Game.getGameInstance().getFriendlyFactions();
     }
 
     @Override

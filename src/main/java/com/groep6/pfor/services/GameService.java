@@ -52,7 +52,7 @@ public class GameService {
      * @param game The new game data that will override the old data
      */
     public void setGame(Game game) {
-        Firebase.setDocument("games/" + game.getCode(), GameDTO.fromModel(game));
+        Firebase.setDocument("games/" + game.getGameCode(), GameDTO.fromModel(game));
     }
 
     /**
@@ -69,14 +69,14 @@ public class GameService {
      * @param game The game to be created
      */
     public void create(Game game) {
-        ApiFuture<WriteResult> res = Firebase.setDocument("games/" + game.getCode(), GameDTO.fromModel(game));
+        ApiFuture<WriteResult> res = Firebase.setDocument("games/" + game.getGameCode(), GameDTO.fromModel(game));
         try {
             res.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
-        Firebase.docRefFromPath("lobbies/" + game.getCode()).update("started", true);
+        Firebase.docRefFromPath("lobbies/" + game.getGameCode()).update("started", true);
     }
 
     public static void removeListener() {

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class HandCardDeckController extends Controller {
 
-    private final Game currentGame = Game.getInstance();
+    private final Game currentGame = Game.getGameInstance();
     private Card currentlySelectedCard;
 
     public HandCardDeckController() {
@@ -47,7 +47,7 @@ public class HandCardDeckController extends Controller {
     }
 
     public void addCardToInvasionCardDiscardPile() {
-        currentGame.getInvasionCardsDiscardPile().addCardsToDeck(currentlySelectedCard);
+        currentGame.getInvasionCardDiscardPile().addCardsToDeck(currentlySelectedCard);
     }
 
     public void executeEventCard() {
@@ -81,7 +81,7 @@ public class HandCardDeckController extends Controller {
     }
 
     private Deck getTradeDeck() {
-        return currentGame.getTradeCardsDeck();
+        return currentGame.getTradeCardDeck();
     }
 
     public boolean playerHasActionsRemaining(Player playerFromCurrentTurn) {
@@ -130,11 +130,11 @@ public class HandCardDeckController extends Controller {
     }
 
     private void discardCityCard() {
-        currentGame.getCityCardsDiscardPile().addCardsToDeck(currentlySelectedCard);
+        currentGame.getCityCardDiscardPile().addCardsToDeck(currentlySelectedCard);
     }
 
     private void discardEventCard() {
-        currentGame.getInvasionCardsDiscardPile().addCardsToDeck(currentlySelectedCard);
+        currentGame.getInvasionCardDiscardPile().addCardsToDeck(currentlySelectedCard);
     }
 	
     public void removeSelectedCard() {

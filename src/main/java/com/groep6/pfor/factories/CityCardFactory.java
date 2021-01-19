@@ -93,7 +93,7 @@ public class CityCardFactory {
 	 * Returns the instance of the CityCardFactory
 	 * @return The CityCardFactory instance
 	 */
-	public static CityCardFactory getCityCardInstance() {
+	public static CityCardFactory getCityCardFactoryInstance() {
 		return INSTANCE;
 	}
 

@@ -313,7 +313,7 @@ public class BoardView extends View implements IObserver {
     public void updateCanvas() {
         GraphicsContext gc = getCanvas().getGraphicsContext2D();
         gc.drawImage(new Image(String.valueOf(BoardView.class.getResource("/images/board.jpg"))), 0, 0, canvasX, canvasY);
-        List<Player> players = Game.getInstance().getAllPlayers();
+        List<Player> players = Game.getGameInstance().getAllPlayers();
 
         for (Faction faction : boardController.getFriendlyFactions()) {
             Vector2f pos = new Vector2f(faction.getFactionPosition()).mul(CANVAS_SIZE);
