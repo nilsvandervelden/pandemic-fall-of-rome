@@ -11,11 +11,11 @@ import java.util.List;
  * @author Bastiaan Jansen
  * @author Nils van der Velden
  */
-public class Hand extends Observable {
+public class PlayerHand extends Observable {
 
     private final List<Card> cards = new ArrayList<>();
 
-    public Hand(Card... cards) {
+    public PlayerHand(Card... cards) {
         addCards(cards);
     }
 

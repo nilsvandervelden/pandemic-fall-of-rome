@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Nils van der Velden
  */
 
-public class HandTest {
+public class PlayerHandTest {
 
-	private Hand hand;
+	private PlayerHand playerHand;
 	private Card card1;
 	private Card card2;
 
@@ -26,20 +26,20 @@ public class HandTest {
         List<Card> cards = cityCardFactory.getCityCardDeck().getCards();
         this.card1 = cards.get(0);
         this.card2 = cards.get(1);
-        this.hand = new Hand();
-        hand.addCards(card1, card2);
+        this.playerHand = new PlayerHand();
+        playerHand.addCards(card1, card2);
     }
 
     @AfterEach
     void tearDown() {
-        this.hand = null;
+        this.playerHand = null;
         this.card1 = null;
         this.card2 = null;
     }
 
     @Test
     void removeCards() {
-        hand.removeCard(card1);
-        assertEquals(1, hand.getCardCount());
+        playerHand.removeCard(card1);
+        assertEquals(1, playerHand.getCardCount());
     }
 }

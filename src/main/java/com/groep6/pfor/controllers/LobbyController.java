@@ -95,7 +95,7 @@ public class LobbyController extends Controller {
     }
 
     private void updatedCurrentGame(Game currentGame) {
-        Game.getGameInstance().updateGame(currentGame);
+        Game.getGameInstance().updateCurrentGame(currentGame);
     }
 
     private void displayLostGameView() {

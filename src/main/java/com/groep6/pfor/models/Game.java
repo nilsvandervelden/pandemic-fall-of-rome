@@ -11,7 +11,6 @@ import com.groep6.pfor.models.factions.FactionType;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.util.Observable;
 
-import javax.xml.ws.FaultAction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,7 +21,7 @@ public class Game extends Observable implements IObserver {
     private static GameState GAME_STATE = GameState.MENU;
 
     private Board gameBoard = new Board();
-    private List<Player> playersInGame = new ArrayList<>();
+    private List<Player> playersInCurrentGame = new ArrayList<>();
     private final List<City> invadedCities = new ArrayList<>();
     private int decayLevel = 0;
     private final int MAX_DECAY_LEVEL = 9;
@@ -195,10 +194,10 @@ public class Game extends Observable implements IObserver {
         invadeCities();
     }
 
-    public Game(Board gameBoard, List<Player> playersInGame, List<Faction> friendlyFactions, int decayLevel, int invasionLevel,
+    public Game(Board gameBoard, List<Player> playersInCurrentGame, List<Faction> friendlyFactions, int decayLevel, int invasionLevel,
                 Deck tradeDeck, Deck invasionDeck, Deck cityDeck, Deck invasionDiscardPile, Deck cityDiscardPile, boolean gameLost, boolean gameWon) {
         this.gameBoard = gameBoard;
-        this.playersInGame = playersInGame;
+        this.playersInCurrentGame = playersInCurrentGame;
         this.friendlyFactions = friendlyFactions;
         this.decayLevel = decayLevel;
         this.invasionLevel = invasionLevel;
@@ -224,53 +223,81 @@ public class Game extends Observable implements IObserver {
         this.gameCode = code;
     }
 
-    /**
-     * Update the local game with the data from the remote version
-     * @param remote The remote version of the game
-     */
-    public void updateGame(Game remote) {
-        Player local = getLocalPlayer();
-        playersInGame.clear();
+    private void removeAllPlayersFromCurrentGame() {
+        playersInCurrentGame.clear();
+    }
 
-        for (Player player: remote.getAllPlayers()) {
+    private boolean playerEqualsLocalPlayer(Player player, Player localPlayer) {
+        return player.equals(localPlayer);
+    }
+
+    private PlayerHand getPlayerHand(Player player) {
+        return player.getPlayerDeck();
+    }
+
+    private void addCardsToPlayerHand(Player player, Player localPlayer) {
+        getPlayerHand(player).addCards(parsePlayerHandCardsToArray(localPlayer));
+    }
+
+    private List<Card> getPlayerHandCards(Player player) {
+       return getPlayerHand(player).getCards();
+    }
+
+    private Card[] parsePlayerHandCardsToArray(Player player) {
+        return getPlayerHandCards(player).toArray(new Card[0]);
+    }
+
+    private void updatePlayers(Game fireBaseGame, Player localPlayer) {
+        for (Player player: fireBaseGame.getAllPlayers()) {
             addPlayersToCurrentGame(player);
-            if (player.equals(local)) {
-                player.getPlayerDeck().addCards(local.getPlayerDeck().getCards().toArray(new Card[0]));
+            if (playerEqualsLocalPlayer(player, localPlayer)) {
+                addCardsToPlayerHand(player, localPlayer);
                 setLocalPlayer(player);
             }
         }
+    }
 
-        gameBoard.updateBoard(remote.gameBoard);
-        decayLevel = remote.decayLevel;
-        invasionLevel = remote.invasionLevel;
-        invasionCardDeck = remote.invasionCardDeck;
-        invasionCardDiscardPile = remote.invasionCardDiscardPile;
-        playerCardDeck = remote.playerCardDeck;
-        cityCardDiscardPile = remote.cityCardDiscardPile;
-        tradeCardDeck = remote.tradeCardDeck;
-        friendlyFactions = remote.friendlyFactions;
-
+    private void updateGameVariables(Game fireBaseGame) {
+        gameBoard.updateBoard(fireBaseGame.gameBoard);
+        decayLevel = fireBaseGame.decayLevel;
+        invasionLevel = fireBaseGame.invasionLevel;
+        invasionCardDeck = fireBaseGame.invasionCardDeck;
+        invasionCardDiscardPile = fireBaseGame.invasionCardDiscardPile;
+        playerCardDeck = fireBaseGame.playerCardDeck;
+        cityCardDiscardPile = fireBaseGame.cityCardDiscardPile;
+        tradeCardDeck = fireBaseGame.tradeCardDeck;
+        friendlyFactions = fireBaseGame.friendlyFactions;
+    }
+    /**
+     * Update the local game with the data from the fireBaseGame version
+     * @param fireBaseGame The fireBaseGame version of the game
+     */
+    public void updateCurrentGame(Game fireBaseGame) {
+        Player localPlayer = getLocalPlayer();
+        removeAllPlayersFromCurrentGame();
+        updatePlayers(fireBaseGame, localPlayer);
+        updateGameVariables(fireBaseGame);
         notifyObservers();
     }
 
     public void addPlayersToCurrentGame(Player... players) {
         for (Player player: players) {
-            this.playersInGame.add(player);
+            this.playersInCurrentGame.add(player);
             player.registerObserver(this);
         }
     }
 
     public void nextTurn() {
-        if (playersInGame.size() <= 0) return;
+        if (playersInCurrentGame.size() <= 0) return;
 
         // Get current turn player
         Player currentPlayer = getPlayerFromCurrentTurn();
         Player nextPlayer;
 
-        int index = playersInGame.indexOf(currentPlayer);
+        int index = playersInCurrentGame.indexOf(currentPlayer);
 
-        if (playersInGame.size() > index + 1) nextPlayer = playersInGame.get(index + 1);
-        else nextPlayer = playersInGame.get(0);
+        if (playersInCurrentGame.size() > index + 1) nextPlayer = playersInCurrentGame.get(index + 1);
+        else nextPlayer = playersInCurrentGame.get(0);
 
         currentPlayer.notTurn();
         nextPlayer.setIsTurn();
@@ -286,7 +313,7 @@ public class Game extends Observable implements IObserver {
         for (LobbyPlayer lobbyPlayer: lobbyPlayers) {
             Player player = new Player(lobbyPlayer);
             player.registerObserver(this);
-            playersInGame.add(player);
+            playersInCurrentGame.add(player);
         }
         notifyObservers();
     }
@@ -302,11 +329,11 @@ public class Game extends Observable implements IObserver {
      * @return All players in game
      */
     public List<Player> getAllPlayers() {
-        return playersInGame;
+        return playersInCurrentGame;
     }
 
     public Player getPlayerFromCurrentTurn() {
-        for (Player player: playersInGame) {
+        for (Player player: playersInCurrentGame) {
             if (player.isCurrentTurn()) return player;
         }
 
@@ -317,7 +344,7 @@ public class Game extends Observable implements IObserver {
      * @return player with current turn
      */
     public Player getCurrentPlayer() {
-        for (Player player: playersInGame) {
+        for (Player player: playersInCurrentGame) {
             if (player.isCurrentTurn()) return player;
         }
 
@@ -395,7 +422,7 @@ public class Game extends Observable implements IObserver {
     }
 
     public Player getLocalPlayer() {
-        for (Player player: playersInGame) {
+        for (Player player: playersInCurrentGame) {
             if (player.isLocal()) return player;
         }
 

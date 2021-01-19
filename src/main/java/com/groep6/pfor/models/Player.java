@@ -20,7 +20,7 @@ import java.util.Random;
  */
 public class Player extends Observable implements IObserver {
 
-    private final Hand playerDeck = new Hand();
+    private final PlayerHand playerDeck = new PlayerHand();
     private final RoleCard roleCard;
     private City city;
     private final String username;
@@ -96,7 +96,7 @@ public class Player extends Observable implements IObserver {
         this.actionsRemaining = actionsRemaining;
     }
 
-    public Hand getPlayerDeck() {
+    public PlayerHand getPlayerDeck() {
         return playerDeck;
     }
 
