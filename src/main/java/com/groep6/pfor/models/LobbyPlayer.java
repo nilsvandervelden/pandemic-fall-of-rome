@@ -14,26 +14,26 @@ public class LobbyPlayer extends Observable {
     private RoleCard roleCard;
     private final boolean isHost;
     private boolean isLocal;
-    private final String lobby;
+    private final String lobbyCode;
 
     /**
      * @param username
      * @param isHost
      * @param isLocal
-     * @param lobby
+     * @param lobbyCode
      */
-    public LobbyPlayer(String username, RoleCard roleCard, boolean isHost, boolean isLocal, String lobby) {
+    public LobbyPlayer(String username, RoleCard roleCard, boolean isHost, boolean isLocal, String lobbyCode) {
         this.username = username;
         this.roleCard = roleCard;
         this.isHost = isHost;
         this.isLocal = isLocal;
-        this.lobby = lobby;
+        this.lobbyCode = lobbyCode;
     }
 
-    public LobbyPlayer(String username, boolean isHost, String lobby) {
+    public LobbyPlayer(String username, boolean isHost, String lobbyCode) {
         this.username = username;
         this.isHost = isHost;
-        this.lobby = lobby;
+        this.lobbyCode = lobbyCode;
     }
 
     /**
@@ -73,16 +73,31 @@ public class LobbyPlayer extends Observable {
     /**
      * @return The lobby code of the lobby that the player is in
      */
-    public String getLobby() {
-        return lobby;
+    public String getLobbyCode() {
+        return lobbyCode;
+    }
+
+    private boolean isInstanceOfLobbyPlayer(Object object) {
+        return object instanceof LobbyPlayer;
+    }
+
+    private LobbyPlayer convertToLobbyPlayer(Object object) {
+        return (LobbyPlayer) object;
+    }
+
+    private boolean userNameEqualsFireBaseUserName(LobbyPlayer player) {
+        return player.getUsername().equals(this.username);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof LobbyPlayer)) return false;
+    public boolean equals(Object object) {
+        if (!isInstanceOfLobbyPlayer(object)) return false;
 
-        LobbyPlayer player = (LobbyPlayer) o;
+        LobbyPlayer player = convertToLobbyPlayer(object);
 
-        return player.getUsername().equals(this.username);
+        return userNameEqualsFireBaseUserName(player);
     }
 }
+
+
+

@@ -198,7 +198,7 @@ public class LobbyController extends Controller {
     }
 
     private void giveTurnToFirstPlayerInGame() {
-        game.getAllPlayers().get(0).setIsTurn();
+        game.getAllPlayers().get(0).setTurn();
     }
 
     private GameService startGameService() {

@@ -71,7 +71,7 @@ public class LobbyService {
      * @param lobby The lobby to be created
      */
     public void create(Lobby lobby) {
-        for (LobbyPlayer player : lobby.getPlayers()) Firebase.registerListener("lobbies/" + player.getLobby(), onLobbyChange);
+        for (LobbyPlayer player : lobby.getPlayers()) Firebase.registerListener("lobbies/" + player.getLobbyCode(), onLobbyChange);
         Firebase.setDocument("lobbies/" + lobby.getCode(), LobbyDTO.fromModel(lobby));
     }
 
@@ -81,7 +81,7 @@ public class LobbyService {
      *               that the this instance has
      */
     public void updateRoleCard(LobbyPlayer player) {
-        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobby());
+        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobbyCode());
         doc.update(FieldPath.of("players", player.getUsername(), "role"), player.getRoleCard().getCardName());
     }
 
@@ -92,7 +92,7 @@ public class LobbyService {
      * @param player The player to be the new lobby host
      */
     public void setHost(LobbyPlayer player) {
-        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobby());
+        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobbyCode());
         doc.update(FieldPath.of("players", player.getUsername(), "host"), true);
     }
 
@@ -102,8 +102,8 @@ public class LobbyService {
      *               in the player instance.
      */
     public void join(LobbyPlayer player) {
-        if (listener == null) listener = Firebase.registerListener("lobbies/" + player.getLobby(), onLobbyChange);
-        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobby());
+        if (listener == null) listener = Firebase.registerListener("lobbies/" + player.getLobbyCode(), onLobbyChange);
+        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobbyCode());
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> kv = mapper.convertValue(LobbyPlayerDTO.fromModel(player), new TypeReference<Map<String, Object>>() {});
         doc.update("players." + player.getUsername(), kv);
@@ -115,7 +115,7 @@ public class LobbyService {
      * @param player The player that should leave
      */
     public void removePlayerFromCurrentLobby(LobbyPlayer player) {
-        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobby());
+        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + player.getLobbyCode());
         doc.update(FieldPath.of("players", player.getUsername()), FieldValue.delete());
         removeListener();
         GameService.removeListener();

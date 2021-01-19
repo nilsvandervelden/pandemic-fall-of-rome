@@ -148,10 +148,7 @@ public class Game extends Observable implements IObserver {
 
     private void addBarbariansToCityToInvade(City cityToInvade, Random randomNumberGenerator, int amountOfBarbarianToInvadeCity) {
         cityToInvade.addBarbariansToCity(getFactionTypeOfAllowedFaction(cityToInvade, randomNumberGenerator), amountOfBarbarianToInvadeCity);
-//        cityToInvade.addBarbariansToCity(factionsAllowedInCityToInvade[randomNumberGenerator.nextInt(factionsAllowedInCityToInvade.length)].getFactionType(), amountOfBarbarianToInvadeCity);
     }
-
-
 
     private void invadeCities() {
         int amountOfCitiesToInvade = 20;
@@ -298,8 +295,8 @@ public class Game extends Observable implements IObserver {
         return playersInCurrentGame.size() <= 0;
     }
 
-    private void setIsTurn(Player nextPlayer) {
-        nextPlayer.setIsTurn();
+    private void setTurn(Player nextPlayer) {
+        nextPlayer.setTurn();
     }
     private void removeIsTurn(Player playerFromCurrentTurn) {
         playerFromCurrentTurn.removeIsTurn();
@@ -331,7 +328,7 @@ public class Game extends Observable implements IObserver {
         } else nextPlayer = giveTurnToFirstPlayer();
 
         removeIsTurn(playerFromCurrentTurn);
-        setIsTurn(nextPlayer);
+        setTurn(nextPlayer);
 
         notifyObservers();
     }
