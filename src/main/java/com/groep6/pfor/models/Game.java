@@ -1,6 +1,5 @@
 package com.groep6.pfor.models;
 
-import com.groep6.pfor.Config;
 import com.groep6.pfor.factories.CityCardFactory;
 import com.groep6.pfor.factories.CityFactory;
 import com.groep6.pfor.factories.EventCardFactory;
@@ -280,29 +279,65 @@ public class Game extends Observable implements IObserver {
         notifyObservers();
     }
 
+    private void addPlayerToCurrentGame(Player player) {
+        this.playersInCurrentGame.add(player);
+    }
+
+    private void registerPlayerObserver(Player player) {
+        player.registerObserver(this);
+    }
+
     public void addPlayersToCurrentGame(Player... players) {
         for (Player player: players) {
-            this.playersInCurrentGame.add(player);
-            player.registerObserver(this);
+            addPlayerToCurrentGame(player);
+            registerPlayerObserver(player);
         }
     }
 
+    private boolean noPlayersInGame() {
+        return playersInCurrentGame.size() <= 0;
+    }
+
+    private void setIsTurn(Player nextPlayer) {
+        nextPlayer.setIsTurn();
+    }
+    private void removeIsTurn(Player playerFromCurrentTurn) {
+        playerFromCurrentTurn.removeIsTurn();
+    }
+
+    private boolean notAllPlayersHaveHadATurn(int indexOfPlayerFromCurrentTurn) {
+        return playersInCurrentGame.size() > indexOfPlayerFromCurrentTurn + 1;
+    }
+
+    private Player giveTurnToNextPlayer(int indexOfPlayerFromCurrentTurn) {
+        return playersInCurrentGame.get(indexOfPlayerFromCurrentTurn + 1);
+    }
+
+    private Player giveTurnToFirstPlayer() {
+        return playersInCurrentGame.get(0);
+    }
+
     public void nextTurn() {
-        if (playersInCurrentGame.size() <= 0) return;
+        if (noPlayersInGame()) return;
 
         // Get current turn player
-        Player currentPlayer = getPlayerFromCurrentTurn();
+        Player playerFromCurrentTurn = getPlayerFromCurrentTurn();
         Player nextPlayer;
 
-        int index = playersInCurrentGame.indexOf(currentPlayer);
+        int indexOfPlayerFromCurrentTurn = playersInCurrentGame.indexOf(playerFromCurrentTurn);
 
-        if (playersInCurrentGame.size() > index + 1) nextPlayer = playersInCurrentGame.get(index + 1);
-        else nextPlayer = playersInCurrentGame.get(0);
+        if (notAllPlayersHaveHadATurn(indexOfPlayerFromCurrentTurn)) {
+            nextPlayer = giveTurnToNextPlayer(indexOfPlayerFromCurrentTurn);
+        } else nextPlayer = giveTurnToFirstPlayer();
 
-        currentPlayer.notTurn();
-        nextPlayer.setIsTurn();
+        removeIsTurn(playerFromCurrentTurn);
+        setIsTurn(nextPlayer);
 
         notifyObservers();
+    }
+
+    private Player createPlayer(LobbyPlayer lobbyPlayer) {
+        return new Player(lobbyPlayer);
     }
 
     /**
@@ -311,9 +346,9 @@ public class Game extends Observable implements IObserver {
      */
     public void addPlayersToCurrentGame(LobbyPlayer... lobbyPlayers) {
         for (LobbyPlayer lobbyPlayer: lobbyPlayers) {
-            Player player = new Player(lobbyPlayer);
-            player.registerObserver(this);
-            playersInCurrentGame.add(player);
+            Player player = createPlayer(lobbyPlayer);
+            registerPlayerObserver(player);
+            addPlayerToCurrentGame(player);
         }
         notifyObservers();
     }
@@ -332,22 +367,14 @@ public class Game extends Observable implements IObserver {
         return playersInCurrentGame;
     }
 
-    public Player getPlayerFromCurrentTurn() {
-        for (Player player: playersInCurrentGame) {
-            if (player.isCurrentTurn()) return player;
-        }
-
-        return null;
+    private boolean playerHasTurn(Player player) {
+        return player.isCurrentTurn();
     }
 
-    /**
-     * @return player with current turn
-     */
-    public Player getCurrentPlayer() {
+    public Player getPlayerFromCurrentTurn() {
         for (Player player: playersInCurrentGame) {
-            if (player.isCurrentTurn()) return player;
+            if (playerHasTurn(player)) return player;
         }
-
         return null;
     }
 
@@ -381,23 +408,18 @@ public class Game extends Observable implements IObserver {
      * Increase decay level, when decay level. When reached the max, return.
      * @param amount
      */
-    public void increaseDecayLevel(int amount) {
-        if (decayLevel + amount >= MAX_DECAY_LEVEL) return;
-
-        decayLevel += amount;
-        notifyObservers();
+    private boolean maxDecayLevelHasBeenReached(int amount) {
+        return decayLevel + amount >= MAX_DECAY_LEVEL;
     }
 
-    /**
-     * Increase invasion level. When reached the max, return.
-     * @param amount
-     */
-    public void increaseInvasionLevel(int amount) {
-        if (invasionLevel + amount >= MAX_INVASION_LEVEL) return;
+    private void incrementDecayLevel(int amount) {
+        decayLevel += amount;
+    }
 
-        if (Config.DEBUG) System.out.println("Increasing invasion level");
+    public void increaseDecayLevel(int amount) {
+        if (maxDecayLevelHasBeenReached(amount)) return;
 
-        invasionLevel += amount;
+        incrementDecayLevel(amount);
         notifyObservers();
     }
 
@@ -421,11 +443,14 @@ public class Game extends Observable implements IObserver {
         return friendlyFactions.contains(faction);
     }
 
+    private boolean playerIsLocalPlayer(Player player) {
+        return player.isLocalPlayer();
+    }
+
     public Player getLocalPlayer() {
         for (Player player: playersInCurrentGame) {
-            if (player.isLocal()) return player;
+            if (playerIsLocalPlayer(player)) return player;
         }
-
         return null;
     }
     
@@ -438,9 +463,17 @@ public class Game extends Observable implements IObserver {
         notifyObservers();
     }
 
+    private boolean factionIsFriendly(Faction faction) {
+        return friendlyFactions.contains(faction);
+    }
+
+    private void allieFaction(Faction faction) {
+        friendlyFactions.add(faction);
+    }
+
     public void addFriendlyFaction(Faction faction) {
-        if (!friendlyFactions.contains(faction)) {
-            friendlyFactions.add(faction);
+        if (!factionIsFriendly(faction)) {
+            allieFaction(faction);
             notifyObservers();
         }
     }

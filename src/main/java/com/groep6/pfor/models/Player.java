@@ -164,11 +164,11 @@ public class Player extends Observable implements IObserver {
         return city;
     }
 
-    public void notTurn() {
+    public void removeIsTurn() {
         turn = false;
     }
 
-    public boolean isLocal() {
+    public boolean isLocalPlayer() {
         return isLocal;
     }
 
