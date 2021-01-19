@@ -35,9 +35,9 @@ public class LobbyController extends Controller {
         return currentGame.getLocalPlayer() != null;
     }
 
-    private boolean isHost(Game currentGame) {
-        return currentGame.getLocalPlayer().isHost();
-    }
+//    private boolean isHost(Game currentGame) {
+//        return currentGame.getLocalPlayer().isHost();
+//    }
 
     private  void addPlayersToCurrentGame(Game currentGame) {
         currentGame.addPlayersToCurrentGame(currentLobby.getLocalPlayer());
@@ -66,7 +66,7 @@ public class LobbyController extends Controller {
     private IEventCallback gameStartEvent() {
         return eventData -> {
             Game currentGame = getCurrentGame();
-            if (noLocalPlayer(currentGame) && isHost(currentGame)) return;
+            if (noLocalPlayer(currentGame)) return;
 
             addPlayersToCurrentGame(currentGame);
             setGameCode(currentGame);

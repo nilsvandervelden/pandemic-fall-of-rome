@@ -82,7 +82,7 @@ public enum DiceFace {
 	};
 
 	private static void executeRoleCardAbility(Player playerFromCurrentTurn) {
-		playerFromCurrentTurn.getRoleCard().executeRoleCardAbility();
+		playerFromCurrentTurn.getPlayerRole().executeRoleCardAbility();
 	}
 
 	private static void removeBarbariansFromCurrentCity(City currentCity, int amountOfBarbariansToRemove) {

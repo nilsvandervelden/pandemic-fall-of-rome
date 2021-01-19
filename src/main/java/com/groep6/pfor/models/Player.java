@@ -21,52 +21,83 @@ import java.util.Random;
 public class Player extends Observable implements IObserver {
 
     private final PlayerHand playerDeck = new PlayerHand();
-    private final RoleCard roleCard;
+    private final RoleCard playerRole;
     private City city;
     private final String username;
-    private boolean turn = false;
+    private boolean isTurn = false;
     private int actionsRemaining = 4;
     private boolean isLocal;
 
+    private void initialisePlayerDeck(Game currentGame) {
+        int amountOfCardsToDraw = 3;
+        for (int i = 0; i < amountOfCardsToDraw; i++) {
+            playerDeck.addCards(drawCardFromDeck(currentGame));
+        }
+    }
+
+    private Deck getPlayerCardDeck(Game currentGame) {
+        return currentGame.getPlayerCardDeck();
+    }
+
+    private Card drawCardFromDeck(Game currentGame) {
+        return getPlayerCardDeck(currentGame).drawCardFromDeck();
+    }
+
+    private CityFactory getCityFactory() {
+        return CityFactory.getInstance();
+    }
+
+    private List<City> getCitiesFromCityFactory() {
+        CityFactory cityFactory = getCityFactory();
+        return Arrays.asList(cityFactory.getAllCities());
+    }
+
+    private City selectRandomCity() {
+        Random randomNumberGenerator = new Random();
+        List<City> cities = getCitiesFromCityFactory();
+        return city = cities.get(randomNumberGenerator.nextInt(cities.size() - 1));
+    }
+
+    private void registerCityObserver(City city) {
+        city.registerObserver(this);
+    }
+
+    private void addLegionsToCity(City city, int amountOfLegions) {
+        city.addLegionsToCurrentCity(amountOfLegions);
+    }
     /**
      * The Player constructor clones all necessary the information from LobbyPlayer to Player
      * @param player
      */
     public Player(LobbyPlayer player) {
-        roleCard = player.getRoleCard();
+        playerRole = player.getRoleCard();
         username = player.getUsername();
         isLocal = player.isLocal();
 
         // Add starting cards to hand
-        Game game = Game.getGameInstance();
+        Game currentGame = Game.getGameInstance();
 
-        int cardAmount = 3;
-        for (int i = 0; i < cardAmount; i++) {
-            playerDeck.addCards(game.getPlayerCardDeck().drawCardFromDeck());
-        }
+        initialisePlayerDeck(currentGame);
 
         // Set start city
-        Random rand = new Random();
-        CityFactory cityFactory = CityFactory.getInstance();
-        List<City> cities = Arrays.asList(cityFactory.getAllCities());
-        city = cities.get(rand.nextInt(cities.size() - 1));
+        city = selectRandomCity();
         city.registerObserver(this);
 
         // Add two legions to start city
-        city.addLegionsToCurrentCity(2);
+        addLegionsToCity(city, 2);
     }
 
-    public Player(String username, City city, RoleCard roleCard, boolean turn, boolean isLocal, int actionsRemaining) {
-        this.roleCard = roleCard;
+    public Player(String username, City city, RoleCard playerRole, boolean isTurn, boolean isLocal, int actionsRemaining) {
+        this.playerRole = playerRole;
         this.city = city;
         this.username = username;
         this.isLocal = isLocal;
         this.actionsRemaining = actionsRemaining;
-        this.turn = turn;
+        this.isTurn = isTurn;
     }
-    
+
     public boolean isCurrentTurn() {
-        return turn;
+        return isTurn;
     }
 
     /**
@@ -74,7 +105,7 @@ public class Player extends Observable implements IObserver {
      * The player can now perform 4 actions
      */
     public void setTurn() {
-        turn = true;
+        isTurn = true;
         actionsRemaining = 4;
     }
 
@@ -82,52 +113,83 @@ public class Player extends Observable implements IObserver {
         return actionsRemaining;
     }
 
-    public void decreaseAmountOfActionsRemaining() {
-        if (actionsRemaining <= 0) return;
-        actionsRemaining--;
-        notifyObservers();
+    private boolean hasActionsLeft() {
+        return actionsRemaining > 0;
+    }
 
-        // Sync with server
-        GameService gameService = new GameService();
+    private void decrementActionsRemaining() {
+        actionsRemaining--;
+    }
+
+    private GameService createGameService() {
+        return new GameService();
+    }
+
+    private void setGameService() {
+        GameService gameService = createGameService();
         gameService.setGame(Game.getGameInstance());
     }
 
-    public void setActionsRemaining(int actionsRemaining) {
-        this.actionsRemaining = actionsRemaining;
+    public void decreaseAmountOfActionsRemaining() {
+        if (!hasActionsLeft()) return;
+        decrementActionsRemaining();
+        notifyObservers();
+
+        // Sync with server
+        setGameService();
     }
 
     public PlayerHand getPlayerDeck() {
         return playerDeck;
     }
 
-    public RoleCard getRoleCard() {
-        return roleCard;
+    public RoleCard getPlayerRole() {
+        return playerRole;
     }
 
     public String getUsername() {
         return username;
     }
-    
+
+    private boolean lessThenThreeLegionsInCity(List<Legion> legionsBeforeBattle) {
+        return legionsBeforeBattle.size() <= 3;
+    }
+
+    private boolean legionsInCity(List<Legion> legionsBeforeBattle) {
+        return legionsBeforeBattle.size() > 0;
+    }
+
+    private List<Legion> getLegionsInCity() {
+        return city.getLegionsInCity();
+    }
+
+    private int decideAmountOfDiceToRole(List<Legion> legionsBeforeBattle) {
+        if (lessThenThreeLegionsInCity(legionsBeforeBattle) && legionsInCity(legionsBeforeBattle)) {
+            return legionsBeforeBattle.size();
+        }
+        return 3;
+    }
+
     // Actions
-    
-    public DiceFace[] battle() {
-    	
-    	Dice dice = new Dice();
-    	List<Legion> legionsBefore = city.getLegionsInCity();
-    	List<Barbarian> barbariansBefore = city.getBarbariansInCity();
-    	int diceAmount = 3;
+    private DiceFace[] determineBattleOutcome() {
+        Dice dice = new Dice();
+        List<Legion> legionsBeforeBattle = getLegionsInCity();
 
-    	// Decide amount of dice to roll.
-    	if (legionsBefore.size() <= 3 && legionsBefore.size() > 0) {
-    		diceAmount = legionsBefore.size();
-    	}
+        // Decide amount of dice to roll.
+        int amountOfDice = decideAmountOfDiceToRole(legionsBeforeBattle);
 
-        DiceFace[] diceFaces = new DiceFace[diceAmount];
-    	for (int i = 0; i < diceAmount; i++) {
+        DiceFace[] diceFaces = new DiceFace[amountOfDice];
+        for (int i = 0; i < amountOfDice; i++) {
             diceFaces[i] = dice.determineBattleOutcome(city);
-    	}
+        }
+        return diceFaces;
+    }
 
-    	decreaseAmountOfActionsRemaining();
+    public DiceFace[] fightBattle() {
+
+        DiceFace[] diceFaces = determineBattleOutcome();
+
+        decreaseAmountOfActionsRemaining();
 
         return diceFaces;
     }
@@ -140,9 +202,9 @@ public class Player extends Observable implements IObserver {
     	notifyObservers();
     }
 
-    public boolean isHost() {
-        return isHost();
-    }
+//    public boolean isHost() {
+//        return isHost();
+//    }
 
     /**
      * Add more actions
@@ -165,7 +227,7 @@ public class Player extends Observable implements IObserver {
     }
 
     public void removeIsTurn() {
-        turn = false;
+        isTurn = false;
     }
 
     public boolean isLocalPlayer() {

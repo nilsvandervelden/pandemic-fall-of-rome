@@ -56,7 +56,7 @@ public class BattleController extends Controller {
 	}
 
 	private DiceFace[] fightBattle(Player player) {
-		return player.battle();
+		return player.fightBattle();
 	}
 
 	private int calculateAmountOfLostLegions(DiceFace[] battleResults) {
