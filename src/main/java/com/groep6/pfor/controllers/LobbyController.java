@@ -103,7 +103,7 @@ public class LobbyController extends Controller {
     }
 
     private void displayWonGameView() {
-
+        Platform.runLater(WinGameController::new);
     }
 
     private boolean gameHasBeenLost(Game currentGame) {

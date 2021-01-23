@@ -244,32 +244,62 @@ public class Player extends Observable implements IObserver {
         notifyObservers();
     }
 
+    private FactionFactory getFactionFactory() {
+        return FactionFactory.getInstance();
+    }
+
+    private List<Faction> getFactions() {
+        FactionFactory factionFactory = getFactionFactory();
+        return factionFactory.getFactions();
+    }
+
+    private List<Card> getCardsInPlayerDeck() {
+        return getPlayerDeck().getCards();
+    }
+
+    private boolean factionCanEnterCity(Faction faction) {
+        return city.requestedFactionInCity(faction);
+    }
+
+    private boolean cardInstanceOfCityCard(Card card) {
+        return card instanceof CityCard;
+    }
+
+    private boolean cityCardBelongsToRequestedFaction(Card card, Faction faction) {
+        return ((CityCard) card).getFactionCityCardBelongsTo().equals(faction);
+    }
+
+    private boolean enoughCardsToFormAlliance(int cardCount, Faction faction) {
+        return cardCount >= faction.getRequiredAmountOfCardsToFormAAlliance();
+    }
+
     /**
      * Get list of factions that an alliance can be formed with.
      * @return List of factions
      */
-    public List<Faction> availableAlliances() {
-        FactionFactory factionFactory = FactionFactory.getInstance();
-        List<Faction> factions = factionFactory.getFactions();
-        List<Card> cards = getPlayerDeck().getCards();
-        List<Faction> formableAlliances = new ArrayList<>();
+    public List<Faction> checkAvailableAlliances() {
+        List<Faction> factions = getFactions();
+        List<Card> cardsInPlayerDeck = getCardsInPlayerDeck();
+        List<Faction> availableAlliances = new ArrayList<>();
 
         // Loop through all factions
         for (Faction faction : factions) {
             // If current city does not have this faction, continue
-            if (!city.requestedFactionInCity(faction)) continue;
+            if (!factionCanEnterCity(faction)) continue;
 
             int cardCount = 0;
 
             // Check if player has required card count to form alliance
-            for (Card card : cards) {
-                if (card instanceof CityCard && ((CityCard) card).getFactionCityCardBelongsTo().equals(faction)) {
+            for (Card card : cardsInPlayerDeck) {
+                if (cardInstanceOfCityCard(card) && cityCardBelongsToRequestedFaction(card, faction)) {
                     cardCount++;
                 }
             }
-            if (cardCount >= faction.getRequiredAmountOfCardsToFormAAlliance()) formableAlliances.add(faction);
+            if (enoughCardsToFormAlliance(cardCount, faction)) {
+                availableAlliances.add(faction);
+            }
         }
-        return formableAlliances;
+        return availableAlliances;
     }
 
     /**
@@ -277,11 +307,11 @@ public class Player extends Observable implements IObserver {
      * @param faction The faction you want the cards from
      * @return A list of cards
      */
-    public List<Card> getCitycardsOfAliedFaction(Faction faction) {
-        List<Card> cards = getPlayerDeck().getCards();
+    public List<Card> getCityCardsOfAlliedFaction(Faction faction) {
+        List<Card> cardsInPlayerDeck = getCardsInPlayerDeck();
         List<Card> factionCards = new ArrayList<>();
-        for (Card card : cards) {
-            if (card instanceof CityCard && ((CityCard) card).getFactionCityCardBelongsTo().equals(faction)) {
+        for (Card card : cardsInPlayerDeck) {
+            if (cardInstanceOfCityCard(card) && cityCardBelongsToRequestedFaction(card, faction)) {
                 factionCards.add(card);
             }
         }

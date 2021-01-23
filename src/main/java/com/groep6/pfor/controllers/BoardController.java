@@ -306,13 +306,13 @@ public class BoardController extends Controller {
     }
 
     private void removeCardsFromAlliedFactions(Player localPlayer, Faction factionToBecomeAllied) {
-        List<Card> cardsToDiscard = localPlayer.getCitycardsOfAliedFaction(factionToBecomeAllied);
+        List<Card> cardsToDiscard = localPlayer.getCityCardsOfAlliedFaction(factionToBecomeAllied);
         localPlayer.getPlayerDeck().removeCards(cardsToDiscard.toArray(new Card[0]));
     }
 
     public void formAlliance() {
         Player localPlayer = getLocalPlayer();
-        Faction factionToBecomeAllied = localPlayer.availableAlliances().get(0);
+        Faction factionToBecomeAllied = localPlayer.checkAvailableAlliances().get(0);
 
         changeFactionStatusToAllied(factionToBecomeAllied);
 
@@ -328,7 +328,7 @@ public class BoardController extends Controller {
 
     public boolean canFormAlliance() {
         Player localPlayer = getLocalPlayer();
-        return localPlayer.availableAlliances().size() > 0;
+        return localPlayer.checkAvailableAlliances().size() > 0;
     }
 
     public List<Faction> getFriendlyFactions() {
