@@ -36,7 +36,7 @@ public class FaberFortunaeAction implements IAction {
 	}
 
 	public void addCityCardToPlayerHandDeck(Player player, CityCard cityCard) {
-		player.getPlayerDeck().addCards(cityCard);
+		player.getPlayerDeck().addCardsToPlayerHand(cityCard);
 	};
 
 	private void decreaseAmountOfActionsRemaining(Game currentGame) {

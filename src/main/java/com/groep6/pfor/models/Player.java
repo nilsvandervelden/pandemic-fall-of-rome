@@ -31,7 +31,7 @@ public class Player extends Observable implements IObserver {
     private void initialisePlayerDeck(Game currentGame) {
         int amountOfCardsToDraw = 3;
         for (int i = 0; i < amountOfCardsToDraw; i++) {
-            playerDeck.addCards(drawCardFromDeck(currentGame));
+            playerDeck.addCardsToPlayerHand(drawCardFromDeck(currentGame));
         }
     }
 
@@ -254,7 +254,7 @@ public class Player extends Observable implements IObserver {
     }
 
     private List<Card> getCardsInPlayerDeck() {
-        return getPlayerDeck().getCards();
+        return getPlayerDeck().getPlayerHandCards();
     }
 
     private boolean factionCanEnterCity(Faction faction) {

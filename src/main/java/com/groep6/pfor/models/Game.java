@@ -232,11 +232,11 @@ public class Game extends Observable implements IObserver {
     }
 
     private void addCardsToPlayerHand(Player player, Player localPlayer) {
-        getPlayerHand(player).addCards(parsePlayerHandCardsToArray(localPlayer));
+        getPlayerHand(player).addCardsToPlayerHand(parsePlayerHandCardsToArray(localPlayer));
     }
 
     private List<Card> getPlayerHandCards(Player player) {
-       return getPlayerHand(player).getCards();
+       return getPlayerHand(player).getPlayerHandCards();
     }
 
     private Card[] parsePlayerHandCardsToArray(Player player) {

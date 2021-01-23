@@ -22,7 +22,7 @@ public class HandCardDeckController extends Controller {
     }
 
     public List<Card> getPlayerHandDeckCards() {
-        return currentGame.getLocalPlayer().getPlayerDeck().getCards();
+        return currentGame.getLocalPlayer().getPlayerDeck().getPlayerHandCards();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class HandCardDeckController extends Controller {
     }
 
     public void removeCurrentlySelectedCardFromPlayerDeck() {
-        currentGame.getLocalPlayer().getPlayerDeck().removeCard(currentlySelectedCard);
+        currentGame.getLocalPlayer().getPlayerDeck().removeCardFromPlayerHand(currentlySelectedCard);
     }
 
     public void addCardToInvasionCardDiscardPile() {
@@ -90,7 +90,7 @@ public class HandCardDeckController extends Controller {
     }
 
     public void removeCurrentlySelectedCardFromPlayerCardDeck(Player localPlayer) {
-        localPlayer.getPlayerDeck().removeCard(currentlySelectedCard);
+        localPlayer.getPlayerDeck().removeCardFromPlayerHand(currentlySelectedCard);
     }
 
     public void addCurrentlySelectedCardToTradeDeck() {

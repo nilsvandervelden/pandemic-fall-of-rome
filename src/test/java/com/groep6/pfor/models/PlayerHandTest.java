@@ -27,7 +27,7 @@ public class PlayerHandTest {
         this.card1 = cards.get(0);
         this.card2 = cards.get(1);
         this.playerHand = new PlayerHand();
-        playerHand.addCards(card1, card2);
+        playerHand.addCardsToPlayerHand(card1, card2);
     }
 
     @AfterEach
@@ -39,7 +39,7 @@ public class PlayerHandTest {
 
     @Test
     void removeCards() {
-        playerHand.removeCard(card1);
-        assertEquals(1, playerHand.getCardCount());
+        playerHand.removeCardFromPlayerHand(card1);
+        assertEquals(1, playerHand.getAmountOfCardsInPlayerHand());
     }
 }

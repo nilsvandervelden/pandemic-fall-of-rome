@@ -31,7 +31,7 @@ public class AudentesFortunaAction implements IAction {
 
 	public void addTwoCardsToPlayerHandDeck(Player playerFromCurrentTurn, Game currentGame) {
 		Deck cityDeck = getPlayerCardDeck(currentGame);
-		playerFromCurrentTurn.getPlayerDeck().addCards(drawCardFromCityDeck(cityDeck) , drawCardFromCityDeck(cityDeck));
+		playerFromCurrentTurn.getPlayerDeck().addCardsToPlayerHand(drawCardFromCityDeck(cityDeck) , drawCardFromCityDeck(cityDeck));
 	};
 
 	private void decreaseAmountOfActionsRemaining(Game currentGame) {

@@ -13,50 +13,33 @@ import java.util.List;
  */
 public class PlayerHand extends Observable {
 
-    private final List<Card> cards = new ArrayList<>();
+    private final List<Card> playerHandCards = new ArrayList<>();
 
     public PlayerHand(Card... cards) {
-        addCards(cards);
+        addCardsToPlayerHand(cards);
     }
 
-    public boolean hasCard(Card card) {
-        return cards.contains(card);
-    }
-
-    public void addCards(Card... cards) {
-        this.cards.addAll(Arrays.asList(cards));
+    public void addCardsToPlayerHand(Card... cards) {
+        this.playerHandCards.addAll(Arrays.asList(cards));
         notifyObservers();
     }
 
-    public void removeCards(Card... cards) {
-        this.cards.removeAll(Arrays.asList(cards));
+    public void removeCardsFromPlayerHand(Card... cards) {
+        this.playerHandCards.removeAll(Arrays.asList(cards));
         notifyObservers();
     }
 
-    public List<Card> getCards() {
-        return cards;
+    public List<Card> getPlayerHandCards() {
+        return playerHandCards;
     }
 
-    public Card removeCard(int index) {
-        Card removedCard = cards.get(index);
-        cards.remove(index);
+    public void removeCardFromPlayerHand(Card card) {
+        playerHandCards.remove(card);
         notifyObservers();
-        return removedCard;
-    }
-
-    public void removeCard(Card card) {
-        //int index = cards.indexOf(card);
-        //Card removedCard = cards.get(index);
-        cards.remove(card);
-        notifyObservers();
-    }
-
-    public Card getCard(int index) {
-        return cards.get(index);
     }
     
-    public int getCardCount() {
-        return cards.size();
+    public int getAmountOfCardsInPlayerHand() {
+        return playerHandCards.size();
     }
 }
 

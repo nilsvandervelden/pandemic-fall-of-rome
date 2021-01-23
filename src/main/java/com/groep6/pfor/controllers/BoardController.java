@@ -89,7 +89,7 @@ public class BoardController extends Controller {
     }
 
     private void addTwoCardToPlayerDeck(Player localPlayer) {
-        localPlayer.getPlayerDeck().addCards(currentGame.getPlayerCardDeck().drawCardFromDeck(), currentGame.getPlayerCardDeck().drawCardFromDeck());
+        localPlayer.getPlayerDeck().addCardsToPlayerHand(currentGame.getPlayerCardDeck().drawCardFromDeck(), currentGame.getPlayerCardDeck().drawCardFromDeck());
     }
 
     private void showPlayerHandDeck() {
@@ -103,7 +103,7 @@ public class BoardController extends Controller {
     // Open hand when there are more than 7 cards in hand
     private boolean maximumAmountOfCardsInHandDeckHaveBeenReached(Player localPlayer) {
         int maximumAmountOfCardInHand = 7;
-        return (localPlayer.getPlayerDeck().getCards().size() > maximumAmountOfCardInHand);
+        return (localPlayer.getPlayerDeck().getPlayerHandCards().size() > maximumAmountOfCardInHand);
 
     }
 
@@ -307,7 +307,7 @@ public class BoardController extends Controller {
 
     private void removeCardsFromAlliedFactions(Player localPlayer, Faction factionToBecomeAllied) {
         List<Card> cardsToDiscard = localPlayer.getCityCardsOfAlliedFaction(factionToBecomeAllied);
-        localPlayer.getPlayerDeck().removeCards(cardsToDiscard.toArray(new Card[0]));
+        localPlayer.getPlayerDeck().removeCardsFromPlayerHand(cardsToDiscard.toArray(new Card[0]));
     }
 
     public void formAlliance() {

@@ -58,7 +58,7 @@ public class TradeController extends Controller {
     }
 
     private void addCurrentlySelectedCardToPlayerHandDeck() {
-        currentGame.getLocalPlayer().getPlayerDeck().addCards(currentlySelectedCard);
+        currentGame.getLocalPlayer().getPlayerDeck().addCardsToPlayerHand(currentlySelectedCard);
     }
 
     private void decreaseAmountOfActionsRemaining(Player playerFromCurrentTurn) {
