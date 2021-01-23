@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
  * @author Owen Elderbroek
  */
 public class Firebase {
-    private static Firestore db;
+    private static Firestore database;
 
     /**
      * Initialize the Firebase link and create a connection to the server
@@ -32,7 +32,7 @@ public class Firebase {
             FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(credentials).build();
             FirebaseApp.initializeApp(options);
 
-            db = FirestoreClient.getFirestore();
+            database = FirestoreClient.getFirestore();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,19 +73,6 @@ public class Firebase {
     }
 
     /**
-     * Add a DTO to a collection
-     *
-     * @param path The path to the collection where the object
-     *             should be appended to the list with a random
-     *             document Id
-     * @param data The data that should form a document entry
-     */
-    protected static void addDocument(String path, Object data) {
-        CollectionReference collRef = collRefFromPath(path);
-        collRef.add(data);
-    }
-
-    /**
      * Write a document to a location, document Id is specified
      * as the last entry in the path. Warning, overwrites existing
      * data at that location!
@@ -98,22 +85,13 @@ public class Firebase {
     }
 
     /**
-     * Remove a document at a given path
-     * @param path The path that points to the document to be removed
-     */
-    protected static void removeDocument(String path) {
-        DocumentReference docRef = docRefFromPath(path);
-        docRef.delete();
-    }
-
-    /**
      * Obtains the document reference pointed to by a path
      * @param path The path to the document
      * @return The reference to that document
      */
     protected static DocumentReference docRefFromPath(String path) {
         String[] paths = path.split("/");
-        CollectionReference collRef = db.collection(paths[0]);
+        CollectionReference collRef = database.collection(paths[0]);
         DocumentReference docRef = null;
 
         for (int i = 1; i < paths.length; i++) {
@@ -130,7 +108,7 @@ public class Firebase {
      */
     protected static CollectionReference collRefFromPath(String path) {
         String[] paths = path.split("/");
-        CollectionReference collRef = db.collection(paths[0]);
+        CollectionReference collRef = database.collection(paths[0]);
         DocumentReference docRef = null;
 
         for (int i = 1; i < paths.length; i++) {
@@ -139,40 +117,6 @@ public class Firebase {
         }
 
         return collRef;
-    }
-
-    /**
-     * Allows constructing a query and executing it
-     * @param query The query to perform
-     * @return The result of executing the query
-     */
-    protected static QueryDocumentSnapshot[] query(Query query) throws NoDocumentException {
-        try {
-            ApiFuture<QuerySnapshot> future =  query.get();
-            QuerySnapshot snapshot = future.get();
-            if (snapshot.isEmpty()) throw new NoDocumentException();
-            return snapshot.getDocuments().toArray(new QueryDocumentSnapshot[0]);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Wrapper for {@link #query(Query)} method that only returns the first entry.
-     * @param query The query to execute
-     * @return The first result of the query
-     */
-    public static QueryDocumentSnapshot queryOne(Query query) throws NoDocumentException {
-        return query(query)[0];
-    }
-
-    /**
-     * Obtain a new Writebatch
-     * @return A new Writebatch object
-     */
-    public static WriteBatch newBatch() {
-        return db.batch();
     }
 
     /**
