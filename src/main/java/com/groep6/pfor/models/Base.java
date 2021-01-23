@@ -53,7 +53,7 @@ public class Base<boardPiece extends Piece> extends Tile {
      */
 	
 	public Faction getFactionAllowedInBase() {
-		return factions[0];
+		return factionsAllowedOnTile[0];
 	}
 	
     /**

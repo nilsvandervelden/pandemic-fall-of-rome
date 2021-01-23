@@ -175,7 +175,7 @@ public class BoardView extends View implements IObserver {
             for (Tile tile : boardController.getTiles()) {
                 if (!(tile instanceof City)) continue;
                 City city = (City) tile;
-                Vector2f pos = new Vector2f(city.getPosition()).mul(CANVAS_SIZE);
+                Vector2f pos = new Vector2f(city.getTilePosition()).mul(CANVAS_SIZE);
                 Vector2f mouse = new Vector2f((float) event.getX(), (float) event.getY());
                 if (pos.distance(mouse) < CIRCLE_RADIUS * CANVAS_SIZE.y) {
                 	// Move player on right click
@@ -325,7 +325,7 @@ public class BoardView extends View implements IObserver {
         for (Tile tile : boardController.getTiles()) {
             if (tile instanceof City) {
                 City city = (City) tile;
-                Vector2f cityPos = new Vector2f(city.getPosition()).mul(CANVAS_SIZE);
+                Vector2f cityPos = new Vector2f(city.getTilePosition()).mul(CANVAS_SIZE);
                 float r = CIRCLE_RADIUS * CANVAS_SIZE.y;
                 List<Vector2f> positions = new ArrayList<>();
 

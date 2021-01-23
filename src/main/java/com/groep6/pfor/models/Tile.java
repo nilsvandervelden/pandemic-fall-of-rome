@@ -13,25 +13,25 @@ import java.util.List;
  * @author Nils van der Velden
  */
 public abstract class Tile extends Observable {
-	protected Vector2f position;
-	protected Faction[] factions;
+	protected Vector2f tilePosition;
+	protected Faction[] factionsAllowedOnTile;
 	protected List<City> neighbouringCities = new ArrayList<>();
 
 	/**
 	 * Initializes a abstract Tile with the given components.
-	 * @param position The Vector2f (position) of a specific tile
-	 * @param factions What factions are allowed in a specific tile
+	 * @param tilePosition The Vector2f (position) of a specific tile
+	 * @param factionsAllowedOnTile What factions are allowed in a specific tile
 	 */
-	public Tile(Vector2f position, Faction[] factions) {
-		this.position = position;
-		this.factions = factions;
+	public Tile(Vector2f tilePosition, Faction[] factionsAllowedOnTile) {
+		this.tilePosition = tilePosition;
+		this.factionsAllowedOnTile = factionsAllowedOnTile;
 	}
 	
     /**
      * @returns the position of a tile
      */
-	public Vector2f getPosition() {
-		return position;
+	public Vector2f getTilePosition() {
+		return tilePosition;
 	}
 	
     /**

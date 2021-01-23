@@ -46,7 +46,7 @@ public class City extends Tile {
 	 */
 
 	public City(String cityName, Stack<Legion> legionsInCity, Stack<Barbarian> barbariansInCity, boolean hasFort) {
-		super(CityFactory.getInstance().getCityByName(cityName).position, CityFactory.getInstance().getCityByName(cityName).getFactions());
+		super(CityFactory.getInstance().getCityByName(cityName).tilePosition, CityFactory.getInstance().getCityByName(cityName).getFactions());
 		this.legionsInCity = legionsInCity;
 		this.barbariansInCity = barbariansInCity;
 		this.hasFort = hasFort;
@@ -66,7 +66,7 @@ public class City extends Tile {
      * @returns An array with factions that can access the city
      */
 	public Faction[] getFactions() {
-		return factions;
+		return factionsAllowedOnTile;
 	}
 
 	/**
@@ -309,11 +309,11 @@ public class City extends Tile {
 
 	@Override
 	public String toString() {
-		String formattedString = String.format("City: %formattedString, harbour: %b, position: %formattedString, factions: [", cityName, hasHarbour, position);
-		for (Faction faction : factions) {
+		String formattedString = String.format("City: %formattedString, harbour: %b, position: %formattedString, factions: [", cityName, hasHarbour, tilePosition);
+		for (Faction faction : factionsAllowedOnTile) {
 			formattedString += faction.getFactionType().name() + ", ";
 		}
-		if (factions.length > 0) formattedString = formattedString.substring(0, formattedString.length()-2);
+		if (factionsAllowedOnTile.length > 0) formattedString = formattedString.substring(0, formattedString.length()-2);
 		formattedString += "], neighbours: [";
 		for (City neighbour : neighbouringCities) {
 			formattedString += neighbour.getCityName() + ", ";
