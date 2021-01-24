@@ -14,36 +14,17 @@ import java.util.Map;
  * @author OwenElderbroek
  */
 public class BoardDTO {
-    public Map<String, CityDTO> cities = new HashMap<>();
-    public Map<String, Integer> barbarianBases = new HashMap();
-    public int legionBase;
+    public Map<String, CityDTO> cities;
 
-    public BoardDTO() {}
-
-    private BoardDTO(Map<String, CityDTO> cities, int legionBase, Map<String, Integer> barbarianBases) {
+    private BoardDTO(Map<String, CityDTO> cities) {
         this.cities = cities;
-        this.legionBase = legionBase;
-        this.barbarianBases = barbarianBases;
     }
 
     public Board toModel() {
-        Legion[] legions = new Legion[legionBase];
-        for (int i = 0; i < legionBase; i++) legions[i] = new Legion();
-        Base<Legion> legionBase = new Base<>(new Faction[] {}, legions);
-        Map<Faction, Base<Barbarian>> barbarianBases = new HashMap<>();
-        for (String faction : this.barbarianBases.keySet()) {
-            Barbarian[] barbarians = new Barbarian[this.barbarianBases.get(faction)];
-            for (int i = 0; i < this.barbarianBases.get(faction); i++)
-                barbarians[i] = new Barbarian(FactionType.valueOf(faction));
-            Faction fact = FactionFactory.getInstance().getFaction(FactionType.valueOf(faction));
-            Base<Barbarian> base = new Base<>(new Faction[]{fact}, barbarians);
-            barbarianBases.put(fact, base);
-        }
-
         Map<String, Tile> cities = new HashMap<>();
         for (CityDTO city : this.cities.values()) cities.put(city.name, city.toModel());
         
-        return new Board(cities, legionBase, barbarianBases);
+        return new Board(cities);
     }
 
     public static BoardDTO fromModel(Board board) {
@@ -52,10 +33,6 @@ public class BoardDTO {
             City city = (City) tile;
             cities.put(city.getCityName(), CityDTO.fromModel(city));
         }
-        Map<String, Integer> barbarianBases = new HashMap<>();
-        for (Base<Barbarian> base : board.getBarbarianBases().values())
-            barbarianBases.put(base.getFactionAllowedInBase().getFactionType().toString(), base.getPieceCount());
-
-        return new BoardDTO(cities, board.getLegionBase().getPieceCount(), barbarianBases);
+        return new BoardDTO(cities);
     }
 }

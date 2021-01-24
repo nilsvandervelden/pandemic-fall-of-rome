@@ -16,30 +16,9 @@ import java.util.Map;
  */
 public class Board {
 	private Map<String, Tile> tiles = new HashMap<>();
-	private Map<Faction, Base<Barbarian>> barbarianBases = new HashMap<>();
-	private Base<Legion> legionBase = new Base<>(new Vector2f(0, 0), new Faction[] {});
 
 	public Board() {
 		initiateBoard();
-	}
-
-	private FactionFactory getFactionFactory() {
-		return FactionFactory.getInstance();
-	}
-
-	private List<Faction> getAllFactions() {
-		FactionFactory factionFactory = getFactionFactory();
-		return factionFactory.getFactions();
-	}
-
-	private Base createBarbarianBase(Faction faction) {
-		return new Base(new Vector2f(0, 0), new Faction[]{faction});
-	}
-
-	private void createBarbarianBases() {
-		List<Faction> factions = getAllFactions();
-		for (Faction faction : factions)
-			barbarianBases.put(faction, createBarbarianBase(faction));
 	}
 
 	private CityFactory getCityFactory() {
@@ -61,19 +40,14 @@ public class Board {
 
 	private void initiateBoard() {
 		addAllCitiesToBoard();
-		createBarbarianBases();
 	}
 
 	/**
 	 * Construct a base from firebase data
-	 * @param legionBase The base with legions
-	 * @param barbarianBases A map containing all factions with their respective bases
 	 * @return A Firebase instance of the board
 	 */
-	public Board(Map<String, Tile> tiles, Base<Legion> legionBase, Map<Faction, Base<Barbarian>> barbarianBases) {
+	public Board(Map<String, Tile> tiles) {
 		this.tiles = tiles;
-		this.legionBase = legionBase;
-		this.barbarianBases = barbarianBases;
 	}
 
 	private void updateCity(City city, Board board) {
@@ -88,19 +62,8 @@ public class Board {
 		return city.getCityName();
 	}
 
-	private void updateLegionBase(Board fireBaseBoard) {
-		this.legionBase.updateBase(fireBaseBoard.getLegionBase());
-	}
-
 	private Faction getFactionsAllowedInBase(Base <Barbarian> barbarianBase) {
 		return barbarianBase.getFactionAllowedInBase();
-	}
-
-
-	private void updatedBarbarianBases(Board fireBaseBoard) {
-		for (Base <Barbarian> barbarianBase : barbarianBases.values()) {
-			barbarianBase.updateBase(fireBaseBoard.getBarbarianBase(getFactionsAllowedInBase(barbarianBase)));
-		}
 	}
 
 	private void updateCities(Board fireBaseBoard) {
@@ -114,8 +77,6 @@ public class Board {
 	 * @param fireBaseBoard A fireBaseBoard containing data from firebase
 	 */
 	public void updateBoard(Board fireBaseBoard) {
-		updateLegionBase(fireBaseBoard);
-		updatedBarbarianBases(fireBaseBoard);
 		updateCities(fireBaseBoard);
 	}
 
@@ -125,17 +86,5 @@ public class Board {
 
 	public Tile getTileByName(String name) {
 		return tiles.get(name);
-	}
-
-	public Base<Legion> getLegionBase() {
-		return legionBase;
-	}
-
-	public Base<Barbarian> getBarbarianBase(Faction faction) {
-		return barbarianBases.get(faction);
-	}
-
-	public Map<Faction, Base<Barbarian>> getBarbarianBases() {
-		return barbarianBases;
 	}
 }
