@@ -25,7 +25,6 @@ public class Game extends Observable implements IObserver {
     private int decayLevel = 0;
     private final int MAX_DECAY_LEVEL = 9;
     private int invasionLevel = 0;
-    private final int MAX_INVASION_LEVEL = 7;
     private Deck tradeCardDeck = new Deck();
     private Deck invasionCardDeck;
     private Deck playerCardDeck;

@@ -22,20 +22,20 @@ public class BattleController extends Controller {
 	 */
 
 	public BattleController() {
-		Player player = game.getPlayerFromCurrentTurn();
+		Player playerOfCurrentTurn = game.getPlayerFromCurrentTurn();
 
-		int amountOfLegionsInCurrentCity = getAmountOfLegionsInCurrentCity(player);
-		int amountOfBarbariansInCurrentCity = getAmountOfBarbariansInCurrentCity(player);
+		int amountOfLegionsToBattleWith = getAmountOfLegionsInCityPlayerIsCurrentlyLocatedIn(playerOfCurrentTurn);
+		int amountOfBarbariansToBattleWith = getAmountOfBarbariansInCityPlayerIsCurrentlyLocatedIn(playerOfCurrentTurn);
 
-		DiceFace[] battleResults = fightBattle(player);
+		DiceFace[] battleResults = determineBattleOutcome(playerOfCurrentTurn);
 
-		int amountOfLegionsLost = calculateAmountOfLostLegions(battleResults);
-		int amountOfBarbariansLost = calculateAmountOfLostBarbarians(battleResults);
+		int amountOfLegionsLostInBattle = calculateAmountOfLegionsLostInBattle(battleResults);
+		int amountOfBarbariansLostInBattle = calculateAmountOfBarbariansLostInBattle(battleResults);
 
-		amountOfLegionsLost = determineHowManyLostLegionsToDisplay(amountOfLegionsInCurrentCity, amountOfLegionsLost);
-		amountOfBarbariansLost = determineHowManyLostBarbariansToDisplay(amountOfBarbariansInCurrentCity, amountOfBarbariansLost);
+		amountOfLegionsLostInBattle = determineHowManyLostLegionsToDisplay(amountOfLegionsToBattleWith, amountOfLegionsLostInBattle);
+		amountOfBarbariansLostInBattle = determineHowManyLostBarbariansToDisplay(amountOfBarbariansToBattleWith, amountOfBarbariansLostInBattle);
 
-		displayBattleResult(this, amountOfLegionsLost, amountOfBarbariansLost);
+		displayBattleResult(this, amountOfLegionsLostInBattle, amountOfBarbariansLostInBattle);
 		playBattleSound();
 	}
 
@@ -47,19 +47,19 @@ public class BattleController extends Controller {
 		return Math.min(amountOfBarbariansInCurrentCity, amountOfBarbariansLost);
 	}
 
-	private int getAmountOfLegionsInCurrentCity(Player player) {
+	private int getAmountOfLegionsInCityPlayerIsCurrentlyLocatedIn(Player player) {
 		return player.getCityPlayerIsCurrentlyLocatedIn().getLegionCount();
 	}
 
-	private int getAmountOfBarbariansInCurrentCity(Player player) {
+	private int getAmountOfBarbariansInCityPlayerIsCurrentlyLocatedIn(Player player) {
 		return player.getCityPlayerIsCurrentlyLocatedIn().getAmountOfBarbariansLocatedInCurrentCity();
 	}
 
-	private DiceFace[] fightBattle(Player player) {
+	private DiceFace[] determineBattleOutcome(Player player) {
 		return player.fightBattle();
 	}
 
-	private int calculateAmountOfLostLegions(DiceFace[] battleResults) {
+	private int calculateAmountOfLegionsLostInBattle(DiceFace[] battleResults) {
 		int amountOfLegionsLost = 0;
 		for (DiceFace battleResult : battleResults) {
 			amountOfLegionsLost += battleResult.getLegionCount();
@@ -67,7 +67,7 @@ public class BattleController extends Controller {
 		return amountOfLegionsLost;
 	}
 
-	private int calculateAmountOfLostBarbarians(DiceFace[] battleResults) {
+	private int calculateAmountOfBarbariansLostInBattle(DiceFace[] battleResults) {
 		int amountOfBarbariansLost = 0;
 		for (DiceFace battleResult : battleResults) {
 			amountOfBarbariansLost += battleResult.getBarbarianCount();

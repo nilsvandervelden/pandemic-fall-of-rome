@@ -47,7 +47,6 @@ public class MovementController extends Controller {
 		addLegionsToSelectedCityToMoveTo(amountOfLegions);
 	}
 
-
 	public void moveLegionsAndPlayerToSelectedCity(int amountOfLegions) {
     	moveLegionsToSelectedCity(amountOfLegions);
 		moveLocalPlayerToSelectedCity();

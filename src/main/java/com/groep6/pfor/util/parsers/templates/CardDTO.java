@@ -13,40 +13,40 @@ import com.groep6.pfor.models.factions.FactionType;
  * @author Owen Elderbroek
  */
 public class CardDTO {
-    public String type;
-    public String name;
-    public String city;
-    public String faction;
+    public String cardType;
+    public String cardName;
+    public String cityCardBelongsTo;
+    public String factionCardBelongsTo;
 
     public CardDTO () {}
 
-    private CardDTO(String type) {
-        this.type = type;
+    private CardDTO(String cardType) {
+        this.cardType = cardType;
     }
 
-    private CardDTO(String type, String name) {
-        this(type);
-        this.name = name;
+    private CardDTO(String cardType, String cardName) {
+        this(cardType);
+        this.cardName = cardName;
     }
 
-    private CardDTO(String type, String name, String faction) {
-        this(type, name);
-        this.faction = faction;
+    private CardDTO(String cardType, String cardName, String factionCardBelongsTo) {
+        this(cardType, cardName);
+        this.factionCardBelongsTo = factionCardBelongsTo;
     }
 
-    private CardDTO(String type, String name, String faction, String city) {
-        this(type, name, faction);
-        this.city = city;
+    private CardDTO(String cardType, String cardName, String factionCardBelongsTo, String cityCardBelongsTo) {
+        this(cardType, cardName, factionCardBelongsTo);
+        this.cityCardBelongsTo = cityCardBelongsTo;
     }
 
     public Card toModel() {
-        switch (type) {
+        switch (cardType) {
             case "city":
-                return CityCardFactory.getCityCardFactoryInstance().getCardByName(name, FactionFactory.getInstance().getFaction(FactionType.valueOf(faction)));
+                return CityCardFactory.getCityCardFactoryInstance().getCardByName(cardName, FactionFactory.getInstance().getFaction(FactionType.valueOf(factionCardBelongsTo)));
             case "event":
-                return EventCardFactory.getInstance().getCardByName(name);
+                return EventCardFactory.getInstance().getCardByName(cardName);
             case "invasion":
-                return InvasionCardFactory.getInstance().getInvasionCardByName(name, FactionFactory.getInstance().getFaction(FactionType.valueOf(faction)));
+                return InvasionCardFactory.getInstance().getInvasionCardByName(cardName, FactionFactory.getInstance().getFaction(FactionType.valueOf(factionCardBelongsTo)));
         }
         return null;
         // TODO cast card from the database to correct model
