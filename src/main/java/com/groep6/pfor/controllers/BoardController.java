@@ -107,8 +107,10 @@ public class BoardController extends Controller {
         return localPlayer.getPlayerDeck();
     }
 
-    private void showPlayerHandDeck() {
-        new HandCardDeckController();
+    private void showPlayerHandDeck(Player localPlayer) {
+        if (maximumAmountOfCardsInHandDeckHaveBeenReached(localPlayer)) {
+            new HandCardDeckController();
+        }
     }
 
     private void gameHasBeenLost() {
@@ -134,19 +136,11 @@ public class BoardController extends Controller {
 
     public void nextTurn() {
         Player localPlayer = getLocalPlayer();
-
+        checkIfGameHasBeenLost();
+        checkIfGameHasBeenWon();
         addTwoCardToPlayerDeck(localPlayer);
-
-        checkLoseConditions();
-
-        if (maximumAmountOfCardsInHandDeckHaveBeenReached(localPlayer)) {
-            showPlayerHandDeck();
-        }
-
-        handleBarbarianInvasions();
-    	
-    	checkWinConditions();
-
+        showPlayerHandDeck(localPlayer);
+        barbariansInvadeCities();
         setNextTurn();
     }
 
@@ -155,7 +149,7 @@ public class BoardController extends Controller {
         return currentGame.getPlayerCardDeck().getCards().size() <= minimumAmountOfCardsInPlayerCardDeck;
     }
 
-    public void checkLoseConditions() {
+    public void checkIfGameHasBeenLost() {
         if (playerHasNoMoreCards()) {
             gameHasBeenLost();
         } else if (maximumDecayLevelHasBeenReached()) {
@@ -168,7 +162,7 @@ public class BoardController extends Controller {
         currentGame.setGameWon(true);
     }
     
-    public void checkWinConditions() {
+    public void checkIfGameHasBeenWon() {
     	if (getFriendlyFactions().size() == 5) {
     	    gameHasBeenWon();
         }
@@ -194,9 +188,12 @@ public class BoardController extends Controller {
         return new Card[amountOfInvasions];
     }
 
+    private InvasionCard drawInvasionCardFromDeck(Deck invasionCardsDeck) {
+        return (InvasionCard) invasionCardsDeck.drawCardFromDeck();
+    }
     private void invadeCities(int amountOfInvasions, Card[] invasionCards, Deck invasionCardsDeck) {
         for (int i = 0; i < amountOfInvasions; i++) {
-            InvasionCard invasionCard = (InvasionCard) invasionCardsDeck.drawCardFromDeck();
+            InvasionCard invasionCard = drawInvasionCardFromDeck(invasionCardsDeck);
             invadeCity(invasionCard);
             invasionCards[i] = invasionCard;
         }
@@ -206,7 +203,7 @@ public class BoardController extends Controller {
         invasionCardsDeck.shuffleDeck();
     }
 
-    private void handleBarbarianInvasions() {
+    private void barbariansInvadeCities() {
         int amountOfInvasions = 2;
 
         Card[] invasionCards = getInvasionCards(amountOfInvasions);
