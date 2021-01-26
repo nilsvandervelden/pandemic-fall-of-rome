@@ -13,8 +13,11 @@ import java.util.Map;
  *
  * @author OwenElderbroek
  */
+
 public class BoardDTO {
     public Map<String, CityDTO> cities;
+
+    public BoardDTO() {}
 
     private BoardDTO(Map<String, CityDTO> cities) {
         this.cities = cities;
