@@ -89,7 +89,22 @@ public class BoardController extends Controller {
     }
 
     private void addTwoCardToPlayerDeck(Player localPlayer) {
-        localPlayer.getPlayerDeck().addCardsToPlayerHand(currentGame.getPlayerCardDeck().drawCardFromDeck(), currentGame.getPlayerCardDeck().drawCardFromDeck());
+        addTwoCardsToPlayerHand(localPlayer, drawCardFromDeck(), drawCardFromDeck());
+    }
+
+    private Deck getPlayerCardDeck() {
+        return currentGame.getPlayerCardDeck();
+    }
+
+    private Card drawCardFromDeck() {
+        return getPlayerCardDeck().drawCardFromDeck();
+    }
+    private void addTwoCardsToPlayerHand(Player localPlayer, Card card1, Card card2) {
+        getPlayerDeck(localPlayer).addCardsToPlayerHand(card1, card2);
+    }
+
+    private PlayerHand getPlayerDeck(Player localPlayer) {
+        return localPlayer.getPlayerDeck();
     }
 
     private void showPlayerHandDeck() {
