@@ -29,21 +29,21 @@ public class JsonCity {
      */
 
     private Faction[] getFactions() {
-        Faction[] factions = new Faction[this.tile.getFactions().length];
-        for (int i = 0; i < this.tile.getFactions().length; i++) {
-            factions[i] = FactionFactory.getInstance().getFaction(this.tile.getFactions()[i]);
+        Faction[] factions = new Faction[this.tile.getFactionsAllowedInCity().length];
+        for (int i = 0; i < this.tile.getFactionsAllowedInCity().length; i++) {
+            factions[i] = FactionFactory.getInstance().getFaction(this.tile.getFactionsAllowedInCity()[i]);
         }
         return factions;
     }
-    
+
     public City toModel() {
         Faction[] factions = getFactions();
 
-        return new City(name, harbour, tile.getPosition().toModel(), factions);
+        return new City(name, harbour, tile.getTilePosition().toModel(), factions);
     }
 
     public String[] getNeighbours() {
-        return tile.getNeighbours();
+        return tile.getNeighbouringCities();
     }
 
     public String getName() {

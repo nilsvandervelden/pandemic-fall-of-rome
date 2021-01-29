@@ -15,13 +15,13 @@ import java.util.Map;
  */
 public class LobbyDTO {
     /** The lobby code that is required to join a lobby */
-    public String code;
+    public String lobbyCode;
 
     /** The password that is required to join the lobby */
-    public String password;
+    public String lobbyPassword;
 
     /** The players in this lobby */
-    public Map<String, LobbyPlayerDTO> players;
+    public Map<String, LobbyPlayerDTO> playersInLobby;
 
     public boolean started;
 
@@ -29,24 +29,39 @@ public class LobbyDTO {
 
     /**
      * Construct a Data Transfer Object with the specified fields
-     * @param code The lobby code
-     * @param password The password for the lobbies
-     * @param players The players in the lobby
+     * @param lobbyCode The lobby code
+     * @param lobbyPassword The password for the lobbies
+     * @param playersInLobby The players in the lobby
      */
-    private LobbyDTO(String code, String password, Map<String, LobbyPlayerDTO> players) {
-        this.code = code;
-        this.password = password;
-        this.players = players;
+    private LobbyDTO(String lobbyCode, String lobbyPassword, Map<String, LobbyPlayerDTO> playersInLobby) {
+        this.lobbyCode = lobbyCode;
+        this.lobbyPassword = lobbyPassword;
+        this.playersInLobby = playersInLobby;
     }
 
     /**
      * Converts this Data Transfer Object to its corresponding business model
      * @return The lobby object that this instance represents
      */
-    public Lobby toModel() {
+
+    private List<LobbyPlayer> addPlayersToLobby() {
         List<LobbyPlayer> players = new ArrayList<>();
-        for (LobbyPlayerDTO player : this.players.values()) players.add(player.toModel(code));
-        return new Lobby(code, password, players);
+        for (LobbyPlayerDTO player : this.playersInLobby.values()) {
+            players.add(player.toModel(lobbyCode));
+        }
+        return players;
+    }
+    public Lobby toModel() {
+        List<LobbyPlayer> players =  addPlayersToLobby();
+        return new Lobby(lobbyCode, lobbyPassword, players);
+    }
+
+    private static Map<String, LobbyPlayerDTO> addPlayersToLobby(Lobby lobby) {
+        Map<String, LobbyPlayerDTO> playersInLobby = new HashMap<>();
+        for (LobbyPlayer player : lobby.getPlayers()) {
+            playersInLobby.put(player.getUsername(), LobbyPlayerDTO.fromModel(player));
+        }
+        return playersInLobby;
     }
 
     /**
@@ -55,8 +70,7 @@ public class LobbyDTO {
      * @return The DTO of the model
      */
     public static LobbyDTO fromModel(Lobby lobby) {
-        Map<String, LobbyPlayerDTO> players = new HashMap<>();
-        for (LobbyPlayer player : lobby.getPlayers()) players.put(player.getUsername(), LobbyPlayerDTO.fromModel(player));
-        return new LobbyDTO(lobby.getCode(), lobby.getPasswordHash(), players);
+        Map<String, LobbyPlayerDTO> playersInLobby = addPlayersToLobby(lobby);
+        return new LobbyDTO(lobby.getCode(), lobby.getPasswordHash(), playersInLobby);
     }
 }
