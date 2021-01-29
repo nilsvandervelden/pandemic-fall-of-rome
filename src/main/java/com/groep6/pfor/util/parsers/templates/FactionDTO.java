@@ -14,33 +14,33 @@ import javafx.scene.paint.Color;
 public class FactionDTO {
     /** The name of the faction */
     @SerializedName("type")
-    private FactionType type;
+    private FactionType factionType;
 
     /** The color this faction has whilst displaying */
     @SerializedName("color")
-    private Color color;
+    private Color factionColor;
 
     /** The color this faction has whilst displaying */
     @SerializedName("cardCountForAlliance")
-    private int cardCountForAlliance;
+    private int amountOfCardsRequiredForAlliance;
 
     /**
      * Get the color of this faction
      * @return The color of this faction
      */
-    public Color getColor() {
-        return color;
+    public Color getFactionColor() {
+        return factionColor;
     }
 
     /**
      * Get which faction-type belongs to this faction
      * @return The type of the faction
      */
-    public FactionType getType() {
-        return type;
+    public FactionType getFactionType() {
+        return factionType;
     }
 
     public Faction toModel() {
-        return new Faction(type, color, cardCountForAlliance, new Vector2f());
+        return new Faction(factionType, factionColor, amountOfCardsRequiredForAlliance, new Vector2f());
     }
 }
