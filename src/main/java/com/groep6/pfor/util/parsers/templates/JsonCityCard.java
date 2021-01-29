@@ -11,7 +11,6 @@ public class JsonCityCard {
 
     public CityCard toModel() {
 
-        return new CityCard(CityFactory.getInstance().getCityByName(city),
-                FactionFactory.getInstance().getFaction(FactionType.valueOf(faction)));
+        return new CityCard(CityFactory.getInstance().getCityByName(city), FactionFactory.getInstance().getFaction(FactionType.valueOf(faction)));
     }
 }

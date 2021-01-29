@@ -27,9 +27,18 @@ public class JsonCity {
      * Gets the model that is represented by this Data Transfer Object
      * @return The city that this object represents
      */
-    public City toModel() {
+
+    private Faction[] getFactions() {
         Faction[] factions = new Faction[this.tile.getFactions().length];
-        for (int i = 0; i < this.tile.getFactions().length; i++) factions[i] = FactionFactory.getInstance().getFaction(this.tile.getFactions()[i]);
+        for (int i = 0; i < this.tile.getFactions().length; i++) {
+            factions[i] = FactionFactory.getInstance().getFaction(this.tile.getFactions()[i]);
+        }
+        return factions;
+    }
+    
+    public City toModel() {
+        Faction[] factions = getFactions();
+
         return new City(name, harbour, tile.getPosition().toModel(), factions);
     }
 
