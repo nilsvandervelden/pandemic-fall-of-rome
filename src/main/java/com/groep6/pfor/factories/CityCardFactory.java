@@ -74,7 +74,7 @@ public class CityCardFactory {
 		return Config.DEBUG;
 	}
 
-	public CityCard getCardByName(String requestedCardName, Faction requestedCardFaction) {
+	public CityCard getCityCardByName(String requestedCardName, Faction requestedCardFaction) {
 		for (Card card: cityCardDeck.getCards()) {
 			if (cardIsInstanceOfCiyCard(card)) {
 				CityCard cityCard = parseCardToCityCard(card);

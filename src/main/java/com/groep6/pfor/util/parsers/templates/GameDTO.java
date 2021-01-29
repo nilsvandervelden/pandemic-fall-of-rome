@@ -73,7 +73,7 @@ public class GameDTO {
 
     private Deck createDeck(List<CardDTO> cards) {
         Card[] deckCards = new Card[cards.size()];
-        for (int i = 0; i < cards.size(); i++) deckCards[i] = cards.get(i).toModel();
+        for (int i = 0; i < cards.size(); i++) deckCards[i] = cards.get(i).parseToModel();
         return new Deck(deckCards);
     }
 

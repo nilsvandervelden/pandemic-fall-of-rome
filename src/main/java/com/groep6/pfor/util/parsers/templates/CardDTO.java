@@ -1,10 +1,8 @@
 package com.groep6.pfor.util.parsers.templates;
 
-import com.groep6.pfor.factories.CityCardFactory;
-import com.groep6.pfor.factories.EventCardFactory;
-import com.groep6.pfor.factories.FactionFactory;
-import com.groep6.pfor.factories.InvasionCardFactory;
+import com.groep6.pfor.factories.*;
 import com.groep6.pfor.models.cards.*;
+import com.groep6.pfor.models.factions.Faction;
 import com.groep6.pfor.models.factions.FactionType;
 
 /**
@@ -39,17 +37,36 @@ public class CardDTO {
         this.cityCardBelongsTo = cityCardBelongsTo;
     }
 
-    public Card toModel() {
+    private CityCard getCityCardByName() {
+        CityCardFactory cityFactory = CityCardFactory.getCityCardFactoryInstance();
+        return  cityFactory.getCityCardByName(cardName, getFaction());
+    }
+
+    private Faction getFaction() {
+        FactionFactory factionFactory = FactionFactory.getInstance();
+        return factionFactory.getFaction(FactionType.valueOf(factionCardBelongsTo));
+    }
+
+    private EventCard getEventCardByName() {
+        EventCardFactory eventCardFactory = EventCardFactory.getInstance();
+        return eventCardFactory.getCardByName(cardName);
+    }
+
+    private InvasionCard getInvasionCardByName() {
+        InvasionCardFactory invasionCardFactory = InvasionCardFactory.getInstance();
+        return invasionCardFactory.getInvasionCardByName(cardName, getFaction());
+    }
+
+    public Card parseToModel() {
         switch (cardType) {
             case "city":
-                return CityCardFactory.getCityCardFactoryInstance().getCardByName(cardName, FactionFactory.getInstance().getFaction(FactionType.valueOf(factionCardBelongsTo)));
+                return getCityCardByName();
             case "event":
-                return EventCardFactory.getInstance().getCardByName(cardName);
+                return getEventCardByName();
             case "invasion":
-                return InvasionCardFactory.getInstance().getInvasionCardByName(cardName, FactionFactory.getInstance().getFaction(FactionType.valueOf(factionCardBelongsTo)));
+                return getInvasionCardByName();
         }
         return null;
-        // TODO cast card from the database to correct model
     }
 
     public static CardDTO fromModel(Card model) {
