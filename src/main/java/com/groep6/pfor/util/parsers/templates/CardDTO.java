@@ -1,6 +1,7 @@
 package com.groep6.pfor.util.parsers.templates;
 
 import com.groep6.pfor.factories.*;
+import com.groep6.pfor.models.City;
 import com.groep6.pfor.models.cards.*;
 import com.groep6.pfor.models.factions.Faction;
 import com.groep6.pfor.models.factions.FactionType;
@@ -69,15 +70,51 @@ public class CardDTO {
         return null;
     }
 
-    public static CardDTO fromModel(Card model) {
+    private static String getCardName(Card card) {
+        return card.getCardName();
+    }
+
+    private static Faction getFactionCityCardBelongsTo(CityCard card) {
+        return card.getFactionCityCardBelongsTo();
+    }
+
+    private static FactionType getCityCardFactionType(CityCard cityCard) {
+        return getFactionCityCardBelongsTo(cityCard).getFactionType();
+    }
+
+    private static String getCityCardFactionTypeAsString(CityCard cityCard) {
+        return getCityCardFactionType(cityCard).toString();
+    }
+
+    private static City getCorrespondingCity(CityCard cityCard) {
+        return cityCard.getCorrespondingCity();
+    }
+
+    private static String getCorrespondingCityName(CityCard cityCard) {
+        return getCorrespondingCity(cityCard).getCityName();
+    }
+
+    private static Faction getInvadingFaction(InvasionCard invasionCard) {
+        return invasionCard.getInvadingFaction();
+    }
+
+    private static FactionType getInvadingFactionType(InvasionCard invasionCard) {
+        return getInvadingFaction(invasionCard).getFactionType();
+    }
+
+    private static String getInvadingFactionTypeAsString(InvasionCard invasionCard) {
+        return getInvadingFactionType(invasionCard).toString();
+    }
+
+    public static CardDTO parseFromModel(Card model) {
         if (model instanceof CityCard) {
-            CityCard card = (CityCard) model;
-            return new CardDTO("city", card.getCardName(), card.getFactionCityCardBelongsTo().getFactionType().toString(), card.getCorrespondingCity().getCityName());
+            CityCard cityCard = (CityCard) model;
+            return new CardDTO("city", getCardName(cityCard) , getCityCardFactionTypeAsString(cityCard), getCorrespondingCityName(cityCard));
         } else if (model instanceof EventCard) {
-            return new CardDTO("event", model.getCardName());
+            return new CardDTO("event", getCardName(model));
         } else if (model instanceof InvasionCard) {
-            InvasionCard card = (InvasionCard) model;
-            return new CardDTO("invasion", card.getCardName(), card.getInvadingFaction().getFactionType().toString());
+            InvasionCard invasionCard = (InvasionCard) model;
+            return new CardDTO("invasion", getCardName(invasionCard), getInvadingFactionTypeAsString(invasionCard));
         } else if (model instanceof RevoltCard) {
             return new CardDTO("revolt");
         }

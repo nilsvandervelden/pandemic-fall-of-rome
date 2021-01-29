@@ -79,7 +79,7 @@ public class GameDTO {
 
     private static List<CardDTO> createList(Deck deck) {
         List<CardDTO> list = new ArrayList<>();
-        for (Card card : deck.getCards()) list.add(CardDTO.fromModel(card));
+        for (Card card : deck.getCards()) list.add(CardDTO.parseFromModel(card));
         return list;
     }
 }
