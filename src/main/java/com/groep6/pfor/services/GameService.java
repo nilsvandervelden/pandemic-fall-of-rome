@@ -32,7 +32,7 @@ public class GameService {
      */
     public Game getGame(String code) throws NoDocumentException {
         if (cache != null) return cache;
-        return Firebase.requestDocument("games/" + code).toObject(GameDTO.class).toModel();
+        return Firebase.requestDocument("games/" + code).toObject(GameDTO.class).parseToModel();
     }
 
     /**
@@ -52,7 +52,7 @@ public class GameService {
      * @param game The new game data that will override the old data
      */
     public void setGame(Game game) {
-        Firebase.setDocument("games/" + game.getGameCode(), GameDTO.fromModel(game));
+        Firebase.setDocument("games/" + game.getGameCode(), GameDTO.parseFromModel(game));
     }
 
     /**
@@ -69,7 +69,7 @@ public class GameService {
      * @param game The game to be created
      */
     public void create(Game game) {
-        ApiFuture<WriteResult> res = Firebase.setDocument("games/" + game.getGameCode(), GameDTO.fromModel(game));
+        ApiFuture<WriteResult> res = Firebase.setDocument("games/" + game.getGameCode(), GameDTO.parseFromModel(game));
         try {
             res.get();
         } catch (InterruptedException | ExecutionException e) {
@@ -89,7 +89,7 @@ public class GameService {
         if (e != null) e.printStackTrace();
         else {
             try {
-                cache = documentSnapshot.toObject(GameDTO.class).toModel();
+                cache = documentSnapshot.toObject(GameDTO.class).parseToModel();
                 GameService.gameChangeEvent.fire(cache);
             } catch (Exception ex) {
                 ex.printStackTrace();

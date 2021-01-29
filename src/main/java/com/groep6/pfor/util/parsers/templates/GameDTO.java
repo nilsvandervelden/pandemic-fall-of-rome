@@ -30,26 +30,55 @@ public class GameDTO {
     public boolean lost = false;
     public boolean won = false;
 
-    public Game toModel() {
-        List<Player> players = new ArrayList<>();
-        for (PlayerDTO player : this.players.values()) players.add(player.toModel());
-        List<Faction> factions = new ArrayList<>();
-        for (String faction : this.friendlyFactions) factions.add(FactionFactory.getInstance().getFaction(FactionType.valueOf(faction)));
-
-        return new Game(board.toModel(), players, factions, decayLevel, invasionLevel, createDeck(tradeDeck),
-                createDeck(invasionDeck), createDeck(cityDeck), createDeck(invasionDiscardPile), createDeck(cityDiscardPile), lost, won);
+    private void addPlayersToGame(List<Player> playersInGame) {
+        for (PlayerDTO player : this.players.values()) {
+            playersInGame.add(player.toModel());
+        }
     }
 
-    public static GameDTO fromModel(Game game) {
-        BoardDTO board = BoardDTO.fromModel(game.getGameBoard());
-        Map<String, PlayerDTO> players = new HashMap<>();
-        for (Player player : game.getAllPlayers()) players.put(player.getUsername(), PlayerDTO.fromModel(player));
-        List<String> factions = new ArrayList<>();
-        for (Faction faction : game.getFriendlyFactions()) factions.add(faction.getFactionType().toString());
+    private void addFactionsToGame(List<Faction> factionsInGame) {
+        for (String faction : this.friendlyFactions) {
+            factionsInGame.add(FactionFactory.getInstance().getFaction(FactionType.valueOf(faction)));
+        }
+    }
 
-        return new GameDTO(board, players, factions, game.getDecayLevel(), game.getInvasionLevel(),
-                createList(game.getTradeCardDeck()), createList(game.getInvasionCardDeck()), createList(game.getPlayerCardDeck()),
-                createList(game.getInvasionCardDiscardPile()), createList(game.getCityCardDiscardPile()), game.isGameLost(), game.isGameWon());
+    public Game parseToModel() {
+        List<Player> playersInGame = new ArrayList<>();
+
+        addPlayersToGame(playersInGame);
+
+        List<Faction> factionsInGame = new ArrayList<>();
+
+        addFactionsToGame(factionsInGame);
+
+        return new Game(board.toModel(), playersInGame, factionsInGame, decayLevel, invasionLevel, createDeck(tradeDeck), createDeck(invasionDeck), createDeck(cityDeck), createDeck(invasionDiscardPile), createDeck(cityDiscardPile), lost, won);
+    }
+
+    private static void addPlayersToGame(Game currentGame,  Map<String, PlayerDTO> playersInCurrentGame) {
+        for (Player player : currentGame.getAllPlayers()) {
+            playersInCurrentGame.put(player.getUsername(), PlayerDTO.fromModel(player));
+        }
+    }
+
+    private static void addFactionsToGame(Game currentGame,  List<String> factions) {
+        for (Faction faction : currentGame.getFriendlyFactions()) {
+            factions.add(faction.getFactionType().toString());
+        }
+    }
+
+    public static GameDTO parseFromModel(Game currentGame) {
+        BoardDTO currentBoard = BoardDTO.fromModel(currentGame.getGameBoard());
+        Map<String, PlayerDTO> playersInCurrentGame = new HashMap<>();
+
+        addPlayersToGame(currentGame, playersInCurrentGame);
+
+        List<String> factions = new ArrayList<>();
+
+        addFactionsToGame(currentGame, factions);
+
+        return new GameDTO(currentBoard, playersInCurrentGame, factions, currentGame.getDecayLevel(), currentGame.getInvasionLevel(),
+                createList(currentGame.getTradeCardDeck()), createList(currentGame.getInvasionCardDeck()), createList(currentGame.getPlayerCardDeck()),
+                createList(currentGame.getInvasionCardDiscardPile()), createList(currentGame.getCityCardDiscardPile()), currentGame.isGameLost(), currentGame.isGameWon());
     }
 
     public GameDTO() {}
