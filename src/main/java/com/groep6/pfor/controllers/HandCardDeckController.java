@@ -47,7 +47,7 @@ public class HandCardDeckController extends Controller {
     }
 
     public void addCardToInvasionCardDiscardPile() {
-        currentGame.getInvasionCardDiscardPile().addCardsToDeck(currentlySelectedCard);
+        currentGame.getInvasionCardDiscardPile().addCardToDeck(currentlySelectedCard);
     }
 
     public void executeEventCard() {
@@ -58,8 +58,12 @@ public class HandCardDeckController extends Controller {
         SoundEffectManager.playMusic("/sounds/effects/DrawCardSound.mp3");
     }
 
+    private boolean noCardSelected() {
+        return getCurrentlySelectedCard() == null;
+    }
+
     public void playCard() {
-        if (getCurrentlySelectedCard() == null) return;
+        if (noCardSelected()) return;
         if (!isLocalPlayersTurn()) return;
         if (!currentlySelectedCardIsEventCard()) return;
 
@@ -69,7 +73,7 @@ public class HandCardDeckController extends Controller {
 
         playDrawCardSoundEffect();
         
-        refresh();
+        updateView();
     }
 
     public Player getLocalPlayer() {
@@ -95,7 +99,7 @@ public class HandCardDeckController extends Controller {
 
     public void addCurrentlySelectedCardToTradeDeck() {
         Deck tradeCardDeck = getTradeDeck();
-        tradeCardDeck.addCardsToDeck(currentlySelectedCard);
+        tradeCardDeck.addCardToDeck(currentlySelectedCard);
     }
 
     public void decreaseAmountOfActionsRemaining(Player playerFromCurrentTurn) {
@@ -117,7 +121,7 @@ public class HandCardDeckController extends Controller {
 
         playDrawCardSoundEffect();
 
-        refresh();
+        updateView();
 
 	}
 
@@ -130,11 +134,11 @@ public class HandCardDeckController extends Controller {
     }
 
     private void discardCityCard() {
-        currentGame.getCityCardDiscardPile().addCardsToDeck(currentlySelectedCard);
+        currentGame.getCityCardDiscardPile().addCardToDeck(currentlySelectedCard);
     }
 
     private void discardEventCard() {
-        currentGame.getInvasionCardDiscardPile().addCardsToDeck(currentlySelectedCard);
+        currentGame.getInvasionCardDiscardPile().addCardToDeck(currentlySelectedCard);
     }
 	
     public void removeSelectedCard() {
@@ -151,14 +155,14 @@ public class HandCardDeckController extends Controller {
 
         playDrawCardSoundEffect();
         
-        refresh();
+        updateView();
     }
     
     public void goToBoard() {
     	showPreviousView();
     }
     
-    public void refresh() {
+    public void updateView() {
     	showPreviousView();
     	new HandCardDeckController();
     }

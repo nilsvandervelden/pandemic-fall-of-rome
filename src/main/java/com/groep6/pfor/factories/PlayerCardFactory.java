@@ -1,8 +1,9 @@
 package com.groep6.pfor.factories;
 
+import com.groep6.pfor.models.City;
 import com.groep6.pfor.models.Deck;
 import com.groep6.pfor.models.cards.CityCard;
-import com.groep6.pfor.models.factions.FactionType;
+import com.groep6.pfor.models.factions.Faction;
 
 public class PlayerCardFactory {
 	
@@ -26,57 +27,37 @@ public class PlayerCardFactory {
 	}
 
 	private void addCityCardsToPlayerCardDeck() {
-		FactionFactory factionFactory = getFactionFactory();
+		String[][] cities = {
+				{"Carnuntum", "OSTROGOTHS"}, {"Aquileia", "OSTROGOTHS"}, {"Chersonesus", "OSTROGOTHS"}, {"Roma", "OSTROGOTHS"},
+				{"Constantinopolis", "OSTROGOTHS"}, {"Sinope", "OSTROGOTHS"}, {"Narona", "VISIGOTHS"}, {"Athenae", "VISIGOTHS"},
+				{"Genua", "VISIGOTHS"}, {"Ravenna", "VISIGOTHS"}, {"Patrae", "VISIGOTHS"}, {"Aquileia", "VISIGOTHS"},
+				{"Corduba", "VISIGOTHS"}, {"Narbo", "VISIGOTHS"}, {"Constantinopolis", "VISIGOTHS"}, {"Tyras", "VISIGOTHS"},
+				{"Nova Carthago", "VISIGOTHS"}, {"Roma", "VISIGOTHS"}, {"Philippopolis", "VISIGOTHS"}, {"Eburacum", "ANGLO_SAXSONS_FRANKS"},
+				{"Mogontiacum", "ANGLO_SAXSONS_FRANKS"}, {"Genua", "ANGLO_SAXSONS_FRANKS"}, {"Gesoriacum", "ANGLO_SAXSONS_FRANKS"}, {"Narbo", "ANGLO_SAXSONS_FRANKS"},
+				{"Roma", "ANGLO_SAXSONS_FRANKS"}, {"Lutetia", "ANGLO_SAXSONS_FRANKS"}, {"Burdigala", "ANGLO_SAXSONS_FRANKS"}, {"Londinium", "ANGLO_SAXSONS_FRANKS"},
+				{"Brundisium", "HUNS"}, {"Carnuntum", "HUNS"}, {"Iuvavum", "HUNS"}, {"Philippopolis", "HUNS"}, {"Mediolanum", "HUNS"}, {"Roma", "HUNS"},
+				{"Lutetia", "HUNS"}, {"Patrae", "HUNS"}, {"Lugdunum", "HUNS"}, {"Corduba", "VANDALS"}, {"Carthago", "VANDALS"},
+				{"Lugdunum", "VANDALS"}, {"Roma", "VANDALS"}, {"Athenae", "VANDALS"}, {"Mogontiacum", "VANDALS"}, {"Caesaraugusta", "VANDALS"},
+				{"Cesarea", "VANDALS"}, {"Constantinopolis", "VANDALS"}, {"Burdigala", "VANDALS"}, {"Syracusae", "VANDALS"}, {"Tingi", "VANDALS"}
+		};
+
+		for (String[] city : cities)
+			playerCardDeck.addCardToDeck(createNewCityCard(city));
+
+	}
+
+	private CityCard createNewCityCard(String[] city) {
+		return new CityCard(getCityByName(city), getFactionTypeByFactionName(city));
+	}
+
+	private City getCityByName(String[] city) {
 		CityFactory cityFactory = getCityFactory();
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Carnuntum"), factionFactory.getFaction(FactionType.OSTROGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Aquileia"), factionFactory.getFaction(FactionType.OSTROGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Chersonesus"), factionFactory.getFaction(FactionType.OSTROGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Roma"), factionFactory.getFaction(FactionType.OSTROGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Constantinopolis"), factionFactory.getFaction(FactionType.OSTROGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Sinope"), factionFactory.getFaction(FactionType.OSTROGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Narona"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Athenae"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Genua"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Ravenna"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Patrae"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Aquileia"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Corduba"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Narbo"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Constantinopolis"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Tyras"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Nova Carthago"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Roma"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Philippopolis"), factionFactory.getFaction(FactionType.VISIGOTHS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Eburacum"), factionFactory.getFaction(FactionType.ANGLO_SAXSONS_FRANKS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Mogontiacum"), factionFactory.getFaction(FactionType.ANGLO_SAXSONS_FRANKS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Genua"), factionFactory.getFaction(FactionType.ANGLO_SAXSONS_FRANKS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Gesoriacum"), factionFactory.getFaction(FactionType.ANGLO_SAXSONS_FRANKS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Narbo"), factionFactory.getFaction(FactionType.ANGLO_SAXSONS_FRANKS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Roma"), factionFactory.getFaction(FactionType.ANGLO_SAXSONS_FRANKS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Lutetia"), factionFactory.getFaction(FactionType.ANGLO_SAXSONS_FRANKS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Burdigala"), factionFactory.getFaction(FactionType.ANGLO_SAXSONS_FRANKS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Londinium"), factionFactory.getFaction(FactionType.ANGLO_SAXSONS_FRANKS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Brundisium"), factionFactory.getFaction(FactionType.HUNS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Carnuntum"), factionFactory.getFaction(FactionType.HUNS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Iuvavum"), factionFactory.getFaction(FactionType.HUNS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Philippopolis"), factionFactory.getFaction(FactionType.HUNS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Mediolanum"), factionFactory.getFaction(FactionType.HUNS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Roma"), factionFactory.getFaction(FactionType.HUNS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Lutetia"), factionFactory.getFaction(FactionType.HUNS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Patrae"), factionFactory.getFaction(FactionType.HUNS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Lugdunum"), factionFactory.getFaction(FactionType.HUNS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Corduba"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Carthago"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Lugdunum"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Roma"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Athenae"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Mogontiacum"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Caesaraugusta"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Cesarea"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Constantinopolis"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Burdigala"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Syracusae"), factionFactory.getFaction(FactionType.VANDALS)));
-		playerCardDeck.addCardsToDeck(new CityCard(cityFactory.getCityByName("Tingi"), factionFactory.getFaction(FactionType.VANDALS)));
+		return cityFactory.getCityByName(city[0]);
+	}
+
+	private Faction getFactionTypeByFactionName(String[] city) {
+		FactionFactory factionFactory = getFactionFactory();
+		return factionFactory.getFaction(factionFactory.getFactionTypeByFactionName(city[1]));
 	}
 	
 	private PlayerCardFactory() {

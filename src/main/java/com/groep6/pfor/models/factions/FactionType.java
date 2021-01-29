@@ -4,11 +4,11 @@ package com.groep6.pfor.models.factions;
  * @author Bastiaan Jansen
  */
 public enum FactionType {
-    ANGLO_SAXSONS_FRANKS("Angelsaksen"),
-    VANDALS("Vandalen"),
-    HUNS("Hunnen"),
-    VISIGOTHS("Visigoten"),
-    OSTROGOTHS("Ostrogoten");
+    ANGLO_SAXSONS_FRANKS("ANGLO_SAXSONS_FRANKS"),
+    VANDALS("VANDALS"),
+    HUNS("HUNS"),
+    VISIGOTHS("VISIGOTHS"),
+    OSTROGOTHS("OSTROGOTHS");
 
     private final String factionName;
 
@@ -26,3 +26,5 @@ public enum FactionType {
         return factionName;
     }
 }
+
+

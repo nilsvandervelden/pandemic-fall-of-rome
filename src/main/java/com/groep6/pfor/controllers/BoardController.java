@@ -57,26 +57,37 @@ public class BoardController extends Controller {
         return currentGame.getLocalPlayer();
     }
 
-    public boolean playerIsAllowedToMove(Player localPlayer, City selectedCityToMoveTo) {
-        return isNeighbouringCity(localPlayer, selectedCityToMoveTo) && playerHasActionsRemaining(localPlayer) && isPlayersTurn(localPlayer);
-    }
+
 
     public boolean isNeighbouringCity(Player localPlayer, City selectedCityToMoveTo) {
         return (Arrays.asList(localPlayer.getCityPlayerIsCurrentlyLocatedIn().getNeighbouringCities()).contains(selectedCityToMoveTo));
     }
 
-    public boolean playerHasActionsRemaining(Player localPlayer) {
+    private boolean playerHasActionsRemaining(Player localPlayer) {
         int minimumAmountOfActionsRequired = 0;
         return localPlayer.getActionsRemaining() > minimumAmountOfActionsRequired;
     }
 
-    public boolean isPlayersTurn(Player localPlayer) {
+    private boolean isPlayersTurn(Player localPlayer) {
         return localPlayer.isCurrentTurn();
     }
 
-    public boolean currentCityContainsLegions(Player localPlayer) {
+    private boolean currentCityContainsLegions(Player localPlayer) {
         return (localPlayer.getCityPlayerIsCurrentlyLocatedIn().getLegionsInCity().size() > 0);
     }
+
+    private boolean playerIsAllowedToMove(Player localPlayer, City selectedCityToMoveTo) {
+        return isNeighbouringCity(localPlayer, selectedCityToMoveTo) && playerHasActionsRemaining(localPlayer) && isPlayersTurn(localPlayer);
+    }
+
+    private void selectAmountOfLegionsToTakeWithYou(City selectedCityToMoveTo, Player localPlayer) {
+        new MovementController(selectedCityToMoveTo, localPlayer);
+    }
+
+    private void moveToSelectedCity(City selectedCityToMoveTo, Player localPlayer) {
+        localPlayer.moveLocalPlayerToSelectedCity(selectedCityToMoveTo);
+    }
+
     
     public void movePlayerToSelectedCity(City selectedCityToMoveTo) {
         Player localPlayer = getLocalPlayer();
@@ -84,8 +95,10 @@ public class BoardController extends Controller {
         if (!playerIsAllowedToMove(localPlayer, selectedCityToMoveTo)) return;
 
         if (currentCityContainsLegions(localPlayer)) {
-            new MovementController(selectedCityToMoveTo, localPlayer);
-        } else localPlayer.moveLocalPlayerToSelectedCity(selectedCityToMoveTo);
+            selectAmountOfLegionsToTakeWithYou(selectedCityToMoveTo, localPlayer);
+        } else {
+            moveToSelectedCity(selectedCityToMoveTo, localPlayer);
+        }
     }
 
     private void addTwoCardToPlayerDeck(Player localPlayer) {
@@ -212,7 +225,7 @@ public class BoardController extends Controller {
 
         invadeCities(amountOfInvasions, invasionCards, invasionCardsDeck);
 
-        invasionCardsDeck.addCardsToDeck(invasionCards);
+        invasionCardsDeck.addCardToDeck(invasionCards);
 
         shuffleInvasionCardDeck( invasionCardsDeck );
     }

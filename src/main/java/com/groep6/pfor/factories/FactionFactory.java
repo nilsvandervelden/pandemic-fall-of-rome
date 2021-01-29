@@ -49,4 +49,19 @@ public class FactionFactory {
         }
         return null;
     }
+
+    public FactionType getFactionTypeByFactionName(String factionName) {
+        if (factionName.equals(FactionType.ANGLO_SAXSONS_FRANKS.getFactionName())) {
+            return FactionType.ANGLO_SAXSONS_FRANKS;
+        } else if (factionName.equals(FactionType.VANDALS.getFactionName())) {
+            return FactionType.VANDALS;
+        } else if (factionName.equals(FactionType.HUNS.getFactionName())) {
+            return FactionType.HUNS;
+        } else if (factionName.equals(FactionType.VISIGOTHS.getFactionName())) {
+            return FactionType.VISIGOTHS;
+        } else if (factionName.equals(FactionType.OSTROGOTHS.getFactionName())) {
+            return FactionType.OSTROGOTHS;
+        }
+        return null;
+    }
 }
