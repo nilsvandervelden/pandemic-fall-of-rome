@@ -10,6 +10,12 @@ import com.groep6.pfor.views.RoleCardInfoView;
 
 import java.util.List;
 
+/**
+ * Controller for showing role card information. This controller handles everything to do with role cards.
+ * these are things like selecting the role card to play.
+ * @author Nils van der Velden
+ *
+ */
 public class RoleCardInfoController extends Controller {
 
     private final Lobby currentLobby;
