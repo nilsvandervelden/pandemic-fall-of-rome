@@ -13,7 +13,7 @@ public class CarpeDiemAction implements IAction {
 	/**
 	 * Gives the player 2 extra actions in his turn.
 	 */
-	public void executeCard() {
+	public void executeEvent() {
 		Game currentGame = Game.getGameInstance();
 		addTwoActionsToCurrentPlayer(currentGame);
 	}
@@ -22,21 +22,11 @@ public class CarpeDiemAction implements IAction {
 		currentGame.getPlayerFromCurrentTurn().addActions(2);
 	};
 
-	/**
-	 * Gets the name of the event.
-	 * @return The name of the event.
-	 * 
-	 */
-	public String getCardName() {
+	public String getEventName() {
 		return "Carpe Diem";
 	}
 
-	/**
-	 * Gets the action description.
-	 * @return The action description.
-	 * 
-	 */
-	public String getCardDescription() {
+	public String getEventDescription() {
 		return "De huidige speler mag deze beurt 2 extra acties uitvoeren.";
 	}
 

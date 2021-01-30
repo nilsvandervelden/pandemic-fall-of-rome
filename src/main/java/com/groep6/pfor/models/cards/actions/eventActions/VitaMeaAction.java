@@ -15,7 +15,7 @@ public class VitaMeaAction implements IAction {
 	/**
 	 * Replace 1 barbarian with 1 legion in the current city.
 	 */
-	public void executeCard() {
+	public void executeEvent() {
 		Game currentGame = Game.getGameInstance();
 		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
@@ -40,21 +40,11 @@ public class VitaMeaAction implements IAction {
 		currentGame.getPlayerFromCurrentTurn().decreaseAmountOfActionsRemaining();
 	}
 
-	/**
-	 * Gets the name of the event.
-	 * @return The name of the event.
-	 * 
-	 */
-	public String getCardName() {
+	public String getEventName() {
 		return "Mors Tua, Vita Mea";
 	}
 
-	/**
-	 * Gets the action description.
-	 * @return The action description.
-	 * 
-	 */
-	public String getCardDescription() {
+	public String getEventDescription() {
 		return "Vervang 1 barbaar door 1 legioen.";
 	}
 

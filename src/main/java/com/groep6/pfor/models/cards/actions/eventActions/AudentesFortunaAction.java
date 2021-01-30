@@ -16,7 +16,7 @@ public class AudentesFortunaAction implements IAction {
 	/**
 	 * Allows player to draw 2 extra cards during drawPlayerCards phase.
 	 */
-	public void executeCard() {
+	public void executeEvent() {
 		Game currentGame = Game.getGameInstance();
 		Player playerFromCurrentTurn = currentGame.getPlayerFromCurrentTurn();
 
@@ -42,22 +42,11 @@ public class AudentesFortunaAction implements IAction {
 		return currentGame.getPlayerCardDeck();
 	}
 
-	/**
-	 * Gets the name of the event.
-	 * @return The name of the event.
-	 * 
-	 */
-	public String getCardName() {
+	public String getEventName() {
 		return "Audentes Fortuna Iuvat";
 	}
 
-	/**
-	 * Gets the action description.
-	 * @return The action description.
-	 * 
-	 */
-	public String getCardDescription() {
+	public String getEventDescription() {
 		return "De speler trekt 2 speelkaarten.";
 	}
-
 }

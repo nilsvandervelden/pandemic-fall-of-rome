@@ -18,7 +18,7 @@ public class PraefectusClassisAction implements IAction {
 	 * Checks if the current city is a port city. If it is, removes a
 	 * barbarian from the city.
 	 */
-	public void executeCard() {
+	public void executeEvent() {
 		Player localPlayer = game.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 
@@ -38,7 +38,7 @@ public class PraefectusClassisAction implements IAction {
 	 * @return The name of the role.
 	 * 
 	 */
-	public String getCardName() {
+	public String getEventName() {
 		return "Praefectus Classis";
 	}
 
@@ -47,7 +47,7 @@ public class PraefectusClassisAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getCardDescription() {
+	public String getEventDescription() {
 		return "Verwijder 1 barbaar uit jouw stad als hier een haven is.";
 	}
 

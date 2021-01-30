@@ -15,9 +15,9 @@ public class FaberFortunaeAction implements IAction {
 
 
 	/**
-	 * Draws a citycard for the player and adds it to his hand.
+	 * Draws a cityCard for the player and adds it to his hand.
 	 */
-	public void executeCard() {
+	public void executeEvent() {
 		Game currentGame = Game.getGameInstance();
 		CityCard cityCard = drawCityCard(currentGame);
 		Player playerFromCurrentTurn = currentGame.getPlayerFromCurrentTurn();
@@ -48,7 +48,7 @@ public class FaberFortunaeAction implements IAction {
 	 * @return The name of the event.
 	 * 
 	 */
-	public String getCardName() {
+	public String getEventName() {
 		return "Homo Faber Fortunae Suae";
 	}
 
@@ -57,7 +57,7 @@ public class FaberFortunaeAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getCardDescription() {
+	public String getEventDescription() {
 		return "De huidige speler mag een stadkaart uit de aflegstapel (voor speelkaarten) trekken die correspondeert met zijn stad.";
 	}
 

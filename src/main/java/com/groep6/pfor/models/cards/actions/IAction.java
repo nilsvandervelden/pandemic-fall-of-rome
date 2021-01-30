@@ -9,16 +9,16 @@ public interface IAction {
     /**
      * Execute this action
      */
-    void executeCard();
+    void executeEvent();
 
     /**
      * @return String
      */
-    String getCardName();
+    String getEventName();
 
     /**
      * @return String
      */
-    String getCardDescription();
+    String getEventDescription();
 
 }

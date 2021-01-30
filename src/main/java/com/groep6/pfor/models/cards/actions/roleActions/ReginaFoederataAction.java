@@ -18,7 +18,7 @@ public class ReginaFoederataAction implements IAction {
 	 * Gets the battle result. If the current city still has barbarians after the battle,
 	 * 1 extra barbarian gets deleted. The legion count in the city is incremented. 
 	 */
-	public void executeCard() {
+	public void executeEvent() {
 		Player localPlayer = game.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		removeOneLegionAndBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
@@ -42,7 +42,7 @@ public class ReginaFoederataAction implements IAction {
 	 * @return The name of the role.
 	 * 
 	 */
-	public String getCardName() {
+	public String getEventName() {
 		return "Regina Foederata";
 	}
 
@@ -51,7 +51,7 @@ public class ReginaFoederataAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getCardDescription() {
+	public String getEventDescription() {
 		return "Verwijder na het gevecht 1 barbaar uit jouw stad. Plaats hierbij ook maximaal 1 legioen op jouw stad.";
 	}
 

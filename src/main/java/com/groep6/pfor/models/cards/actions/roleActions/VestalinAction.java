@@ -18,7 +18,7 @@ public class VestalinAction implements IAction {
 	 * Decreases the amount of legions in the current city by 1.
 	 * 
 	 */
-	public void executeCard() {
+	public void executeEvent() {
 		Player localPlayer = game.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		removeOneLegionFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
@@ -33,7 +33,7 @@ public class VestalinAction implements IAction {
 	 * @return The name of the role.
 	 * 
 	 */
-	public String getCardName() {
+	public String getEventName() {
 		return "Vestalin";
 	}
 
@@ -42,7 +42,7 @@ public class VestalinAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getCardDescription() {
+	public String getEventDescription() {
 		return "Verwijder 1 legioen uit jouw stad.";
 	}
 

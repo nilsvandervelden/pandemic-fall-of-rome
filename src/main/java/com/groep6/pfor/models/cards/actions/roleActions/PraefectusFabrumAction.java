@@ -19,7 +19,7 @@ public class PraefectusFabrumAction implements IAction {
 	 * barbarians from the city.
 	 * 
 	 */
-	public void executeCard() {
+	public void executeEvent() {
 		Player localPlayer = game.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 
@@ -39,7 +39,7 @@ public class PraefectusFabrumAction implements IAction {
 	 * @return The name of the role.
 	 * 
 	 */
-	public String getCardName() {
+	public String getEventName() {
 		return "Praefectus Fabrum";
 	}
 
@@ -48,7 +48,7 @@ public class PraefectusFabrumAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getCardDescription() {
+	public String getEventDescription() {
 		return "Verwijder 2 barbaren uit jouw stad als hier een fort is.";
 	}
 

@@ -18,7 +18,7 @@ public class MagisterMilitumAction implements IAction {
 	 * Reduces the amount of barbarians in the current city by 2.
 	 * 
 	 */
-	public void executeCard() {
+	public void executeEvent() {
 		Player localPlayer = game.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		removeTwoBarbariansFromPlayerCity(cityPlayerIsCurrentlyLocatedIn);
@@ -33,7 +33,7 @@ public class MagisterMilitumAction implements IAction {
 	 * @return The name of the role.
 	 * 
 	 */
-	public String getCardName() {
+	public String getEventName() {
 		return "Magister Militum";
 	}
 
@@ -42,7 +42,7 @@ public class MagisterMilitumAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getCardDescription() {
+	public String getEventDescription() {
 		return "Verwijder 2 barbaren uit jouw stad.";
 	}
 
