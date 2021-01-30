@@ -6,12 +6,17 @@ import com.groep6.pfor.models.GameState;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.OptionsView;
 
+/**
+ * Controller for game options. This controller handles everything to do with the game options.
+ * This controller enables players to mute the game, go to the instructions and toggle fullscreen.
+ * @author Nils van der Velden
+ *
+ */
 public class OptionController extends Controller {
 
 	public void goToOptionsView() {
 		viewController.showView(new OptionsView(this));
 	}
-
 
 	public OptionController() {
 		goToOptionsView();
