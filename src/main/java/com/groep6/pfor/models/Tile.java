@@ -26,26 +26,16 @@ public abstract class Tile extends Observable {
 		this.tilePosition = tilePosition;
 		this.factionsAllowedOnTile = factionsAllowedOnTile;
 	}
-	
-    /**
-     * @returns the position of a tile
-     */
+
 	public Vector2f getTilePosition() {
 		return tilePosition;
 	}
-	
-    /**
-     * @returns an array of neighboring cities
-     */
+
 	public City[] getNeighbouringCities() {
 		return neighbouringCities.toArray(new City[0]);
 	}
 
-	/**
-	 * Add a neighbouring city to this tile
-	 * @param neighbour
-	 */
-	public void addNeighbour(City neighbour) {
+	public void addNeighbouringCity(City neighbour) {
 		neighbouringCities.add(neighbour);
 	}
 }

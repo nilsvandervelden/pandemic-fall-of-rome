@@ -48,7 +48,7 @@ public class CityParser extends JsonParser {
             JsonCity dto = new Gson().fromJson(cityField, JsonCity.class);
             for (String neighbourName : dto.getNeighbours()) {
                 City neighbour = cities.get(neighbourName.toUpperCase());
-                cities.get(dto.getName().toUpperCase()).addNeighbour(neighbour);
+                cities.get(dto.getName().toUpperCase()).addNeighbouringCity(neighbour);
             }
         }
 
