@@ -12,14 +12,14 @@ import com.groep6.pfor.models.cards.actions.IAction;
  */
 public class PraefectusClassisAction implements IAction {
 
-	private final Game game = Game.getGameInstance();
+	private final Game currentGame = Game.getGameInstance();
 
 	/**
 	 * Checks if the current city is a port city. If it is, removes a
 	 * barbarian from the city.
 	 */
 	public void executeEvent() {
-		Player localPlayer = game.getLocalPlayer();
+		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 
 		if (cityHasHarbour(cityPlayerIsCurrentlyLocatedIn)) removeOneBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
@@ -33,22 +33,11 @@ public class PraefectusClassisAction implements IAction {
 		cityPlayerIsCurrentlyLocatedIn.removeBarbariansFromCurrentCity(1);
 	}
 
-	/**
-	 * Gets the name of the role.
-	 * @return The name of the role.
-	 * 
-	 */
-	public String getEventName() {
+	public String getCardName() {
 		return "Praefectus Classis";
 	}
 
-	/**
-	 * Gets the action description.
-	 * @return The action description.
-	 * 
-	 */
-	public String getEventDescription() {
+	public String getCardDescription() {
 		return "Verwijder 1 barbaar uit jouw stad als hier een haven is.";
 	}
-
 }

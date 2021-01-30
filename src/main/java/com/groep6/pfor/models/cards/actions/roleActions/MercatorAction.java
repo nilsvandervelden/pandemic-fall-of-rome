@@ -12,15 +12,14 @@ import com.groep6.pfor.models.cards.actions.IAction;
  */
 public class MercatorAction implements IAction {
 
-	private final Game game = Game.getGameInstance();
+	private final Game currentGame = Game.getGameInstance();
 
 	/**
 	 * Deletes 1 barbarian from the current city.
 	 * Deletes 1 legion from the current city.
-	 * 
 	 */
 	public void executeEvent() {
-		Player localPlayer = game.getLocalPlayer();
+		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		removeOneLegionAndBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}
@@ -38,21 +37,11 @@ public class MercatorAction implements IAction {
 		removeOneLegionFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}
 
-	/**
-	 * Gets the name of the role.
-	 * @return The name of the role.
-	 * 
-	 */
-	public String getEventName() {
+	public String getCardName() {
 		return "Mercator";
 	}
 
-	/**
-	 * Gets the action description.
-	 * @return The action description.
-	 * 
-	 */
-	public String getEventDescription() {
+	public String getCardDescription() {
 		return "Verwijder 1 barbaar en 1 legioen uit jouw stad.";
 	}
 

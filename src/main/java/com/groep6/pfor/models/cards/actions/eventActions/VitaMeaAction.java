@@ -40,11 +40,11 @@ public class VitaMeaAction implements IAction {
 		currentGame.getPlayerFromCurrentTurn().decreaseAmountOfActionsRemaining();
 	}
 
-	public String getEventName() {
+	public String getCardName() {
 		return "Mors Tua, Vita Mea";
 	}
 
-	public String getEventDescription() {
+	public String getCardDescription() {
 		return "Vervang 1 barbaar door 1 legioen.";
 	}
 

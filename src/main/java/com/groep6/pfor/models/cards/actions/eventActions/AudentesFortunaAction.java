@@ -42,11 +42,11 @@ public class AudentesFortunaAction implements IAction {
 		return currentGame.getPlayerCardDeck();
 	}
 
-	public String getEventName() {
+	public String getCardName() {
 		return "Audentes Fortuna Iuvat";
 	}
 
-	public String getEventDescription() {
+	public String getCardDescription() {
 		return "De speler trekt 2 speelkaarten.";
 	}
 }

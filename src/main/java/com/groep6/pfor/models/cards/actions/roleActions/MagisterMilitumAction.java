@@ -12,14 +12,13 @@ import com.groep6.pfor.models.cards.actions.IAction;
  */
 public class MagisterMilitumAction implements IAction {
 
-	private final Game game = Game.getGameInstance();
+	private final Game currentGame = Game.getGameInstance();
 
 	/**
 	 * Reduces the amount of barbarians in the current city by 2.
-	 * 
 	 */
 	public void executeEvent() {
-		Player localPlayer = game.getLocalPlayer();
+		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		removeTwoBarbariansFromPlayerCity(cityPlayerIsCurrentlyLocatedIn);
 	}
@@ -28,21 +27,11 @@ public class MagisterMilitumAction implements IAction {
 		cityPlayerIsCurrentlyLocatedIn.removeBarbariansFromCurrentCity(2);
 	};
 
-	/**
-	 * Gets the name of the role.
-	 * @return The name of the role.
-	 * 
-	 */
-	public String getEventName() {
+	public String getCardName() {
 		return "Magister Militum";
 	}
 
-	/**
-	 * Gets the action description.
-	 * @return The action description.
-	 * 
-	 */
-	public String getEventDescription() {
+	public String getCardDescription() {
 		return "Verwijder 2 barbaren uit jouw stad.";
 	}
 

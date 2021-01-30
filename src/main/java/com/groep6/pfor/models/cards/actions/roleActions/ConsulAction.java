@@ -12,14 +12,13 @@ import com.groep6.pfor.models.cards.actions.IAction;
  */
 public class ConsulAction implements IAction {
 
-	private final Game game = Game.getGameInstance();
+	private final Game currentGame = Game.getGameInstance();
 
 	/**
 	 * Increases the amount of legions in the current city by 1.
-	 * 
 	 */
 	public void executeEvent() {
-		Player localPlayer = game.getLocalPlayer();
+		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		addLegionToCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}
@@ -28,21 +27,11 @@ public class ConsulAction implements IAction {
 		cityPlayerIsCurrentlyLocatedIn.addLegionsToCurrentCity(1);
 	};
 
-	/**
-	 * Gets the name of the role.
-	 * @return The name of the role.
-	 * 
-	 */
-	public String getEventName() {
+	public String getCardName() {
 		return "Consul";
 	}
 
-	/**
-	 * Gets the action description.
-	 * @return The action description.
-	 * 
-	 */
-	public String getEventDescription() {
+	public String getCardDescription() {
 		return "Plaats 1 legioen op jouw stad.";
 	}
 

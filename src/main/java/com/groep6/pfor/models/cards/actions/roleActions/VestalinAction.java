@@ -12,14 +12,13 @@ import com.groep6.pfor.models.cards.actions.IAction;
  */
 public class VestalinAction implements IAction {
 
-	private final Game game = Game.getGameInstance();
+	private final Game currentGame = Game.getGameInstance();
 
 	/**
 	 * Decreases the amount of legions in the current city by 1.
-	 * 
 	 */
 	public void executeEvent() {
-		Player localPlayer = game.getLocalPlayer();
+		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		removeOneLegionFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
 	}
@@ -28,22 +27,11 @@ public class VestalinAction implements IAction {
 		cityPlayerIsCurrentlyLocatedIn.removeLegions(1);
 	};
 
-	/**
-	 * Gets the name of the role.
-	 * @return The name of the role.
-	 * 
-	 */
-	public String getEventName() {
+	public String getCardName() {
 		return "Vestalin";
 	}
 
-	/**
-	 * Gets the action description.
-	 * @return The action description.
-	 * 
-	 */
-	public String getEventDescription() {
+	public String getCardDescription() {
 		return "Verwijder 1 legioen uit jouw stad.";
 	}
-
 }

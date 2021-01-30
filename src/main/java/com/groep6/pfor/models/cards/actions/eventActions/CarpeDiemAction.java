@@ -22,11 +22,11 @@ public class CarpeDiemAction implements IAction {
 		currentGame.getPlayerFromCurrentTurn().addActions(2);
 	};
 
-	public String getEventName() {
+	public String getCardName() {
 		return "Carpe Diem";
 	}
 
-	public String getEventDescription() {
+	public String getCardDescription() {
 		return "De huidige speler mag deze beurt 2 extra acties uitvoeren.";
 	}
 

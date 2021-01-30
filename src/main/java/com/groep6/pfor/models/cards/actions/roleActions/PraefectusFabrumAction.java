@@ -12,15 +12,14 @@ import com.groep6.pfor.models.cards.actions.IAction;
  */
 public class PraefectusFabrumAction implements IAction {
 
-	private final Game game = Game.getGameInstance();
+	private final Game currentGame = Game.getGameInstance();
 
 	/**
 	 * Checks if the current city has a fort. If it has, removes 2
 	 * barbarians from the city.
-	 * 
 	 */
 	public void executeEvent() {
-		Player localPlayer = game.getLocalPlayer();
+		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 
 		if (cityHasFort(cityPlayerIsCurrentlyLocatedIn)) removeTwoBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);
@@ -34,22 +33,11 @@ public class PraefectusFabrumAction implements IAction {
 		cityPlayerIsCurrentlyLocatedIn.removeBarbariansFromCurrentCity(2);
 	}
 
-	/**
-	 * Gets the name of the role.
-	 * @return The name of the role.
-	 * 
-	 */
-	public String getEventName() {
+	public String getCardName() {
 		return "Praefectus Fabrum";
 	}
 
-	/**
-	 * Gets the action description.
-	 * @return The action description.
-	 * 
-	 */
-	public String getEventDescription() {
+	public String getCardDescription() {
 		return "Verwijder 2 barbaren uit jouw stad als hier een fort is.";
 	}
-
 }
