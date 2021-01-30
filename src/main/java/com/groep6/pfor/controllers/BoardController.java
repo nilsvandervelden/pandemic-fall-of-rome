@@ -124,7 +124,7 @@ public class BoardController extends Controller {
 
     private void showPlayerHandDeck(Player localPlayer) {
         if (maximumAmountOfCardsInHandDeckHaveBeenReached(localPlayer)) {
-            new HandCardDeckController();
+            new PlayerHandDeckController();
         }
     }
 

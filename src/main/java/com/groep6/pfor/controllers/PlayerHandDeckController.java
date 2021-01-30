@@ -19,12 +19,12 @@ import java.util.List;
  *
  */
 
-public class HandCardDeckController extends Controller {
+public class PlayerHandDeckController extends Controller {
 
     private final Game currentGame = Game.getGameInstance();
     private Card currentlySelectedCard;
 
-    public HandCardDeckController() {
+    public PlayerHandDeckController() {
         viewController.showView(new HandView(this));
     }
 
@@ -171,6 +171,6 @@ public class HandCardDeckController extends Controller {
     
     public void updateView() {
     	showPreviousView();
-    	new HandCardDeckController();
+    	new PlayerHandDeckController();
     }
 }
