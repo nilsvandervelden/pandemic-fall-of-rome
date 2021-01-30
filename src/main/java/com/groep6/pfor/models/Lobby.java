@@ -21,9 +21,6 @@ public class Lobby extends Observable implements IObserver {
     private String passwordHash;
     private List<LobbyPlayer> players = new ArrayList<>();
 
-    /**
-     * @param password
-     */
     public Lobby(String password) {
         this.code = generateCode();
         this.passwordHash = PasswordEncoder.hash(password);
@@ -44,8 +41,6 @@ public class Lobby extends Observable implements IObserver {
 
     /**
      * Creates a new lobbyPlayer instance with a random available roleCard, the first player is the host of the lobby
-     * @param username
-     * @return new instance of LobbyPlayer
      */
     public LobbyPlayer join(String code, String username, String password, boolean isLocal) throws IncorrectPasswordException {
         if (!validatePassword(password)) throw new IncorrectPasswordException();
@@ -62,8 +57,6 @@ public class Lobby extends Observable implements IObserver {
 
     /**
      * Checks if the password is the same as the lobby password, if the lobby has no password, the method always returns true
-     * @param password
-     * @return Whether password is the same as the lobby password
      */
     private boolean validatePassword(String password) {
         if (passwordHash == null) return true;
@@ -83,7 +76,7 @@ public class Lobby extends Observable implements IObserver {
      * Removes a LobbyPlayer from the lobby
      * @param player
      */
-    public void leave(LobbyPlayer player) {
+    public void leaveLobby(LobbyPlayer player) {
         players.remove(player);
     }
 
@@ -97,10 +90,7 @@ public class Lobby extends Observable implements IObserver {
         return String.valueOf(number);
     }
 
-    /**
-     * @return code
-     */
-    public String getCode() {
+    public String getGameCode() {
         return code;
     }
 
@@ -141,7 +131,6 @@ public class Lobby extends Observable implements IObserver {
         for (LobbyPlayer player: players) {
             if (player.isHost()) return player;
         }
-
         return null;
     }
 
@@ -153,7 +142,6 @@ public class Lobby extends Observable implements IObserver {
         for (LobbyPlayer player: players) {
             if (player.isLocal()) return player;
         }
-
         return null;
     }
 

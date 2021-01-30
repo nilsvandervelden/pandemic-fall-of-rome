@@ -71,6 +71,6 @@ public class LobbyDTO {
      */
     public static LobbyDTO fromModel(Lobby lobby) {
         Map<String, LobbyPlayerDTO> playersInLobby = addPlayersToLobby(lobby);
-        return new LobbyDTO(lobby.getCode(), lobby.getPasswordHash(), playersInLobby);
+        return new LobbyDTO(lobby.getGameCode(), lobby.getPasswordHash(), playersInLobby);
     }
 }

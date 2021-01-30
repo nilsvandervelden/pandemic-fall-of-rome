@@ -45,7 +45,7 @@ public class LobbyController extends Controller {
     }
 
     private void setGameCode(Game currentGame) {
-        currentGame.setGameCode(currentLobby.getCode());
+        currentGame.setGameCode(currentLobby.getGameCode());
     }
 
     private void setGameState() {
@@ -122,7 +122,7 @@ public class LobbyController extends Controller {
     };
 
     public String getLobbyCode() {
-        return currentLobby.getCode();
+        return currentLobby.getGameCode();
     }
 
     public List<LobbyPlayer> getPlayersFromCurrentLobby() {

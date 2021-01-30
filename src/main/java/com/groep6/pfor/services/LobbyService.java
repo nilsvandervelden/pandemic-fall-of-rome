@@ -52,7 +52,7 @@ public class LobbyService {
      * @param lobby The new lobby data that will override the old data
      */
     public void set(Lobby lobby) {
-        Firebase.setDocument("lobbies/" + lobby.getCode(), LobbyDTO.fromModel(lobby));
+        Firebase.setDocument("lobbies/" + lobby.getGameCode(), LobbyDTO.fromModel(lobby));
     }
 
     /**
@@ -60,7 +60,7 @@ public class LobbyService {
      * @param lobby The lobby to be Thanos snapped
      */
     public void remove(Lobby lobby) {
-        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + lobby.getCode());
+        DocumentReference doc = Firebase.docRefFromPath("lobbies/" + lobby.getGameCode());
         doc.delete();
     }
 
@@ -72,7 +72,7 @@ public class LobbyService {
      */
     public void create(Lobby lobby) {
         for (LobbyPlayer player : lobby.getPlayers()) Firebase.registerListener("lobbies/" + player.getLobbyCode(), onLobbyChange);
-        Firebase.setDocument("lobbies/" + lobby.getCode(), LobbyDTO.fromModel(lobby));
+        Firebase.setDocument("lobbies/" + lobby.getGameCode(), LobbyDTO.fromModel(lobby));
     }
 
     /**

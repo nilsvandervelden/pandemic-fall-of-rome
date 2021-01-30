@@ -25,7 +25,7 @@ public class HostGameController extends Controller {
     }
 
     public void addHostToCreatedLobby(Lobby lobby, String username, String password, Boolean isLocal) throws IncorrectPasswordException {
-        lobby.join(lobby.getCode(), username, password, true);
+        lobby.join(lobby.getGameCode(), username, password, true);
     }
 
     public void createLobbyInBackend(Lobby lobby) {

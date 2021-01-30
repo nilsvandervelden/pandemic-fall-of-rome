@@ -26,7 +26,7 @@ class LobbyTest {
     void setUp() {
         this.password = "password";
         this.lobby = new Lobby(password);
-        this.code = lobby.getCode();
+        this.code = lobby.getGameCode();
     }
 
     @AfterEach
@@ -44,7 +44,7 @@ class LobbyTest {
     void leave() throws IncorrectPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         assertEquals(1, lobby.getPlayers().size());
-        lobby.leave(player);
+        lobby.leaveLobby(player);
         assertEquals(0, lobby.getPlayers().size());
     }
 
