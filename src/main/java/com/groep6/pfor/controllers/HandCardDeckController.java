@@ -12,6 +12,13 @@ import com.groep6.pfor.views.HandView;
 
 import java.util.List;
 
+/**
+ * Controller for the player hand. These are the cards the player is currently holding. This controller handles everything within the player hand
+ * these are things like selecting and playing cards and adding cards to the global trade deck
+ * @author Nils van der Velden
+ *
+ */
+
 public class HandCardDeckController extends Controller {
 
     private final Game currentGame = Game.getGameInstance();
