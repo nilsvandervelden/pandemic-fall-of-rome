@@ -5,7 +5,10 @@ import com.groep6.pfor.views.LoseView;
 import com.groep6.pfor.views.MenuView;
 
 /**
- * @author Bastiaan Jansen
+ * Controller for the main menu. This controller handles everything to do with the main menu.
+ * Basically this controller navigates users to the view they want to go to.
+ * @author Nils van der Velden
+ *
  */
 public class MainMenuController extends Controller {
 
