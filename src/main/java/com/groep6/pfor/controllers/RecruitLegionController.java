@@ -7,9 +7,11 @@ import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.RecruitLegionView;
 
 /**
+ * Controller for recruiting legions. This controller handles everything to do with recruiting legions
+ * these are things like selecting the amount of legions to recruit.
  * @author Nils van der Velden
+ *
  */
-
 public class RecruitLegionController extends Controller {
 	
 	private final Game currentGame = Game.getGameInstance();
