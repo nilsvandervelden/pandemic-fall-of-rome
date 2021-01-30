@@ -2,7 +2,6 @@ package com.groep6.pfor.models;
 
 /**
  * Represents a color
- *
  * @author Nils van der Velden
  */
 
@@ -17,24 +16,15 @@ public class Color {
 	 * @param rgb The Vector3f of a specific color
 	 * @param ColorName The name of the specific color
 	 */
-	
 	public Color(Vector3f rgb, String ColorName) {
 		this.rgb = rgb;
 		this.colorName = ColorName;
 	}
-	
-	/**
-	 * @returns the rgb value of a specific color
-	 */
-	
+
 	public Vector3f getColor() {
 		return rgb;
 	}
-	
-	/**
-	 * @returns the name of a specific color
-	 */
-	
+
 	public String getColorName() {
 		return colorName;
 	}
