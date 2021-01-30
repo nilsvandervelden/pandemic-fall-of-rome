@@ -8,7 +8,7 @@ import com.groep6.pfor.views.BattleView;
 /**
  * Controller for the battle system. Gets information from the current city and performs a battle.
  * Afterwards the results of the battle are shown in the BattleView.
- * @author Mitchell van Rijswijk
+ * @author Nils van der Velden
  *
  */
 

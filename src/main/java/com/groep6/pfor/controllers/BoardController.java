@@ -13,8 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Bastiaan Jansen
+ * Controller for the board. This controller handles the complete board.
+ * Things like movement, invasions, alliances, winning and losing are handled in this controller
  * @author Nils van der Velden
+ *
  */
 public class BoardController extends Controller {
 
