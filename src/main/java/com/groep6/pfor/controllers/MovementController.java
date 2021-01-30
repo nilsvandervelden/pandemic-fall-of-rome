@@ -7,9 +7,11 @@ import com.groep6.pfor.util.SoundEffectManager;
 import com.groep6.pfor.views.MoveView;
 
 /**
+ * Controller for moving the player and legions on the board. This controller handles everything to do with movement.
+ * Basically this controller enables players to move to the selected city and take legions with then.
  * @author Nils van der Velden
+ *
  */
-
 public class MovementController extends Controller {
 
 	private final City selectedCityToMoveTo;
