@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.TradeController;
+import com.groep6.pfor.controllers.TradeDeckController;
 import com.groep6.pfor.models.cards.Card;
 import com.groep6.pfor.models.cards.CityCard;
 import com.groep6.pfor.models.cards.EventCard;
@@ -26,8 +26,8 @@ import java.util.List;
  * @author Nils van der Velden
  */
 public class TradeView extends View implements IObserver {
-    /** The tradeController */
-    private final TradeController tradeController;
+    /** The tradeDeckController */
+    private final TradeDeckController tradeDeckController;
     
     private List<Card> cards = new ArrayList<>();
     
@@ -40,12 +40,12 @@ public class TradeView extends View implements IObserver {
 
     /**
      * The constructor
-     * @param tradeController the tradeController
+     * @param tradeDeckController the tradeDeckController
      */
-    public TradeView(TradeController tradeController) {
-        this.tradeController = tradeController;
-        cards = tradeController.getTradeCards();
-        tradeController.registerObserver(this);
+    public TradeView(TradeDeckController tradeDeckController) {
+        this.tradeDeckController = tradeDeckController;
+        cards = tradeDeckController.getTradeCards();
+        tradeDeckController.registerObserver(this);
         
         createView();
         
@@ -115,8 +115,8 @@ public class TradeView extends View implements IObserver {
             deselectAllCards();
             UICard source = (UICard) e.getSource();
             source.select();
-            tradeController.selectCard(source.getCard());
-            if (tradeController.getLocalPlayer().getActionsRemaining() > 0) withdrawButton.setDisable(false);
+            tradeDeckController.selectCard(source.getCard());
+            if (tradeDeckController.getLocalPlayer().getActionsRemaining() > 0) withdrawButton.setDisable(false);
         }
     };
 
@@ -129,15 +129,15 @@ public class TradeView extends View implements IObserver {
     EventHandler<MouseEvent> goBack = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            tradeController.showPreviousView();
+            tradeDeckController.showPreviousView();
         }
     };
     
     EventHandler<MouseEvent> withdrawCard = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            tradeController.withdrawCardFromTradeDeck();
-            if (tradeController.getLocalPlayer().getActionsRemaining() <= 0) withdrawButton.setDisable(true);
+            tradeDeckController.withdrawCardFromTradeDeck();
+            if (tradeDeckController.getLocalPlayer().getActionsRemaining() <= 0) withdrawButton.setDisable(true);
         }
     };
         

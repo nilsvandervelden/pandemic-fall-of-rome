@@ -103,7 +103,7 @@ public class BoardView extends View implements IObserver {
     EventHandler<MouseEvent> goToTradeView = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            new TradeController();
+            new TradeDeckController();
 
         }
     };

@@ -26,9 +26,6 @@ public class ViewController {
 
     private ViewController() {}
 
-    /**
-     * @param stage
-     */
     private void setStageWith() {
         stage.setWidth(MIN_SCREEN_WIDTH);
     }
@@ -47,11 +44,6 @@ public class ViewController {
         setStageHeight();
         toggleFullScreen(true);
     }
-
-    /**
-     * Show a specific view
-     * @param view
-     */
 
     private void removeFullScreenKeyCombination() {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -153,16 +145,10 @@ public class ViewController {
     	toggleFullScreen(true);
     }
 
-    /**
-     * @return primaryStage
-     */
     public Stage getPrimaryStage() {
         return stage;
     }
 
-    /**
-     * Show previous view
-     */
     public void showPreviousView() {
         if (visitedViews.size() <= 1) return;
         visitedViews.pop();

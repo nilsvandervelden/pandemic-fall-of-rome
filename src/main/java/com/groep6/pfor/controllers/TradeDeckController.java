@@ -9,7 +9,13 @@ import com.groep6.pfor.views.TradeView;
 
 import java.util.List;
 
-public class TradeController extends Controller {
+/**
+ * Controller for the trade deck. This controller handles he global card inventory of the game.
+ * The TradeController handles things like adding an withdrawing cards from the trade deck
+ * @author Nils van der Velden
+ *
+ */
+public class TradeDeckController extends Controller {
 	
 	private final Game currentGame = Game.getGameInstance();
     private Card currentlySelectedCard;
@@ -18,7 +24,7 @@ public class TradeController extends Controller {
         viewController.showView(new TradeView(this));
     }
 
-    public TradeController() {
+    public TradeDeckController() {
         showTradeView();
     }
     
@@ -92,7 +98,7 @@ public class TradeController extends Controller {
     }
 
     private void createTradeView() {
-        new TradeController();
+        new TradeDeckController();
     }
     
     public void refresh() {
