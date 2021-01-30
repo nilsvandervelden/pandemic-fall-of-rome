@@ -8,8 +8,9 @@ import com.groep6.pfor.views.WinView;
 import javafx.application.Platform;
 
 /**
- * 
- * @author Mitchell van Rijswijk
+ * Controller for winning a game. This controller handles everything to do with a winning a game.
+ * Things like showing the won game view, exiting the game and playing some happy music.
+ * @author Nils van der Velden
  *
  */
 public class WinGameController extends Controller {
