@@ -1,8 +1,10 @@
 package com.groep6.pfor.controllers;
 
 /**
- * The controller for joining lobby's
+ * Controller for joining a game. This controller handles joining a game
+ * Things like joining a lobby are handled here.
  * @author Nils van der Velden
+ *
  */
 
 import com.groep6.pfor.exceptions.EmptyFieldException;
