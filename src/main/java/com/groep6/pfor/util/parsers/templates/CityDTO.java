@@ -52,7 +52,7 @@ public class CityDTO {
     }
 
     private static FactionType getFactionTypeOfBarbarian(Barbarian barbarian) {
-        return barbarian.getFactionType();
+        return barbarian.getFactionTypeOfBarbarian();
     }
 
     private static  String getFactionTypeOfBarbarianAsString(Barbarian barbarian) {

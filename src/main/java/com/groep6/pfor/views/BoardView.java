@@ -377,7 +377,7 @@ public class BoardView extends View implements IObserver {
             	// Render the barbarians
             	for (int i = 0; i < city.getAmountOfBarbariansLocatedInCurrentCity(); i++) {
             	    Barbarian barbarian = city.getBarbariansInCity().get(i);
-            	    gc.setFill(FactionFactory.getInstance().getFaction(barbarian.getFactionType()).getFactionColor());
+            	    gc.setFill(FactionFactory.getInstance().getFaction(barbarian.getFactionTypeOfBarbarian()).getFactionColor());
             	    Vector2f pos = barbpos.get(i);
             	    gc.fillRect(pos.x - BARB_SIZE, pos.y - BARB_SIZE, BARB_SIZE * 2, BARB_SIZE * 2);
             	    gc.strokeRect(pos.x - BARB_SIZE, pos.y - BARB_SIZE, BARB_SIZE * 2, BARB_SIZE * 2);

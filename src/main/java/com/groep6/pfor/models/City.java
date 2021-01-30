@@ -140,7 +140,7 @@ public class City extends Tile {
 	}
 
 	private FactionType getFactionType(Barbarian barbarianInCity) {
-		return barbarianInCity.getFactionType();
+		return barbarianInCity.getFactionTypeOfBarbarian();
 	}
 
 	private void addBarbarianToCity(FactionType factionType) {
@@ -212,7 +212,7 @@ public class City extends Tile {
 	}
 
 	private boolean barbarianFactionEqualsRequestedFactionType(FactionType requestedFactionType, Barbarian barbarian) {
-    	return requestedFactionType == barbarian.getFactionType();
+    	return requestedFactionType == barbarian.getFactionTypeOfBarbarian();
 	}
 	
     /**

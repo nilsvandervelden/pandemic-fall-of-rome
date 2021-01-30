@@ -47,11 +47,7 @@ public class Base<boardPiece extends Piece> extends Tile {
 	public void updateBase(Base base) {
 		this.boardPieces = base.boardPieces;
 	}
-	
-    /**
-     * @returns what faction has access to a specific base
-     */
-	
+
 	public Faction getFactionAllowedInBase() {
 		return factionsAllowedOnTile[0];
 	}
@@ -59,7 +55,6 @@ public class Base<boardPiece extends Piece> extends Tile {
     /**
      * @returns the amount of barbarians in a base
      */
-	
 	public int getPieceCount() {
 		return boardPieces.size();
 	}

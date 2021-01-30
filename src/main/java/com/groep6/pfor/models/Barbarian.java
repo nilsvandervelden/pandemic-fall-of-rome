@@ -19,12 +19,8 @@ public class Barbarian extends Piece {
 	public Barbarian(FactionType factionType) {
 		this.factionType = factionType;
 	}
-	
-    /**
-     * @return the faction a specific barbarian belongs to
-     */
-	
-	public FactionType getFactionType() {
+
+	public FactionType getFactionTypeOfBarbarian() {
 		return factionType;
 	}
 }
