@@ -25,10 +25,6 @@ public class EventCard extends Card {
         return correspondingEvent;
     }
 
-
-    /**
-     * Executes an IAction event
-     */
     public void executeEvent() {
         correspondingEvent.executeEvent();
     }

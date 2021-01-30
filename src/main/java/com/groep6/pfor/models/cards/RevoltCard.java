@@ -9,17 +9,10 @@ import com.groep6.pfor.models.factions.FactionType;
  */
 public class RevoltCard extends Card {
     private final String revoltCardName;
-    private final City revoltingCity;
     private final FactionType revoltingFactionType;
 
-    /**
-     * @param revoltCardName
-     * @param revoltingCity
-     * @param revoltingFactionType
-     */
-    public RevoltCard(String revoltCardName, City revoltingCity, FactionType revoltingFactionType) {
+    public RevoltCard(String revoltCardName, FactionType revoltingFactionType) {
         this.revoltCardName = revoltCardName;
-        this.revoltingCity = revoltingCity;
         this.revoltingFactionType = revoltingFactionType;
     }
 
@@ -28,16 +21,6 @@ public class RevoltCard extends Card {
         return revoltCardName;
     }
 
-    /**
-     * @return City
-     */
-    public City getRevoltingCity() {
-        return revoltingCity;
-    }
-
-    /**
-     * @return Faction
-     */
     public FactionType getRevoltingFactionType() {
         return revoltingFactionType;
     }

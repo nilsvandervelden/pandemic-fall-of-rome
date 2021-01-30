@@ -4,6 +4,7 @@ import com.groep6.pfor.models.cards.actions.IAction;
 import javafx.scene.paint.Color;
 
 /**
+ * Represents a role card
  * @author Bastiaan Jansen
  */
 public class RoleCard extends Card {
@@ -12,19 +13,12 @@ public class RoleCard extends Card {
     private final Color roleCardColor;
     private final IAction roleCardAbility;
 
-    /**
-     * @param roleCardName
-     * @param roleCardAbility
-     */
     public RoleCard(String roleCardName, Color roleCardColor, IAction roleCardAbility) {
         this.roleCardName = roleCardName;
         this.roleCardColor = roleCardColor;
         this.roleCardAbility = roleCardAbility;
     }
 
-    /**
-     * Executes an IAction event
-     */
     public void executeRoleCardAbility() {
         roleCardAbility.executeEvent();
     }

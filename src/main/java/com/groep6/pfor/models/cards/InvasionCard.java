@@ -15,25 +15,15 @@ public class InvasionCard extends Card {
     private final List<City> invasionRoute;
     private final Faction invadingFaction;
 
-    /**
-     * @param invasionCardName
-     * @param invadingFaction
-     * @param invasionRoute
-     */
     public InvasionCard(String invasionCardName, Faction invadingFaction, List<City> invasionRoute) {
         this.invasionCardName = invasionCardName;
         this.invasionRoute = invasionRoute;
         this.invadingFaction = invadingFaction;
     }
-
     @Override
     public String getCardName() {
         return invasionCardName;
     }
-
-    /**
-     * @return Faction
-     */
 
     public Faction getInvadingFaction() {
         return invadingFaction;
