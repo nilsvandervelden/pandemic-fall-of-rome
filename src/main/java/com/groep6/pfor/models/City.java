@@ -44,7 +44,6 @@ public class City extends Tile {
 	 * @param hasFort whether this city has a fort in it
 	 * @return A new city instance
 	 */
-
 	public City(String cityName, Stack<Legion> legionsInCity, Stack<Barbarian> barbariansInCity, boolean hasFort) {
 		super(CityFactory.getInstance().getCityByName(cityName).tilePosition, CityFactory.getInstance().getCityByName(cityName).getFactions());
 		this.legionsInCity = legionsInCity;
@@ -86,7 +85,6 @@ public class City extends Tile {
     /**
      * @returns the amount of legions in a specific city
      */
-	
 	public int getLegionCount() {
 		return legionsInCity.size();
 	}
@@ -94,7 +92,6 @@ public class City extends Tile {
     /**
      * @returns a arrayList with barbarians in a specific city
      */
-	
 	public List<Barbarian> getBarbariansInCity() {
 		return barbariansInCity;
 	}
@@ -102,7 +99,6 @@ public class City extends Tile {
 	/**
      * @returns a arrayList with legions in a specific city
      */
-	
 	public List<Legion> getLegionsInCity() {
 		return legionsInCity;
 	}
@@ -110,7 +106,6 @@ public class City extends Tile {
     /**
      * @returns a boolean that represents whether a specific city has a fort or not
      */
-	
 	public boolean hasFort() {
 		return hasFort;
 	}
@@ -118,7 +113,6 @@ public class City extends Tile {
     /**
      * @returns a boolean that represents whether a specific city has a harbour or not
      */
-	
 	public boolean hasHarbour() {
 		return hasHarbour;
 	}
@@ -167,11 +161,7 @@ public class City extends Tile {
 	private boolean gameExists(Game currentGame) {
 		return currentGame != null;
 	}
-	
-    /**
-     * adds barbarians to a specific city
-     * @param factionTypeOfBarbarian
-     */
+
 	public void addBarbariansToCity(FactionType factionTypeOfBarbarian, int amountOfBarbariansToAdd) {
 		for (int i = 0; i < amountOfBarbariansToAdd; i++) {
 			addBarbarianToCity(factionTypeOfBarbarian);
@@ -185,12 +175,7 @@ public class City extends Tile {
 			}
 		}
 	}
-	
-    /**
-     * @param requestedFactionType The faction to count the barbarians of
-     * @returns the amount of barbarians in this city of the specified faction
-     */
-	
+
     public int getAmountOfBarbariansLocatedInCurrentCity(FactionType requestedFactionType, List<Barbarian> barbariansInCity) {
 		int amountOfBarbariansInCity = 0;
 
@@ -214,10 +199,7 @@ public class City extends Tile {
 	private boolean barbarianFactionEqualsRequestedFactionType(FactionType requestedFactionType, Barbarian barbarian) {
     	return requestedFactionType == barbarian.getFactionTypeOfBarbarian();
 	}
-	
-    /**
-     * adds a legion to a specific city
-     */
+
 	public void addLegionsToCurrentCity(int amountOfLegions) {
 		for (int i = 0; i < amountOfLegions; i++) {
 			addLegionToCity();
@@ -228,12 +210,7 @@ public class City extends Tile {
 	private void addLegionToCity() {
 		legionsInCity.add(new Legion());
 	}
-	
-    /**
-     * @param factionType
-     * @return a barbarian and removes that specific barbarian from a specific city
-     */
-	
+
 	public void removeBarbariansFromCurrentCity(FactionType factionType, int amountOfBarbariansToRemove) {
 		Barbarian barbarian = getBarbarian();
 			for (int i = 0; i < amountOfBarbariansToRemove; i++) {
@@ -259,11 +236,6 @@ public class City extends Tile {
 		barbariansInCity.remove(barbarian);
 	}
 
-
-	/**
-	 * @param amountOfBarbariansToRemove
-	 * @return Removed barbarian
-	 */
 	public void removeBarbariansFromCurrentCity(int amountOfBarbariansToRemove) {
 		for (int i = 0; i < amountOfBarbariansToRemove; i++) {
 			if (cityContainsBarbarians()) removeBarbarian();
@@ -279,10 +251,6 @@ public class City extends Tile {
 		barbariansInCity.remove(0);
 	}
 
-    /**
-	 * @param amountOfLegionsToRemove
-     */
-	
 	public void removeLegions(int amountOfLegionsToRemove) {
 		for (int i = 0; i < amountOfLegionsToRemove; i++) {
 			if (cityContainsLegions()) removeLegion();
@@ -298,10 +266,7 @@ public class City extends Tile {
 	private void removeLegion() {
 		legionsInCity.remove(0);
 	}
-	
-    /**
-     * places a fort in a specific city
-     */
+
 	public void placeFortInCity() {
 		this.hasFort = true;
 		notifyObservers();
