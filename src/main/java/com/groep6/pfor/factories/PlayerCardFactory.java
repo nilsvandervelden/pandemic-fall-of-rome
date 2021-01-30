@@ -42,7 +42,7 @@ public class PlayerCardFactory {
 		};
 
 		for (String[] city : cities)
-			playerCardDeck.addCardToDeck(createNewCityCard(city));
+			playerCardDeck.addCardsToDeck(createNewCityCard(city));
 
 	}
 

@@ -10,25 +10,17 @@ import java.util.List;
 
 /**
  * Represents a Deck with cards
- * @author Bastiaan Jansen
  * @author Nils van der Velden
  */
 public class Deck extends Observable {
 
     private final List<Card> cards = new ArrayList<>();
 
-    /**
-     * @param cards
-     */
     public Deck(Card... cards) {
-        this.addCardToDeck(cards);
+        this.addCardsToDeck(cards);
     }
 
-    /**
-     * Add one or multiple cards to deck
-     * @param cards
-     */
-    public void addCardToDeck(Card... cards) {
+    public void addCardsToDeck(Card... cards) {
         this.cards.addAll(Arrays.asList(cards));
     }
 
@@ -49,9 +41,6 @@ public class Deck extends Observable {
         return deck.getCards();
     }
 
-    /**
-     * Shuffles deck
-     */
     public void shuffleDeck() {
         Collections.shuffle(cards);
     }
@@ -60,10 +49,6 @@ public class Deck extends Observable {
         return cards.size() > 0;
     }
 
-    /**
-     * Draw a card from the top of the deck
-     * @return Card
-     */
     public Card drawCardFromDeck() {
         if (!deckContainsCards()) return null;
 
@@ -85,9 +70,6 @@ public class Deck extends Observable {
         return cards.get(indexOfFirstCard);
     }
 
-    /**
-     * @return int
-     */
     public int getAmountOfCardsInDeck() {
         return cards.size();
     }
