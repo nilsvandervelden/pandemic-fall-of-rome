@@ -1,7 +1,7 @@
 package com.groep6.pfor.controllers;
 
 import com.groep6.pfor.exceptions.EmptyFieldException;
-import com.groep6.pfor.exceptions.IncorrentPasswordException;
+import com.groep6.pfor.exceptions.IncorrectPasswordException;
 import com.groep6.pfor.models.Lobby;
 import com.groep6.pfor.services.LobbyService;
 import com.groep6.pfor.util.IObserver;
@@ -24,7 +24,7 @@ public class HostGameController extends Controller {
         if (username.isEmpty()) throw new EmptyFieldException("Username cannot be empty");
     }
 
-    public void addHostToCreatedLobby(Lobby lobby, String username, String password, Boolean isLocal) throws IncorrentPasswordException {
+    public void addHostToCreatedLobby(Lobby lobby, String username, String password, Boolean isLocal) throws IncorrectPasswordException {
         lobby.join(lobby.getCode(), username, password, true);
     }
 
@@ -52,7 +52,7 @@ public class HostGameController extends Controller {
             // Send user to lobby
             changeViewToHostedLobby(lobby);
 
-        } catch (IncorrentPasswordException error) {
+        } catch (IncorrectPasswordException error) {
             System.out.println("Error: " + error.getMessage());
         }
     }

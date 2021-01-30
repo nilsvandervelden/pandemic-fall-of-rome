@@ -1,27 +1,22 @@
 package com.groep6.pfor.exceptions;
 
 /**
- * @author Bastiaan Jansen
+ * empty field exception for hosting and joining a lobby
+ * @author Nils van der Velden
  */
 public class EmptyFieldException extends Exception {
 
-    private final String message;
+    private final String exceptionMessage;
 
-    /**
-     * @param message
-     */
-    public EmptyFieldException(String message) {
-        this.message = message;
+    public EmptyFieldException(String exceptionMessage) {
+        this.exceptionMessage = exceptionMessage;
     }
 
     public EmptyFieldException() {
-        message = "Field cannot be empty";
+        exceptionMessage = "Field cannot be empty";
     }
 
-    /**
-     * @return Exception message
-     */
     public String getMessage() {
-        return message;
+        return exceptionMessage;
     }
 }

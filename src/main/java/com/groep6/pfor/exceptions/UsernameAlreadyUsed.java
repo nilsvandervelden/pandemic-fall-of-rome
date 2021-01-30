@@ -1,28 +1,22 @@
 package com.groep6.pfor.exceptions;
 
 /**
- * IncorrectPasswordException for lobby login
- * @author Bastiaan Jansen
+ * username already taken exception for
+ * @author Nils van der Velden
  */
 public class UsernameAlreadyUsed extends Exception {
 
-    private final String message;
+    private final String exceptionMessage;
 
-    /**
-     * @param message
-     */
-    public UsernameAlreadyUsed(String message) {
-        this.message = message;
+    public UsernameAlreadyUsed(String exceptionMessage) {
+        this.exceptionMessage = exceptionMessage;
     }
 
     public UsernameAlreadyUsed() {
-        message = "Username already used";
+        exceptionMessage = "Username already used";
     }
 
-    /**
-     * @return Exception message
-     */
     public String getMessage() {
-        return message;
+        return exceptionMessage;
     }
 }

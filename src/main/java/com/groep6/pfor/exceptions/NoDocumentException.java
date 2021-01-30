@@ -1,27 +1,22 @@
 package com.groep6.pfor.exceptions;
 
 /**
- * @author Bastiaan Jansen
+ * no document exception for importing json files.
+ * @author Nils van der Velden
  */
 public class NoDocumentException extends Exception {
 
-    private final String message;
+    private final String exceptionMessage;
 
-    /**
-     * @param message
-     */
-    public NoDocumentException(String message) {
-        this.message = message;
+    public NoDocumentException(String exceptionMessage) {
+        this.exceptionMessage = exceptionMessage;
     }
 
     public NoDocumentException() {
-        message = "No such document";
+        exceptionMessage = "No such document";
     }
 
-    /**
-     * @return Exception message
-     */
     public String getMessage() {
-        return message;
+        return exceptionMessage;
     }
 }

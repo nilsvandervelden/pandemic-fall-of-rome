@@ -8,7 +8,7 @@ package com.groep6.pfor.controllers;
  */
 
 import com.groep6.pfor.exceptions.EmptyFieldException;
-import com.groep6.pfor.exceptions.IncorrentPasswordException;
+import com.groep6.pfor.exceptions.IncorrectPasswordException;
 import com.groep6.pfor.exceptions.NoDocumentException;
 import com.groep6.pfor.exceptions.UsernameAlreadyUsed;
 import com.groep6.pfor.models.Lobby;
@@ -41,7 +41,7 @@ public class JoinGameController extends Controller {
         }
     }
 
-    private LobbyPlayer createLobbyPlayer(Lobby lobby, String code, String username, String password, Boolean isLocal) throws IncorrentPasswordException {
+    private LobbyPlayer createLobbyPlayer(Lobby lobby, String code, String username, String password, Boolean isLocal) throws IncorrectPasswordException {
        return lobby.join(code, username, password, isLocal);
     }
 
@@ -74,7 +74,7 @@ public class JoinGameController extends Controller {
 
             refreshLobbyView(lobby);
         	
-        } catch (IncorrentPasswordException | NoDocumentException error) {
+        } catch (IncorrectPasswordException | NoDocumentException error) {
             System.out.println("Error: " + error.getMessage());
         } 
     }

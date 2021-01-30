@@ -1,6 +1,6 @@
 package com.groep6.pfor.models;
 
-import com.groep6.pfor.exceptions.IncorrentPasswordException;
+import com.groep6.pfor.exceptions.IncorrectPasswordException;
 import com.groep6.pfor.factories.RoleCardFactory;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.util.Observable;
@@ -47,8 +47,8 @@ public class Lobby extends Observable implements IObserver {
      * @param username
      * @return new instance of LobbyPlayer
      */
-    public LobbyPlayer join(String code, String username, String password, boolean isLocal) throws IncorrentPasswordException {
-        if (!validatePassword(password)) throw new IncorrentPasswordException();
+    public LobbyPlayer join(String code, String username, String password, boolean isLocal) throws IncorrectPasswordException {
+        if (!validatePassword(password)) throw new IncorrectPasswordException();
 
         boolean isHost = false;
 

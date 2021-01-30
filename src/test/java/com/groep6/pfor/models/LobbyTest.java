@@ -1,6 +1,6 @@
 package com.groep6.pfor.models;
 
-import com.groep6.pfor.exceptions.IncorrentPasswordException;
+import com.groep6.pfor.exceptions.IncorrectPasswordException;
 import com.groep6.pfor.models.cards.RoleCard;
 import com.groep6.pfor.models.cards.actions.roleActions.ConsulAction;
 import javafx.scene.paint.Color;
@@ -41,7 +41,7 @@ class LobbyTest {
     }
 
     @Test
-    void leave() throws IncorrentPasswordException {
+    void leave() throws IncorrectPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         assertEquals(1, lobby.getPlayers().size());
         lobby.leave(player);
@@ -49,7 +49,7 @@ class LobbyTest {
     }
 
     @Test
-    void getPlayers() throws IncorrentPasswordException {
+    void getPlayers() throws IncorrectPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         List<LobbyPlayer> players = new ArrayList<>();
         players.add(player);
@@ -57,7 +57,7 @@ class LobbyTest {
     }
 
     @Test
-    void isHost() throws IncorrentPasswordException {
+    void isHost() throws IncorrectPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         LobbyPlayer player2 = lobby.join(code, "username2", password, true);
         assertTrue(lobby.isHost(player));
@@ -65,7 +65,7 @@ class LobbyTest {
     }
 
     @Test
-    void isInLobby() throws IncorrentPasswordException {
+    void isInLobby() throws IncorrectPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         LobbyPlayer player2 = new LobbyPlayer("username2", new RoleCard("Rolecard", Color.ORANGE, new ConsulAction()), false, true, "lobby");
         assertTrue(lobby.isInLobby(player));
@@ -73,7 +73,7 @@ class LobbyTest {
     }
 
     @Test
-    void getHost() throws IncorrentPasswordException {
+    void getHost() throws IncorrectPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         LobbyPlayer player2 = lobby.join(code, "username2", password, false);
         assertEquals(player, lobby.getHost());
@@ -81,7 +81,7 @@ class LobbyTest {
     }
 
     @Test
-    void getLocalPlayer() throws IncorrentPasswordException {
+    void getLocalPlayer() throws IncorrectPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         LobbyPlayer player2 = lobby.join(code, "username2", password, false);
         assertEquals(player, lobby.getLocalPlayer());
@@ -89,7 +89,7 @@ class LobbyTest {
     }
 
     @Test
-    void removePlayer() throws IncorrentPasswordException {
+    void removePlayer() throws IncorrectPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         assertEquals(1, lobby.getPlayers().size());
         lobby.removePlayerFromCurrentLobby(player);
