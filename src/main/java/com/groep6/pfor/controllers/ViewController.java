@@ -10,8 +10,9 @@ import javafx.stage.Stage;
 import java.util.Stack;
 
 /**
- * With the ViewController it is easy to switch to different Views
- * @author Bastiaan Jansen
+ * Enables easy switching between different views.
+ * @author Nils van der Velden
+ *
  */
 public class ViewController {
 
