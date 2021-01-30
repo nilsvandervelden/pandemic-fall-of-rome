@@ -130,7 +130,7 @@ public class LobbyController extends Controller {
     }
 
     public void goToRoleCardInfoView() {
-        new RoleCardInfoController(currentLobby);
+        new RoleCardController(currentLobby);
     }
 
     public void removeLocalPlayerFromCurrentLobby(LobbyService lobbyService, LobbyPlayer localPlayer) {

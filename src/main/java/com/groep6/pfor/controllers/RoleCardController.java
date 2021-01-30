@@ -16,7 +16,7 @@ import java.util.List;
  * @author Nils van der Velden
  *
  */
-public class RoleCardInfoController extends Controller {
+public class RoleCardController extends Controller {
 
     private final Lobby currentLobby;
     private final RoleCard currentlySelectedRoleCard;
@@ -29,7 +29,7 @@ public class RoleCardInfoController extends Controller {
         viewController.showView(new RoleCardInfoView(this));
     }
 
-    public RoleCardInfoController(Lobby lobby) {
+    public RoleCardController(Lobby lobby) {
         this.currentLobby = lobby;
         this.currentlySelectedRoleCard = getCurrentlySelectedRoleCard(currentLobby);
 

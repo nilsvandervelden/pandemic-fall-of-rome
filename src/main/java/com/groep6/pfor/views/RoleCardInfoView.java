@@ -1,6 +1,6 @@
 package com.groep6.pfor.views;
 
-import com.groep6.pfor.controllers.RoleCardInfoController;
+import com.groep6.pfor.controllers.RoleCardController;
 import com.groep6.pfor.models.cards.RoleCard;
 import com.groep6.pfor.views.components.UIButton;
 import com.groep6.pfor.views.components.UICard;
@@ -25,18 +25,18 @@ import java.util.List;
 public class RoleCardInfoView extends View {
 
     /** The RoleCardInfo controller  */
-    private final RoleCardInfoController roleCardInfoController;
+    private final RoleCardController roleCardController;
 
     private BorderPane root;
     private final List<UICard> uiCards = new ArrayList<>();
     
     /**
      * Initializes the RoleCardInfoView
-     * @param roleCardInfoController
+     * @param roleCardController
      */
 
-    public RoleCardInfoView(RoleCardInfoController roleCardInfoController) {
-        this.roleCardInfoController = roleCardInfoController;
+    public RoleCardInfoView(RoleCardController roleCardController) {
+        this.roleCardController = roleCardController;
 
         createView();
     }
@@ -58,10 +58,10 @@ public class RoleCardInfoView extends View {
         cardsPane.setHgap(50);
 
         /** For loop to get the different role cards and put there information in the flowPane*/
-        for (RoleCard card: roleCardInfoController.getRoleCards()) {
+        for (RoleCard card: roleCardController.getRoleCards()) {
             UICard uiCard = new UIRoleCard(card);
 
-            if (roleCardInfoController.getCurrentlySelectedRoleCard() == card) uiCard.select();
+            if (roleCardController.getCurrentlySelectedRoleCard() == card) uiCard.select();
 
             uiCard.addEventFilter(MouseEvent.MOUSE_CLICKED, selectCard);
 
@@ -96,7 +96,7 @@ public class RoleCardInfoView extends View {
     EventHandler<javafx.scene.input.MouseEvent> goBack = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            roleCardInfoController.showPreviousView();
+            roleCardController.showPreviousView();
         }
     };
 
@@ -107,7 +107,7 @@ public class RoleCardInfoView extends View {
             deselectAllCards();
             UICard source = (UICard) e.getSource();
             source.select();
-            roleCardInfoController.chooseRole((RoleCard) source.getCard());
+            roleCardController.chooseRole((RoleCard) source.getCard());
         }
     };
 
