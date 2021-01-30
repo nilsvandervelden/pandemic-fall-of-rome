@@ -5,26 +5,16 @@ import java.util.Random;
 /**
  * Dice for Pandemic: Fall of Rome. Each face on this dice represents an outcome
  * in battle. A DiceFace is returned when rolled.
- * @author Mitchell van Rijswijk
- *
+ * @author Nils van der Velden
  */
 public class Dice {
-	
 	DiceFace[] diceFaces = new DiceFace[6];
 	Random rolledDiceFace = new Random();
-	
-	/**
-	 * Initialise dice faces on creation.
-	 * 
-	 */
+
 	public Dice() {
 		setDiceFaces();
 	}
-	
-	/**
-	 * Initialise faces. BARBARIAN face is put on the dice twice. 
-	 * 
-	 */
+
 	public void setDiceFaces() {
 		diceFaces[0] = DiceFace.BARBARIAN;
 		diceFaces[1] = DiceFace.BARBARIAN;
@@ -33,11 +23,10 @@ public class Dice {
 		diceFaces[4] = DiceFace.TWO_BARBARIAN_LEGION;
 		diceFaces[5] = DiceFace.SPECIAL;
 	}
-	
+
 	/**
 	 * Rolls dice and yields an outcome of a battle.
 	 * @return DiceFace representation of the outcome in a battle.
-	 * 
 	 */
 	public DiceFace determineBattleOutcome(City cityPlayerIsCurrentlyStandingIn) {
 		int rolledDiceFaceIndex = roleDice();
@@ -57,5 +46,4 @@ public class Dice {
 	private void executeDiceFace(City cityPlayerIsCurrentlyStandingIn, DiceFace rolledDiceFace) {
 		rolledDiceFace.executeDiceAction(cityPlayerIsCurrentlyStandingIn);
 	}
-	
 }

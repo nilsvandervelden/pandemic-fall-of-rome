@@ -92,7 +92,6 @@ public enum DiceFace {
 		currentCity.removeLegions(amountOfLegionsToRemove);
 	}
 
-	
 	public abstract void executeDiceAction(City city);
 	public abstract int getBarbarianCount();
 	public abstract int getLegionCount();
