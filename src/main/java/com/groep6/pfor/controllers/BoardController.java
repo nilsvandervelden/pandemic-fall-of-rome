@@ -339,7 +339,7 @@ public class BoardController extends Controller {
 
     public void formAlliance() {
         Player localPlayer = getLocalPlayer();
-        Faction factionToBecomeAllied = localPlayer.checkAvailableAlliances().get(0);
+        Faction factionToBecomeAllied = localPlayer.getAvailableAlliances().get(0);
 
         changeFactionStatusToAllied(factionToBecomeAllied);
 
@@ -355,7 +355,7 @@ public class BoardController extends Controller {
 
     public boolean canFormAlliance() {
         Player localPlayer = getLocalPlayer();
-        return localPlayer.checkAvailableAlliances().size() > 0;
+        return localPlayer.getAvailableAlliances().size() > 0;
     }
 
     public List<Faction> getFriendlyFactions() {

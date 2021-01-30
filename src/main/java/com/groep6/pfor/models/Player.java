@@ -58,23 +58,15 @@ public class Player extends Observable implements IObserver {
         return city = cities.get(randomNumberGenerator.nextInt(cities.size() - 1));
     }
 
-    private void registerCityObserver(City city) {
-        city.registerObserver(this);
-    }
-
     private void addLegionsToCity(City city, int amountOfLegions) {
         city.addLegionsToCurrentCity(amountOfLegions);
     }
-    /**
-     * The Player constructor clones all necessary the information from LobbyPlayer to Player
-     * @param player
-     */
+
     public Player(LobbyPlayer player) {
         playerRole = player.getRoleCard();
         username = player.getUsername();
         isLocal = player.isLocal();
 
-        // Add starting cards to hand
         Game currentGame = Game.getGameInstance();
 
         initialisePlayerDeck(currentGame);
@@ -170,7 +162,6 @@ public class Player extends Observable implements IObserver {
         return 3;
     }
 
-    // Actions
     private DiceFace[] determineBattleOutcome() {
         Dice dice = new Dice();
         List<Legion> legionsBeforeBattle = getLegionsInCity();
@@ -202,14 +193,6 @@ public class Player extends Observable implements IObserver {
     	notifyObservers();
     }
 
-//    public boolean isHost() {
-//        return isHost();
-//    }
-
-    /**
-     * Add more actions
-     * @param amount
-     */
     public void addActions(int amount) {
         actionsRemaining += amount;
         notifyObservers();
@@ -275,9 +258,8 @@ public class Player extends Observable implements IObserver {
 
     /**
      * Get list of factions that an alliance can be formed with.
-     * @return List of factions
      */
-    public List<Faction> checkAvailableAlliances() {
+    public List<Faction> getAvailableAlliances() {
         List<Faction> factions = getFactions();
         List<Card> cardsInPlayerDeck = getCardsInPlayerDeck();
         List<Faction> availableAlliances = new ArrayList<>();
