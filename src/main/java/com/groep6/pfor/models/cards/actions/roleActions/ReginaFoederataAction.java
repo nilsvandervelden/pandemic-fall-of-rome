@@ -42,7 +42,7 @@ public class ReginaFoederataAction implements IAction {
 	 * @return The name of the role.
 	 * 
 	 */
-	public String getName() {
+	public String getCardName() {
 		return "Regina Foederata";
 	}
 
@@ -51,7 +51,7 @@ public class ReginaFoederataAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getDescription() {
+	public String getCardDescription() {
 		return "Verwijder na het gevecht 1 barbaar uit jouw stad. Plaats hierbij ook maximaal 1 legioen op jouw stad.";
 	}
 

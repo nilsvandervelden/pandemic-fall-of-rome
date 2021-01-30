@@ -33,7 +33,7 @@ public class ConsulAction implements IAction {
 	 * @return The name of the role.
 	 * 
 	 */
-	public String getName() {
+	public String getCardName() {
 		return "Consul";
 	}
 
@@ -42,7 +42,7 @@ public class ConsulAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getDescription() {
+	public String getCardDescription() {
 		return "Plaats 1 legioen op jouw stad.";
 	}
 

@@ -27,7 +27,7 @@ public class CarpeDiemAction implements IAction {
 	 * @return The name of the event.
 	 * 
 	 */
-	public String getName() {
+	public String getCardName() {
 		return "Carpe Diem";
 	}
 
@@ -36,7 +36,7 @@ public class CarpeDiemAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getDescription() {
+	public String getCardDescription() {
 		return "De huidige speler mag deze beurt 2 extra acties uitvoeren.";
 	}
 

@@ -48,7 +48,7 @@ public class FaberFortunaeAction implements IAction {
 	 * @return The name of the event.
 	 * 
 	 */
-	public String getName() {
+	public String getCardName() {
 		return "Homo Faber Fortunae Suae";
 	}
 
@@ -57,7 +57,7 @@ public class FaberFortunaeAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getDescription() {
+	public String getCardDescription() {
 		return "De huidige speler mag een stadkaart uit de aflegstapel (voor speelkaarten) trekken die correspondeert met zijn stad.";
 	}
 

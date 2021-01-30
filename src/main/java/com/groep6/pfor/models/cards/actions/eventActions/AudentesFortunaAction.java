@@ -47,7 +47,7 @@ public class AudentesFortunaAction implements IAction {
 	 * @return The name of the event.
 	 * 
 	 */
-	public String getName() {
+	public String getCardName() {
 		return "Audentes Fortuna Iuvat";
 	}
 
@@ -56,7 +56,7 @@ public class AudentesFortunaAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getDescription() {
+	public String getCardDescription() {
 		return "De speler trekt 2 speelkaarten.";
 	}
 

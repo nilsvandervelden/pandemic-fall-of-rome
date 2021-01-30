@@ -14,11 +14,11 @@ public interface IAction {
     /**
      * @return String
      */
-    String getName();
+    String getCardName();
 
     /**
      * @return String
      */
-    String getDescription();
+    String getCardDescription();
 
 }

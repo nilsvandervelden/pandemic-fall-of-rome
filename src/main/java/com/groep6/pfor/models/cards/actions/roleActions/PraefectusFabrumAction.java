@@ -39,7 +39,7 @@ public class PraefectusFabrumAction implements IAction {
 	 * @return The name of the role.
 	 * 
 	 */
-	public String getName() {
+	public String getCardName() {
 		return "Praefectus Fabrum";
 	}
 
@@ -48,7 +48,7 @@ public class PraefectusFabrumAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getDescription() {
+	public String getCardDescription() {
 		return "Verwijder 2 barbaren uit jouw stad als hier een fort is.";
 	}
 

@@ -45,7 +45,7 @@ public class VitaMeaAction implements IAction {
 	 * @return The name of the event.
 	 * 
 	 */
-	public String getName() {
+	public String getCardName() {
 		return "Mors Tua, Vita Mea";
 	}
 
@@ -54,7 +54,7 @@ public class VitaMeaAction implements IAction {
 	 * @return The action description.
 	 * 
 	 */
-	public String getDescription() {
+	public String getCardDescription() {
 		return "Vervang 1 barbaar door 1 legioen.";
 	}
 
