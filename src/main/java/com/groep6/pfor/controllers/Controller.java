@@ -4,7 +4,10 @@ import com.groep6.pfor.models.Game;
 import com.groep6.pfor.util.IObserver;
 
 /**
- * @author Bastiaan Jansen
+ * Abstract controller which every controller extends
+ * This is needed to enforce the use of the MVC principle.
+ * @author Nils van der Velden
+ *
  */
 public abstract class Controller {
 
