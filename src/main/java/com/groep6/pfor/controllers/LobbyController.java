@@ -12,11 +12,16 @@ import javafx.application.Platform;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Controller for the lobby. This controller handles everything to do with a lobby.
+ * Things like starting a game and picking a role are handled here.
+ * @author Nils van der Velden
+ *
+ */
+
 public class LobbyController extends Controller {
 
-    public static final int MIN_PLAYERS = 0;
-
-    private final Game game = Game.getGameInstance();
+    private final Game currentGame = Game.getGameInstance();
     private final Lobby currentLobby;
 
     private void subscribeToLobbyChangeEvent() {
@@ -34,10 +39,6 @@ public class LobbyController extends Controller {
     private boolean noLocalPlayer(Game currentGame) {
         return currentGame.getLocalPlayer() != null;
     }
-
-//    private boolean isHost(Game currentGame) {
-//        return currentGame.getLocalPlayer().isHost();
-//    }
 
     private  void addPlayersToCurrentGame(Game currentGame) {
         currentGame.addPlayersToCurrentGame(currentLobby.getLocalPlayer());
@@ -77,9 +78,6 @@ public class LobbyController extends Controller {
         };
     }
 
-    /**
-     * @param currentLobby
-     */
     public LobbyController(Lobby currentLobby) {
         this.currentLobby = currentLobby;
         subscribeToLobbyChangeEvent();
@@ -123,23 +121,14 @@ public class LobbyController extends Controller {
         else if (gameHasBeenWon(currentGame)) displayWonGameView();
     };
 
-    /**
-     * @return lobby code
-     */
     public String getLobbyCode() {
         return currentLobby.getCode();
     }
 
-    /**
-     * @return list of current lobbyPlayers in the lobby
-     */
     public List<LobbyPlayer> getPlayersFromCurrentLobby() {
         return currentLobby.getPlayers();
     }
 
-    /**
-     * Go to a new view: roleCardInfoView
-     */
     public void goToRoleCardInfoView() {
         new RoleCardInfoController(currentLobby);
     }
@@ -165,11 +154,7 @@ public class LobbyController extends Controller {
         lobbyService.setHost(currentLobby.getPlayers().get(0));
     }
 
-    /**
-     * Go to new view: MenuView
-     */
     public void goToMainMenu() {
-        // Delete from lobby
         LobbyService lobbyService = new LobbyService();
         LobbyPlayer localPlayer = getLocalPlayer();
         removeLocalPlayerFromCurrentLobby(lobbyService, localPlayer);
@@ -186,11 +171,11 @@ public class LobbyController extends Controller {
     }
 
     private void setGameCode() {
-        game.setGameCode(getLobbyCode());
+        currentGame.setGameCode(getLobbyCode());
     }
 
     private void addPlayersToCurrentGame(List<LobbyPlayer> playersInCurrentLobby) {
-        game.addPlayersToCurrentGame(playersInCurrentLobby.toArray(new LobbyPlayer[0]));
+        currentGame.addPlayersToCurrentGame(playersInCurrentLobby.toArray(new LobbyPlayer[0]));
     }
 
     private void shufflePlayersInCurrentLobby( List<LobbyPlayer> playersInCurrentLobby) {
@@ -198,7 +183,7 @@ public class LobbyController extends Controller {
     }
 
     private void giveTurnToFirstPlayerInGame() {
-        game.getAllPlayers().get(0).setTurn();
+        currentGame.getAllPlayers().get(0).setTurn();
     }
 
     private GameService startGameService() {
@@ -210,7 +195,7 @@ public class LobbyController extends Controller {
     }
 
     private void createGame(GameService gameService) {
-        gameService.create(game);
+        gameService.create(currentGame);
     }
 
     private void displayBoardView() {
@@ -220,7 +205,6 @@ public class LobbyController extends Controller {
     private void deleteLobby(LobbyService lobbyService) {
         lobbyService.remove(currentLobby);
     }
-
 
     public void startGame() {
         List<LobbyPlayer> playersInCurrentLobby = getPlayersFromCurrentLobby();
@@ -241,16 +225,10 @@ public class LobbyController extends Controller {
         deleteLobby(lobbyService);
     }
 
-    /**
-     * @return local lobbyPlayer
-     */
     public LobbyPlayer getLocalPlayer() {
         return currentLobby.getLocalPlayer();
     }
 
-    /**
-     * @return Host of the lobby
-     */
     public LobbyPlayer getHost() {
         return currentLobby.getHost();
     }
@@ -268,10 +246,6 @@ public class LobbyController extends Controller {
         currentLobby.updateLobby(serverLobby);
     }
 
-
-    /**
-     * Run code every time the server sends an update
-     */
     private final IEventCallback onLobbyChange = new IEventCallback() {
         @Override
         public void onEvent(Object... eventData) {
