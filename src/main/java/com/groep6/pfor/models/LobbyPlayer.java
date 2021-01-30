@@ -9,19 +9,12 @@ import com.groep6.pfor.util.Observable;
  */
 
 public class LobbyPlayer extends Observable {
-
     private final String username;
     private RoleCard roleCard;
     private final boolean isHost;
     private boolean isLocal;
     private final String lobbyCode;
 
-    /**
-     * @param username
-     * @param isHost
-     * @param isLocal
-     * @param lobbyCode
-     */
     public LobbyPlayer(String username, RoleCard roleCard, boolean isHost, boolean isLocal, String lobbyCode) {
         this.username = username;
         this.roleCard = roleCard;
@@ -36,9 +29,6 @@ public class LobbyPlayer extends Observable {
         this.lobbyCode = lobbyCode;
     }
 
-    /**
-     * @return RoleCard
-     */
     public RoleCard getRoleCard() {
         return roleCard;
     }
@@ -48,16 +38,10 @@ public class LobbyPlayer extends Observable {
         notifyObservers();
     }
 
-    /**
-     * @return Whether lobbyPlayer is a host of a lobby or not
-     */
     public boolean isHost() {
         return isHost;
     }
 
-    /**
-     * @return Username of lobbyPlayer
-     */
     public String getUsername() {
         return username;
     }
@@ -70,9 +54,6 @@ public class LobbyPlayer extends Observable {
         this.isLocal = isLocal;
     }
 
-    /**
-     * @return The lobby code of the lobby that the player is in
-     */
     public String getLobbyCode() {
         return lobbyCode;
     }
