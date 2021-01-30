@@ -7,6 +7,13 @@ import com.groep6.pfor.services.LobbyService;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.HostView;
 
+/**
+ * Controller for hosting a game. This controller handles hosting a game
+ * Things like creating a lobby are handled here.
+ * @author Nils van der Velden
+ *
+ */
+
 public class HostGameController extends Controller {
 
     public HostGameController() {
