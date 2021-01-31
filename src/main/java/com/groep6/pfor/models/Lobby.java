@@ -114,7 +114,6 @@ public class Lobby extends Observable implements IObserver {
                 if (player.isHost()) return true;
             }
         }
-
         return false;
     }
 
