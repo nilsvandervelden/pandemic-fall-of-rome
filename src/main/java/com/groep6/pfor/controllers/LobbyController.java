@@ -38,7 +38,7 @@ public class LobbyController extends Controller {
         return Game.getGameInstance();
     }
 
-    private boolean noLocalPlayer(Game currentGame) {
+    private boolean noLocalPlayer(Game currentGame) throws CouldNotFindLocalPlayerException {
         return currentGame.getLocalPlayer() != null;
     }
 
@@ -67,13 +67,23 @@ public class LobbyController extends Controller {
     }
 
     private void goToBoardView() {
-        Platform.runLater(BoardController::new);
+        Platform.runLater(() -> {
+            try {
+                new BoardController();
+            } catch (CouldNotFindLocalPlayerException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private IEventCallback gameStartEvent() {
         return eventData -> {
             Game currentGame = getCurrentGame();
-            if (noLocalPlayer(currentGame)) return;
+            try {
+                if (noLocalPlayer(currentGame)) return;
+            } catch (CouldNotFindLocalPlayerException e) {
+                e.printStackTrace();
+            }
 
             addPlayersToCurrentGame(currentGame);
             setGameCode(currentGame);
@@ -99,7 +109,11 @@ public class LobbyController extends Controller {
     }
 
     private void updatedCurrentGame(Game currentGame) {
-        Game.getGameInstance().updateCurrentGame(currentGame);
+        try {
+            Game.getGameInstance().updateCurrentGame(currentGame);
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
     }
 
     private void displayLostGameView() {
@@ -205,7 +219,11 @@ public class LobbyController extends Controller {
     }
 
     private void displayBoardView() {
-        new BoardController();
+        try {
+            new BoardController();
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
     }
 
     private void deleteLobby(LobbyService lobbyService) {

@@ -2,6 +2,7 @@ package com.groep6.pfor.controllers;
 
 import com.groep6.pfor.Main;
 import com.groep6.pfor.exceptions.CardNotInDeckException;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.*;
 import com.groep6.pfor.models.cards.Card;
 import com.groep6.pfor.models.cards.InvasionCard;
@@ -23,7 +24,7 @@ public class BoardController extends Controller {
 
     private final Game currentGame = Game.getGameInstance();
 
-    public BoardController() {
+    public BoardController() throws CouldNotFindLocalPlayerException {
     	changeMusic();
         viewController.showView(new BoardView(this));
     }
@@ -56,11 +57,9 @@ public class BoardController extends Controller {
         return currentGame.getAllPlayers();
     }
 
-    public Player getLocalPlayer() {
+    public Player getLocalPlayer() throws CouldNotFindLocalPlayerException {
         return currentGame.getLocalPlayer();
     }
-
-
 
     public boolean isNeighbouringCity(Player localPlayer, City selectedCityToMoveTo) {
         return (Arrays.asList(localPlayer.getCityPlayerIsCurrentlyLocatedIn().getNeighbouringCities()).contains(selectedCityToMoveTo));
@@ -92,7 +91,7 @@ public class BoardController extends Controller {
     }
 
     
-    public void movePlayerToSelectedCity(City selectedCityToMoveTo) {
+    public void movePlayerToSelectedCity(City selectedCityToMoveTo) throws CouldNotFindLocalPlayerException {
         Player localPlayer = getLocalPlayer();
 
         if (!playerIsAllowedToMove(localPlayer, selectedCityToMoveTo)) return;
@@ -154,7 +153,7 @@ public class BoardController extends Controller {
         gameService.setGame(currentGame);
     }
 
-    public void nextTurn() {
+    public void nextTurn() throws CouldNotFindLocalPlayerException {
         Player localPlayer = getLocalPlayer();
         checkIfGameHasBeenLost();
         checkIfGameHasBeenWon();
@@ -274,7 +273,7 @@ public class BoardController extends Controller {
         localPlayer.decreaseAmountOfActionsRemaining();
     }
 
-    public void buildFortInCityPlayerIsCurrentlyStandingIn() {
+    public void buildFortInCityPlayerIsCurrentlyStandingIn() throws CouldNotFindLocalPlayerException {
         Player localPlayer = getLocalPlayer();
         City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
         placeFortInCurrentCity(cityPlayerIsCurrentlyStandingIn);
@@ -289,7 +288,7 @@ public class BoardController extends Controller {
         return cityPlayerIsCurrentlyStandingIn.getLegionCount() > 0;
     }
 
-    public boolean canBattle() {
+    public boolean canBattle() throws CouldNotFindLocalPlayerException {
         Player localPlayer = getLocalPlayer();
         City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
 
@@ -308,7 +307,7 @@ public class BoardController extends Controller {
         return cityPlayerIsCurrentlyStandingIn.getAmountOfBarbariansLocatedInCurrentCity(faction.getFactionType()) > 0;
     }
 
-    public boolean canRecruitBarbarians() {
+    public boolean canRecruitBarbarians() throws CouldNotFindLocalPlayerException {
         Player localPlayer = getLocalPlayer();
         City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
         Faction[] factionsThatCanAccessThisCity = determineWhichFactionCanAccessCurrentCity(cityPlayerIsCurrentlyStandingIn);
@@ -323,14 +322,14 @@ public class BoardController extends Controller {
         return cityPlayerIsCurrentlyStandingIn.hasFort();
     }
 
-    public boolean canRecruitLegions() {
+    public boolean canRecruitLegions() throws CouldNotFindLocalPlayerException {
         Player localPlayer = getLocalPlayer();
         City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
 
         return cityHasFort(cityPlayerIsCurrentlyStandingIn);
     }
 
-    public boolean canBuildFort() {
+    public boolean canBuildFort() throws CouldNotFindLocalPlayerException {
         int maximumAmountOfFortsInGame = 6;
         Player localPlayer = getLocalPlayer();
         City cityPlayerIsCurrentlyStandingIn = getCityPlayerIsCurrentlyStandingIn(localPlayer);
@@ -347,7 +346,7 @@ public class BoardController extends Controller {
         localPlayer.getPlayerDeck().removeCardsFromPlayerHand(cardsToDiscard.toArray(new Card[0]));
     }
 
-    public void formAlliance() {
+    public void formAlliance() throws CouldNotFindLocalPlayerException {
         Player localPlayer = getLocalPlayer();
         Faction factionToBecomeAllied = localPlayer.getAvailableAlliances().get(0);
 
@@ -363,7 +362,7 @@ public class BoardController extends Controller {
     	Main.musicManager.playPlaylist();
     }
 
-    public boolean canFormAlliance() {
+    public boolean canFormAlliance() throws CouldNotFindLocalPlayerException {
         Player localPlayer = getLocalPlayer();
         return localPlayer.getAvailableAlliances().size() > 0;
     }

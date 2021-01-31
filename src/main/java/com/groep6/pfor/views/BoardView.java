@@ -1,6 +1,7 @@
 package com.groep6.pfor.views;
 
 import com.groep6.pfor.controllers.*;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.factories.FactionFactory;
 import com.groep6.pfor.models.*;
 import com.groep6.pfor.models.factions.Faction;
@@ -59,7 +60,7 @@ public class BoardView extends View implements IObserver {
     private Button helpButton;
     private Button nextTurnButton;
 
-    public BoardView(BoardController controller) {
+    public BoardView(BoardController controller) throws CouldNotFindLocalPlayerException {
         boardController = controller;
         boardController.registerObserver(this);
 
@@ -72,7 +73,7 @@ public class BoardView extends View implements IObserver {
      * started. Buttons navigate to different actions a player can perform.
      *
      */
-    public void createView() {
+    public void createView() throws CouldNotFindLocalPlayerException {
         root = new BorderPane();
 
         // Center - board
@@ -118,7 +119,11 @@ public class BoardView extends View implements IObserver {
     EventHandler<MouseEvent> formAlliance = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            boardController.formAlliance();
+            try {
+                boardController.formAlliance();
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
             allianceButton.setDisable(true);
         }
     };
@@ -133,9 +138,21 @@ public class BoardView extends View implements IObserver {
     EventHandler<MouseEvent> buildFort = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-        	if (!boardController.canBuildFort()) return;
-            boardController.buildFortInCityPlayerIsCurrentlyStandingIn();
-            update();
+            try {
+                if (!boardController.canBuildFort()) return;
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
+            try {
+                boardController.buildFortInCityPlayerIsCurrentlyStandingIn();
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
+            try {
+                update();
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
         }
     };
 
@@ -163,7 +180,11 @@ public class BoardView extends View implements IObserver {
     EventHandler<MouseEvent> nextTurn = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            boardController.nextTurn();
+            try {
+                boardController.nextTurn();
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
         }
     };
 
@@ -179,7 +200,11 @@ public class BoardView extends View implements IObserver {
                 Vector2f mouse = new Vector2f((float) event.getX(), (float) event.getY());
                 if (pos.distance(mouse) < CIRCLE_RADIUS * CANVAS_SIZE.y) {
                 	// Move player on right click
-                	boardController.movePlayerToSelectedCity(city);
+                    try {
+                        boardController.movePlayerToSelectedCity(city);
+                    } catch (CouldNotFindLocalPlayerException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 }
             }
@@ -191,7 +216,7 @@ public class BoardView extends View implements IObserver {
      * @return GridPane layout of ActionButtons.
      *
      */
-    private GridPane createActionButtons() {
+    private GridPane createActionButtons() throws CouldNotFindLocalPlayerException {
         GridPane actionButtonLayout = new GridPane();
 
         actionButtonLayout.setHgap(12);
@@ -406,11 +431,15 @@ public class BoardView extends View implements IObserver {
     }
 
     @Override
-    public void update() {
+    public void update() throws CouldNotFindLocalPlayerException {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                actionCount.setText(boardController.getLocalPlayer().getActionsRemaining() + " acties over");
+                try {
+                    actionCount.setText(boardController.getLocalPlayer().getActionsRemaining() + " acties over");
+                } catch (CouldNotFindLocalPlayerException e) {
+                    e.printStackTrace();
+                }
                 fortCount.setText(6 - boardController.getAmountOfFortsInCity() + " resterende forten");
                 updateCanvas();
                 createPlayerList();

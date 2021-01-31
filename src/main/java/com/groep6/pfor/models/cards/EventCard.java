@@ -1,6 +1,7 @@
 package com.groep6.pfor.models.cards;
 
 import com.groep6.pfor.exceptions.CardNotInDeckException;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.cards.actions.IAction;
 
 /**
@@ -29,7 +30,7 @@ public class EventCard extends Card {
     public void executeEvent() {
         try {
             correspondingEvent.executeEvent();
-        } catch (CardNotInDeckException e) {
+        } catch (CardNotInDeckException | CouldNotFindLocalPlayerException e) {
             e.printStackTrace();
         }
     }

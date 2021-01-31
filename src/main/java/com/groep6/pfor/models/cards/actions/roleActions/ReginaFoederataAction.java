@@ -1,5 +1,6 @@
 package com.groep6.pfor.models.cards.actions.roleActions;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.City;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
@@ -18,7 +19,7 @@ public class ReginaFoederataAction implements IAction {
 	 * Gets the battle result. If the current city still has barbarians after the battle,
 	 * 1 extra barbarian gets deleted. The legion count in the city is incremented. 
 	 */
-	public void executeEvent() {
+	public void executeEvent() throws CouldNotFindLocalPlayerException {
 		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		removeOneLegionAndBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);

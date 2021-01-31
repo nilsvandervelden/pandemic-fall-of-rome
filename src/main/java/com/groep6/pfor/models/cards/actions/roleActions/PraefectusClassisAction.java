@@ -1,5 +1,6 @@
 package com.groep6.pfor.models.cards.actions.roleActions;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.City;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
@@ -18,7 +19,7 @@ public class PraefectusClassisAction implements IAction {
 	 * Checks if the current city is a port city. If it is, removes a
 	 * barbarian from the city.
 	 */
-	public void executeEvent() {
+	public void executeEvent() throws CouldNotFindLocalPlayerException {
 		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 

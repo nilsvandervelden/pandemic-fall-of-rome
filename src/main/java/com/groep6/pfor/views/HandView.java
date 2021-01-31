@@ -1,6 +1,7 @@
 package com.groep6.pfor.views;
 
 import com.groep6.pfor.controllers.PlayerHandDeckController;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.cards.Card;
 import com.groep6.pfor.models.cards.CityCard;
 import com.groep6.pfor.models.cards.EventCard;
@@ -43,8 +44,16 @@ public class HandView extends View implements IObserver {
 
     public HandView(PlayerHandDeckController playerHandDeckController) {
         this.playerHandDeckController = playerHandDeckController;
-        cards = playerHandDeckController.getPlayerHandDeckCards();
-        playerHandDeckController.registerObserver(this);
+        try {
+            cards = playerHandDeckController.getPlayerHandDeckCards();
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
+        try {
+            playerHandDeckController.registerObserver(this);
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
 
         createView();
 
@@ -66,7 +75,11 @@ public class HandView extends View implements IObserver {
         discardCardButton = new UIButton("Kaart verwijderen");
         discardCardButton.setDisable(true);
         discardCardButton.setPrefWidth(150);
-        if (playerHandDeckController.getLocalPlayer().getActionsRemaining() <= 0) discardCardButton.setDisable(true);
+        try {
+            if (playerHandDeckController.getLocalPlayer().getActionsRemaining() <= 0) discardCardButton.setDisable(true);
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
         discardCardButton.addEventFilter(MouseEvent.MOUSE_CLICKED, discardCard);
 
         playCardButton = new UIButton("Speel kaart");
@@ -130,7 +143,11 @@ public class HandView extends View implements IObserver {
     EventHandler<MouseEvent> discardCard = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent e) {
-            playerHandDeckController.removeSelectedCard();
+            try {
+                playerHandDeckController.removeSelectedCard();
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
             discardCardButton.setDisable(true);
             goBackButton.setDisable(false);
         }
@@ -140,7 +157,11 @@ public class HandView extends View implements IObserver {
         @Override
         public void handle(MouseEvent e) {
         	playerHandDeckController.depositCardIntoTradingDeck();
-            if (playerHandDeckController.getLocalPlayer().getActionsRemaining() <= 0) depositCardButton.setDisable(true);
+            try {
+                if (playerHandDeckController.getLocalPlayer().getActionsRemaining() <= 0) depositCardButton.setDisable(true);
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
         }
     };
     
@@ -161,7 +182,11 @@ public class HandView extends View implements IObserver {
             source.select();
             playerHandDeckController.currentlySelectedCard(source.getCard());
             discardCardButton.setDisable(false);
-            if (playerHandDeckController.getLocalPlayer().getActionsRemaining() > 0 && playerHandDeckController.getLocalPlayer().isCurrentTurn()) depositCardButton.setDisable(false);
+            try {
+                if (playerHandDeckController.getLocalPlayer().getActionsRemaining() > 0 && playerHandDeckController.getLocalPlayer().isCurrentTurn()) depositCardButton.setDisable(false);
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
 
             playCardButton.setDisable(!(source instanceof UIEventCard));
         }
@@ -189,7 +214,11 @@ public class HandView extends View implements IObserver {
         discardCardButton.setDisable(true);
         depositCardButton.setDisable(true);
 
-        playCardButton.setDisable(!playerHandDeckController.getLocalPlayer().isCurrentTurn());
+        try {
+            playCardButton.setDisable(!playerHandDeckController.getLocalPlayer().isCurrentTurn());
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
     }
 }
 

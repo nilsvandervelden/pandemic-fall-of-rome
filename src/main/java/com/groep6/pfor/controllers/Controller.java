@@ -1,5 +1,6 @@
 package com.groep6.pfor.controllers;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.util.IObserver;
 
@@ -29,5 +30,5 @@ public abstract class Controller {
      * Every controller should have a registerObserver method so the view can call the method and register to models
      * @param view
      */
-    public abstract void registerObserver(IObserver view);
+    public abstract void registerObserver(IObserver view) throws CouldNotFindLocalPlayerException;
 }

@@ -1,5 +1,6 @@
 package com.groep6.pfor.models;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.factories.CityCardFactory;
 import com.groep6.pfor.factories.CityFactory;
 import com.groep6.pfor.factories.EventCardFactory;
@@ -267,7 +268,7 @@ public class Game extends Observable implements IObserver {
      * Update the local game with the data from the fireBaseGame version
      * @param fireBaseGame The fireBaseGame version of the game
      */
-    public void updateCurrentGame(Game fireBaseGame) {
+    public void updateCurrentGame(Game fireBaseGame) throws CouldNotFindLocalPlayerException {
         Player localPlayer = getLocalPlayer();
         removeAllPlayersFromCurrentGame();
         updatePlayers(fireBaseGame, localPlayer);
@@ -443,11 +444,11 @@ public class Game extends Observable implements IObserver {
         return player.isLocalPlayer();
     }
 
-    public Player getLocalPlayer() {
+    public Player getLocalPlayer() throws CouldNotFindLocalPlayerException {
         for (Player player: playersInCurrentGame) {
             if (playerIsLocalPlayer(player)) return player;
         }
-        return null;
+        throw new CouldNotFindLocalPlayerException();
     }
     
     public void setLocalPlayer(Player player) {

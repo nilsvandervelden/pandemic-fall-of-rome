@@ -1,5 +1,7 @@
 package com.groep6.pfor.util;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,12 @@ public abstract class Observable {
 
     /** Notify all registered observer that this object's state has changed. */
     protected void notifyObservers() {
-        for (IObserver observer : observers) observer.update();
+        for (IObserver observer : observers) {
+            try {
+                observer.update();
+            } catch (CouldNotFindLocalPlayerException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

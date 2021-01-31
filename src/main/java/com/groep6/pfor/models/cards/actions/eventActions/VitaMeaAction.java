@@ -1,5 +1,6 @@
 package com.groep6.pfor.models.cards.actions.eventActions;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.City;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
@@ -15,7 +16,7 @@ public class VitaMeaAction implements IAction {
 	/**
 	 * Replace 1 barbarian with 1 legion in the current city.
 	 */
-	public void executeEvent() {
+	public void executeEvent() throws CouldNotFindLocalPlayerException {
 		Game currentGame = Game.getGameInstance();
 		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();

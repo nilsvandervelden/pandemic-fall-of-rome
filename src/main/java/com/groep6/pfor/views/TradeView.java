@@ -1,6 +1,7 @@
 package com.groep6.pfor.views;
 
 import com.groep6.pfor.controllers.TradeDeckController;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.cards.Card;
 import com.groep6.pfor.models.cards.CityCard;
 import com.groep6.pfor.models.cards.EventCard;
@@ -116,7 +117,11 @@ public class TradeView extends View implements IObserver {
             UICard source = (UICard) e.getSource();
             source.select();
             tradeDeckController.selectCard(source.getCard());
-            if (tradeDeckController.getLocalPlayer().getActionsRemaining() > 0) withdrawButton.setDisable(false);
+            try {
+                if (tradeDeckController.getLocalPlayer().getActionsRemaining() > 0) withdrawButton.setDisable(false);
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
         }
     };
 
@@ -137,7 +142,11 @@ public class TradeView extends View implements IObserver {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
             tradeDeckController.withdrawCardFromTradeDeck();
-            if (tradeDeckController.getLocalPlayer().getActionsRemaining() <= 0) withdrawButton.setDisable(true);
+            try {
+                if (tradeDeckController.getLocalPlayer().getActionsRemaining() <= 0) withdrawButton.setDisable(true);
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
         }
     };
         

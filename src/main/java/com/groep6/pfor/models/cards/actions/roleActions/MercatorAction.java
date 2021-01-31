@@ -1,5 +1,6 @@
 package com.groep6.pfor.models.cards.actions.roleActions;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.City;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
@@ -18,7 +19,7 @@ public class MercatorAction implements IAction {
 	 * Deletes 1 barbarian from the current city.
 	 * Deletes 1 legion from the current city.
 	 */
-	public void executeEvent() {
+	public void executeEvent() throws CouldNotFindLocalPlayerException {
 		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		removeOneLegionAndBarbarianFromCurrentCity(cityPlayerIsCurrentlyLocatedIn);

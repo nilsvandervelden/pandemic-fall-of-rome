@@ -1,5 +1,6 @@
 package com.groep6.pfor.controllers;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.Deck;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
@@ -28,12 +29,12 @@ public class PlayerHandDeckController extends Controller {
         viewController.showView(new HandView(this));
     }
 
-    public List<Card> getPlayerHandDeckCards() {
+    public List<Card> getPlayerHandDeckCards() throws CouldNotFindLocalPlayerException {
         return currentGame.getLocalPlayer().getPlayerDeck().getPlayerHandCards();
     }
 
     @Override
-    public void registerObserver(IObserver view) {
+    public void registerObserver(IObserver view) throws CouldNotFindLocalPlayerException {
         currentGame.getLocalPlayer().getPlayerDeck().registerObserver(view);
     }
 
@@ -45,12 +46,16 @@ public class PlayerHandDeckController extends Controller {
         return (currentlySelectedCard);
     }
 
-    public boolean isLocalPlayersTurn() {
+    public boolean isLocalPlayersTurn() throws CouldNotFindLocalPlayerException {
         return currentGame.getLocalPlayer().isCurrentTurn();
     }
 
     public void removeCurrentlySelectedCardFromPlayerDeck() {
-        currentGame.getLocalPlayer().getPlayerDeck().removeCardFromPlayerHand(currentlySelectedCard);
+        try {
+            currentGame.getLocalPlayer().getPlayerDeck().removeCardFromPlayerHand(currentlySelectedCard);
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addCardToInvasionCardDiscardPile() {
@@ -71,7 +76,11 @@ public class PlayerHandDeckController extends Controller {
 
     public void playCard() {
         if (noCardSelected()) return;
-        if (!isLocalPlayersTurn()) return;
+        try {
+            if (!isLocalPlayersTurn()) return;
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
         if (!currentlySelectedCardIsEventCard()) return;
 
         removeCurrentlySelectedCardFromPlayerDeck();
@@ -83,7 +92,7 @@ public class PlayerHandDeckController extends Controller {
         updateView();
     }
 
-    public Player getLocalPlayer() {
+    public Player getLocalPlayer() throws CouldNotFindLocalPlayerException {
         return currentGame.getLocalPlayer();
     }
 
@@ -115,8 +124,13 @@ public class PlayerHandDeckController extends Controller {
 
 	public void depositCardIntoTradingDeck() {
         if (getCurrentlySelectedCard() == null) return;
-        
-        Player localPlayer = getLocalPlayer();
+
+        Player localPlayer = null;
+        try {
+            localPlayer = getLocalPlayer();
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
         Player playerFromCurrentTurn = getPlayerFromCurrentTurn();
 
         if (!playerHasActionsRemaining(playerFromCurrentTurn)) return;
@@ -148,7 +162,7 @@ public class PlayerHandDeckController extends Controller {
         currentGame.getInvasionCardDiscardPile().addCardsToDeck(currentlySelectedCard);
     }
 	
-    public void removeSelectedCard() {
+    public void removeSelectedCard() throws CouldNotFindLocalPlayerException {
         if (getCurrentlySelectedCard() == null) return;
         Player localPlayer = getLocalPlayer();
 

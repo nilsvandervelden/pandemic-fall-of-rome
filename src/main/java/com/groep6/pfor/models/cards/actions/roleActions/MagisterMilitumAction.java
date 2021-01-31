@@ -1,5 +1,6 @@
 package com.groep6.pfor.models.cards.actions.roleActions;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.City;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
@@ -17,7 +18,7 @@ public class MagisterMilitumAction implements IAction {
 	/**
 	 * Reduces the amount of barbarians in the current city by 2.
 	 */
-	public void executeEvent() {
+	public void executeEvent() throws CouldNotFindLocalPlayerException {
 		Player localPlayer = currentGame.getLocalPlayer();
 		City cityPlayerIsCurrentlyLocatedIn = localPlayer.getCityPlayerIsCurrentlyLocatedIn();
 		removeTwoBarbariansFromPlayerCity(cityPlayerIsCurrentlyLocatedIn);

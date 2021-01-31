@@ -1,5 +1,6 @@
 package com.groep6.pfor.controllers;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
 import com.groep6.pfor.models.cards.Card;
@@ -37,7 +38,11 @@ public class TradeDeckController extends Controller {
     }
 
     private void registerPlayerDeckObserver(IObserver view) {
-        currentGame.getLocalPlayer().getPlayerDeck().registerObserver(view);
+        try {
+            currentGame.getLocalPlayer().getPlayerDeck().registerObserver(view);
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -64,7 +69,11 @@ public class TradeDeckController extends Controller {
     }
 
     private void addCurrentlySelectedCardToPlayerHandDeck() {
-        currentGame.getLocalPlayer().getPlayerDeck().addCardsToPlayerHand(currentlySelectedCard);
+        try {
+            currentGame.getLocalPlayer().getPlayerDeck().addCardsToPlayerHand(currentlySelectedCard);
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
     }
 
     private void decreaseAmountOfActionsRemaining(Player playerFromCurrentTurn) {
@@ -93,7 +102,7 @@ public class TradeDeckController extends Controller {
     	return card;
     }
 
-    public Player getLocalPlayer() {
+    public Player getLocalPlayer() throws CouldNotFindLocalPlayerException {
         return currentGame.getLocalPlayer();
     }
 
