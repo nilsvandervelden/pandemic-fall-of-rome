@@ -16,6 +16,7 @@ public class NoDocumentException extends Exception {
         exceptionMessage = "No such document";
     }
 
+    @Override
     public String getMessage() {
         return exceptionMessage;
     }

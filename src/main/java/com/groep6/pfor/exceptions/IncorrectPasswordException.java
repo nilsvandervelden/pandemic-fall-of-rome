@@ -16,6 +16,7 @@ public class IncorrectPasswordException extends Exception {
         exceptionMessage = "Incorrect password";
     }
 
+    @Override
     public String getMessage() {
         return exceptionMessage;
     }

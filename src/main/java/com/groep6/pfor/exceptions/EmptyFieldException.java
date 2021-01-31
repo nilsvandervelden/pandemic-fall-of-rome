@@ -16,6 +16,7 @@ public class EmptyFieldException extends Exception {
         exceptionMessage = "Field cannot be empty";
     }
 
+    @Override
     public String getMessage() {
         return exceptionMessage;
     }

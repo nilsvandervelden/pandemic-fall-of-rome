@@ -16,6 +16,7 @@ public class UsernameAlreadyUsed extends Exception {
         exceptionMessage = "Username already used";
     }
 
+    @Override
     public String getMessage() {
         return exceptionMessage;
     }
