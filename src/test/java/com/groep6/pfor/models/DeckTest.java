@@ -1,5 +1,6 @@
 package com.groep6.pfor.models;
 
+import com.groep6.pfor.exceptions.CardNotInDeckException;
 import com.groep6.pfor.factories.CityCardFactory;
 import com.groep6.pfor.models.cards.Card;
 import org.junit.jupiter.api.AfterEach;
@@ -57,7 +58,11 @@ class DeckTest {
         deck.addCardsToDeck(card1, card2);
         deck.removeCard(card1);
         assertEquals(1, deck.getAmountOfCardsInDeck());
-        assertEquals(card2, deck.drawCardFromDeck());
+        try {
+            assertEquals(card2, deck.drawCardFromDeck());
+        } catch (CardNotInDeckException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -71,7 +76,12 @@ class DeckTest {
     @Test
     void draw() {
         deck.addCardsToDeck(card1, card2);
-        Card card = deck.drawCardFromDeck();
+        Card card = null;
+        try {
+            card = deck.drawCardFromDeck();
+        } catch (CardNotInDeckException e) {
+            e.printStackTrace();
+        }
         assertEquals(card2, card);
     }
 

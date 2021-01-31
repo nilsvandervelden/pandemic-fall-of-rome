@@ -1,5 +1,6 @@
 package com.groep6.pfor.controllers;
 
+import com.groep6.pfor.exceptions.NoBarbariansInCityException;
 import com.groep6.pfor.models.City;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
@@ -44,7 +45,11 @@ public class RecruitBarbarianController extends Controller {
     }
 
     private void removeAlliedBarbariansFromCurrentCity(Faction faction, int amount) {
-        cityLocalPlayerIsCurrentlyStandingIn.removeBarbariansFromCurrentCity(faction.getFactionType(), amount);
+        try {
+            cityLocalPlayerIsCurrentlyStandingIn.removeBarbariansFromCurrentCity(faction.getFactionType(), amount);
+        } catch (NoBarbariansInCityException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addLegionsToCurrentCity(int amount) {

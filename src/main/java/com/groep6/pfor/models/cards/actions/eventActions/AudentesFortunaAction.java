@@ -1,5 +1,6 @@
 package com.groep6.pfor.models.cards.actions.eventActions;
 
+import com.groep6.pfor.exceptions.CardNotInDeckException;
 import com.groep6.pfor.models.Deck;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
@@ -25,14 +26,18 @@ public class AudentesFortunaAction implements IAction {
 		decreaseAmountOfActionsRemaining(currentGame);
 	}
 
-	private CityCard drawCardFromCityDeck(Deck cityDeck) {
+	private CityCard drawCardFromCityDeck(Deck cityDeck) throws CardNotInDeckException {
 		return (CityCard) cityDeck.drawCardFromDeck();
 	}
 
 	public void addTwoCardsToPlayerHandDeck(Player playerFromCurrentTurn, Game currentGame) {
 		Deck cityDeck = getPlayerCardDeck(currentGame);
-		playerFromCurrentTurn.getPlayerDeck().addCardsToPlayerHand(drawCardFromCityDeck(cityDeck) , drawCardFromCityDeck(cityDeck));
-	};
+		try {
+			playerFromCurrentTurn.getPlayerDeck().addCardsToPlayerHand(drawCardFromCityDeck(cityDeck) , drawCardFromCityDeck(cityDeck));
+		} catch (CardNotInDeckException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private void decreaseAmountOfActionsRemaining(Game currentGame) {
 		currentGame.getPlayerFromCurrentTurn().decreaseAmountOfActionsRemaining();

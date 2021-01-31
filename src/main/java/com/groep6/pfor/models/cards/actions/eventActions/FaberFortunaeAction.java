@@ -1,5 +1,6 @@
 package com.groep6.pfor.models.cards.actions.eventActions;
 
+import com.groep6.pfor.exceptions.CardNotInDeckException;
 import com.groep6.pfor.models.Deck;
 import com.groep6.pfor.models.Game;
 import com.groep6.pfor.models.Player;
@@ -17,7 +18,7 @@ public class FaberFortunaeAction implements IAction {
 	/**
 	 * Draws a cityCard for the player and adds it to his hand.
 	 */
-	public void executeEvent() {
+	public void executeEvent() throws CardNotInDeckException {
 		Game currentGame = Game.getGameInstance();
 		CityCard cityCard = drawCityCard(currentGame);
 		Player playerFromCurrentTurn = currentGame.getPlayerFromCurrentTurn();
@@ -25,7 +26,7 @@ public class FaberFortunaeAction implements IAction {
 		decreaseAmountOfActionsRemaining(currentGame);
 	}
 
-	public CityCard drawCityCard(Game currentGame) {
+	public CityCard drawCityCard(Game currentGame) throws CardNotInDeckException {
 		Deck cityDeck = getCityCardDeck(currentGame);
 		return (CityCard) cityDeck.drawCardFromDeck();
 	}

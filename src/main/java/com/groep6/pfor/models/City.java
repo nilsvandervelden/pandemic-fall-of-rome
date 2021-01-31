@@ -1,5 +1,7 @@
 package com.groep6.pfor.models;
 
+import com.groep6.pfor.exceptions.NoBarbariansInCityException;
+import com.groep6.pfor.exceptions.PlayerHasLeftTheGameException;
 import com.groep6.pfor.factories.CityFactory;
 import com.groep6.pfor.models.factions.Faction;
 import com.groep6.pfor.models.factions.FactionType;
@@ -211,7 +213,7 @@ public class City extends Tile {
 		legionsInCity.add(new Legion());
 	}
 
-	public void removeBarbariansFromCurrentCity(FactionType factionType, int amountOfBarbariansToRemove) {
+	public void removeBarbariansFromCurrentCity(FactionType factionType, int amountOfBarbariansToRemove) throws NoBarbariansInCityException {
 		Barbarian barbarian = getBarbarian();
 			for (int i = 0; i < amountOfBarbariansToRemove; i++) {
 				if (isBarbarian(barbarian) && barbarianFactionEqualsRequestedFactionType(factionType, barbarian)) {
@@ -221,11 +223,11 @@ public class City extends Tile {
 		notifyObservers();
 	}
 
-	private Barbarian getBarbarian() {
+	private Barbarian getBarbarian() throws NoBarbariansInCityException{
 		for (Barbarian barbarian : barbariansInCity) {
 			return barbarian;
 		}
-		return null;
+		throw new NoBarbariansInCityException("test123");
 	}
 
 	private boolean isBarbarian(Barbarian barbarian) {

@@ -1,6 +1,7 @@
 package com.groep6.pfor.controllers;
 
 import com.groep6.pfor.Main;
+import com.groep6.pfor.exceptions.CardNotInDeckException;
 import com.groep6.pfor.models.*;
 import com.groep6.pfor.models.cards.Card;
 import com.groep6.pfor.models.cards.InvasionCard;
@@ -104,14 +105,18 @@ public class BoardController extends Controller {
     }
 
     private void addTwoCardToPlayerDeck(Player localPlayer) {
-        addTwoCardsToPlayerHand(localPlayer, drawCardFromDeck(), drawCardFromDeck());
+        try {
+            addTwoCardsToPlayerHand(localPlayer, drawCardFromDeck(), drawCardFromDeck());
+        } catch (CardNotInDeckException e) {
+            e.printStackTrace();
+        }
     }
 
     private Deck getPlayerCardDeck() {
         return currentGame.getPlayerCardDeck();
     }
 
-    private Card drawCardFromDeck() {
+    private Card drawCardFromDeck() throws CardNotInDeckException {
         return getPlayerCardDeck().drawCardFromDeck();
     }
     private void addTwoCardsToPlayerHand(Player localPlayer, Card card1, Card card2) {
@@ -203,12 +208,17 @@ public class BoardController extends Controller {
         return new Card[amountOfInvasions];
     }
 
-    private InvasionCard drawInvasionCardFromDeck(Deck invasionCardsDeck) {
+    private InvasionCard drawInvasionCardFromDeck(Deck invasionCardsDeck) throws CardNotInDeckException {
         return (InvasionCard) invasionCardsDeck.drawCardFromDeck();
     }
     private void invadeCities(int amountOfInvasions, Card[] invasionCards, Deck invasionCardsDeck) {
         for (int i = 0; i < amountOfInvasions; i++) {
-            InvasionCard invasionCard = drawInvasionCardFromDeck(invasionCardsDeck);
+            InvasionCard invasionCard = null;
+            try {
+                invasionCard = drawInvasionCardFromDeck(invasionCardsDeck);
+            } catch (CardNotInDeckException e) {
+                e.printStackTrace();
+            }
             invadeCity(invasionCard);
             invasionCards[i] = invasionCard;
         }

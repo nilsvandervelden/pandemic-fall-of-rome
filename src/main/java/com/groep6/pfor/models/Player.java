@@ -1,5 +1,6 @@
 package com.groep6.pfor.models;
 
+import com.groep6.pfor.exceptions.CardNotInDeckException;
 import com.groep6.pfor.factories.CityFactory;
 import com.groep6.pfor.factories.FactionFactory;
 import com.groep6.pfor.models.cards.Card;
@@ -31,7 +32,11 @@ public class Player extends Observable implements IObserver {
     private void initialisePlayerDeck(Game currentGame) {
         int amountOfCardsToDraw = 3;
         for (int i = 0; i < amountOfCardsToDraw; i++) {
-            playerDeck.addCardsToPlayerHand(drawCardFromDeck(currentGame));
+            try {
+                playerDeck.addCardsToPlayerHand(drawCardFromDeck(currentGame));
+            } catch (CardNotInDeckException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -39,7 +44,7 @@ public class Player extends Observable implements IObserver {
         return currentGame.getPlayerCardDeck();
     }
 
-    private Card drawCardFromDeck(Game currentGame) {
+    private Card drawCardFromDeck(Game currentGame) throws CardNotInDeckException {
         return getPlayerCardDeck(currentGame).drawCardFromDeck();
     }
 

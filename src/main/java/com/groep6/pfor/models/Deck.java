@@ -1,5 +1,6 @@
 package com.groep6.pfor.models;
 
+import com.groep6.pfor.exceptions.CardNotInDeckException;
 import com.groep6.pfor.models.cards.Card;
 import com.groep6.pfor.util.Observable;
 
@@ -49,8 +50,8 @@ public class Deck extends Observable {
         return cards.size() > 0;
     }
 
-    public Card drawCardFromDeck() {
-        if (!deckContainsCards()) return null;
+    public Card drawCardFromDeck() throws CardNotInDeckException {
+        if (!deckContainsCards()) throw new CardNotInDeckException();
 
         int indexOfFirstCard = getIndexOfFirstCardInDeck();
         Card fistCardInDeck = getFirstCardInDeck(indexOfFirstCard);

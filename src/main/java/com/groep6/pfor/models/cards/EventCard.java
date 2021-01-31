@@ -1,5 +1,6 @@
 package com.groep6.pfor.models.cards;
 
+import com.groep6.pfor.exceptions.CardNotInDeckException;
 import com.groep6.pfor.models.cards.actions.IAction;
 
 /**
@@ -26,6 +27,10 @@ public class EventCard extends Card {
     }
 
     public void executeEvent() {
-        correspondingEvent.executeEvent();
+        try {
+            correspondingEvent.executeEvent();
+        } catch (CardNotInDeckException e) {
+            e.printStackTrace();
+        }
     }
 }

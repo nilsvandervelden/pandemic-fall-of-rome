@@ -1,5 +1,6 @@
 package com.groep6.pfor.models.cards;
 
+import com.groep6.pfor.exceptions.CardNotInDeckException;
 import com.groep6.pfor.models.cards.actions.IAction;
 import javafx.scene.paint.Color;
 
@@ -20,7 +21,11 @@ public class RoleCard extends Card {
     }
 
     public void executeRoleCardAbility() {
-        roleCardAbility.executeEvent();
+        try {
+            roleCardAbility.executeEvent();
+        } catch (CardNotInDeckException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
