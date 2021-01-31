@@ -1,6 +1,8 @@
 package com.groep6.pfor.views;
 
 import com.groep6.pfor.controllers.LobbyController;
+import com.groep6.pfor.exceptions.CouldNotFindHostException;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.LobbyPlayer;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.components.UIButton;
@@ -62,10 +64,16 @@ public class LobbyView extends View implements IObserver {
         bottomButtomBox.setAlignment(Pos.CENTER);
         BorderPane.setMargin(bottomButtomBox, new Insets(12,12,100,12));
 
-        if (lobbyController.getHost() != null && lobbyController.getHost().equals(lobbyController.getLocalPlayer())) {
-            startGameButton = new UIButton("Start Spel");
-            startGameButton.addEventFilter(MouseEvent.MOUSE_CLICKED, startGame);
-            bottomButtomBox.getChildren().addAll(startGameButton);
+        try {
+            if (lobbyController.getHost() != null && lobbyController.getHost().equals(lobbyController.getLocalPlayer())) {
+                startGameButton = new UIButton("Start Spel");
+                startGameButton.addEventFilter(MouseEvent.MOUSE_CLICKED, startGame);
+                bottomButtomBox.getChildren().addAll(startGameButton);
+            }
+        } catch (CouldNotFindHostException e) {
+            e.printStackTrace();
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
         }
 
         Button goBackButton = new UIButton("Terug");
@@ -113,7 +121,11 @@ public class LobbyView extends View implements IObserver {
     EventHandler<MouseEvent> goToMenu = new EventHandler<javafx.scene.input.MouseEvent>() {
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
-            lobbyController.goToMainMenu();
+            try {
+                lobbyController.goToMainMenu();
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
         }
     };
 

@@ -1,6 +1,7 @@
 package com.groep6.pfor.views;
 
 import com.groep6.pfor.controllers.RoleCardController;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.cards.RoleCard;
 import com.groep6.pfor.views.components.UIButton;
 import com.groep6.pfor.views.components.UICard;
@@ -107,7 +108,11 @@ public class RoleCardInfoView extends View {
             deselectAllCards();
             UICard source = (UICard) e.getSource();
             source.select();
-            roleCardController.chooseRole((RoleCard) source.getCard());
+            try {
+                roleCardController.chooseRole((RoleCard) source.getCard());
+            } catch (CouldNotFindLocalPlayerException couldNotFindLocalPlayerException) {
+                couldNotFindLocalPlayerException.printStackTrace();
+            }
         }
     };
 

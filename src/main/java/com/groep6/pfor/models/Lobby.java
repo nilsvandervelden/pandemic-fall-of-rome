@@ -1,6 +1,8 @@
 package com.groep6.pfor.models;
 
+import com.groep6.pfor.exceptions.CouldNotFindHostException;
 import com.groep6.pfor.exceptions.IncorrectPasswordException;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.factories.RoleCardFactory;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.util.Observable;
@@ -127,22 +129,22 @@ public class Lobby extends Observable implements IObserver {
     /**
      * @return The host of the lobby
      */
-    public LobbyPlayer getHost() {
+    public LobbyPlayer getHost() throws CouldNotFindHostException {
         for (LobbyPlayer player: players) {
             if (player.isHost()) return player;
         }
-        return null;
+        throw new CouldNotFindHostException();
     }
 
     public Game start() {
         return Game.getGameInstance();
     }
 
-    public LobbyPlayer getLocalPlayer() {
+    public LobbyPlayer getLocalPlayer() throws CouldNotFindLocalPlayerException {
         for (LobbyPlayer player: players) {
             if (player.isLocal()) return player;
         }
-        return null;
+        throw new CouldNotFindLocalPlayerException();
     }
 
     public void removePlayerFromCurrentLobby(LobbyPlayer player) {
@@ -154,7 +156,7 @@ public class Lobby extends Observable implements IObserver {
         notifyObservers();
     }
 
-    public void updateLobby(Lobby lobby) {
+    public void updateLobby(Lobby lobby) throws CouldNotFindLocalPlayerException {
 
         LobbyPlayer localPlayer = getLocalPlayer();
 

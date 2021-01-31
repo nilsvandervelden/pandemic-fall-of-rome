@@ -1,5 +1,7 @@
 package com.groep6.pfor.models;
 
+import com.groep6.pfor.exceptions.CouldNotFindHostException;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.exceptions.IncorrectPasswordException;
 import com.groep6.pfor.models.cards.RoleCard;
 import com.groep6.pfor.models.cards.actions.roleActions.ConsulAction;
@@ -73,7 +75,7 @@ class LobbyTest {
     }
 
     @Test
-    void getHost() throws IncorrectPasswordException {
+    void getHost() throws IncorrectPasswordException, CouldNotFindHostException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         LobbyPlayer player2 = lobby.join(code, "username2", password, false);
         assertEquals(player, lobby.getHost());
@@ -81,7 +83,7 @@ class LobbyTest {
     }
 
     @Test
-    void getLocalPlayer() throws IncorrectPasswordException {
+    void getLocalPlayer() throws IncorrectPasswordException, CouldNotFindLocalPlayerException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         LobbyPlayer player2 = lobby.join(code, "username2", password, false);
         assertEquals(player, lobby.getLocalPlayer());

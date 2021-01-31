@@ -1,5 +1,6 @@
 package com.groep6.pfor.controllers;
 
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.factories.RoleCardFactory;
 import com.groep6.pfor.models.Lobby;
 import com.groep6.pfor.models.LobbyPlayer;
@@ -19,9 +20,9 @@ import java.util.List;
 public class RoleCardController extends Controller {
 
     private final Lobby currentLobby;
-    private final RoleCard currentlySelectedRoleCard;
+    private RoleCard currentlySelectedRoleCard;
 
-    private RoleCard getCurrentlySelectedRoleCard(Lobby currentLobby) {
+    private RoleCard getCurrentlySelectedRoleCard(Lobby currentLobby) throws CouldNotFindLocalPlayerException {
         return currentLobby.getLocalPlayer().getRoleCard();
     }
 
@@ -31,7 +32,11 @@ public class RoleCardController extends Controller {
 
     public RoleCardController(Lobby lobby) {
         this.currentLobby = lobby;
-        this.currentlySelectedRoleCard = getCurrentlySelectedRoleCard(currentLobby);
+        try {
+            this.currentlySelectedRoleCard = getCurrentlySelectedRoleCard(currentLobby);
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
 
         showRoleCardInfoView();
     }
@@ -44,7 +49,7 @@ public class RoleCardController extends Controller {
         return currentlySelectedRoleCard;
     }
 
-    private LobbyPlayer getLocalPlayer() {
+    private LobbyPlayer getLocalPlayer() throws CouldNotFindLocalPlayerException {
         return currentLobby.getLocalPlayer();
     }
 
@@ -60,7 +65,7 @@ public class RoleCardController extends Controller {
         lobbyService.updateRoleCard(localPlayer);
     }
 
-    public void chooseRole(RoleCard roleCard) {
+    public void chooseRole(RoleCard roleCard) throws CouldNotFindLocalPlayerException {
         LobbyPlayer localPlayer = getLocalPlayer();
         setRole(localPlayer, roleCard);
         LobbyService lobbyService = createLobbyService();

@@ -1,6 +1,8 @@
 package com.groep6.pfor.controllers;
 
 import com.groep6.pfor.Config;
+import com.groep6.pfor.exceptions.CouldNotFindHostException;
+import com.groep6.pfor.exceptions.CouldNotFindLocalPlayerException;
 import com.groep6.pfor.models.*;
 import com.groep6.pfor.services.GameService;
 import com.groep6.pfor.services.LobbyService;
@@ -41,7 +43,11 @@ public class LobbyController extends Controller {
     }
 
     private  void addPlayersToCurrentGame(Game currentGame) {
-        currentGame.addPlayersToCurrentGame(currentLobby.getLocalPlayer());
+        try {
+            currentGame.addPlayersToCurrentGame(currentLobby.getLocalPlayer());
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setGameCode(Game currentGame) {
@@ -154,7 +160,7 @@ public class LobbyController extends Controller {
         lobbyService.setHost(currentLobby.getPlayers().get(0));
     }
 
-    public void goToMainMenu() {
+    public void goToMainMenu() throws CouldNotFindLocalPlayerException {
         LobbyService lobbyService = new LobbyService();
         LobbyPlayer localPlayer = getLocalPlayer();
         removeLocalPlayerFromCurrentLobby(lobbyService, localPlayer);
@@ -225,11 +231,11 @@ public class LobbyController extends Controller {
         deleteLobby(lobbyService);
     }
 
-    public LobbyPlayer getLocalPlayer() {
+    public LobbyPlayer getLocalPlayer() throws CouldNotFindLocalPlayerException {
         return currentLobby.getLocalPlayer();
     }
 
-    public LobbyPlayer getHost() {
+    public LobbyPlayer getHost() throws CouldNotFindHostException {
         return currentLobby.getHost();
     }
 
@@ -243,7 +249,11 @@ public class LobbyController extends Controller {
     }
 
     private  void updateCurrentLobby (Lobby serverLobby) {
-        currentLobby.updateLobby(serverLobby);
+        try {
+            currentLobby.updateLobby(serverLobby);
+        } catch (CouldNotFindLocalPlayerException e) {
+            e.printStackTrace();
+        }
     }
 
     private final IEventCallback onLobbyChange = new IEventCallback() {
