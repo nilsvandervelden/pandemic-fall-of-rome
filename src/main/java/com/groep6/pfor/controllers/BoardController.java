@@ -7,6 +7,7 @@ import com.groep6.pfor.models.*;
 import com.groep6.pfor.models.cards.Card;
 import com.groep6.pfor.models.cards.InvasionCard;
 import com.groep6.pfor.models.factions.Faction;
+import com.groep6.pfor.models.factions.FactionType;
 import com.groep6.pfor.services.GameService;
 import com.groep6.pfor.util.IObserver;
 import com.groep6.pfor.views.BoardView;
@@ -218,7 +219,7 @@ public class BoardController extends Controller {
             } catch (CardNotInDeckException e) {
                 e.printStackTrace();
             }
-            invadeCity(invasionCard);
+            addBarbariansToCitiesThatAreBeingInvadedInTheInvasionRoute(invasionCard);
             invasionCards[i] = invasionCard;
         }
     }
@@ -241,23 +242,75 @@ public class BoardController extends Controller {
         shuffleInvasionCardDeck( invasionCardsDeck );
     }
 
-    private List<City> getInvasionRoute(InvasionCard card) {
+    private List<City> getInvasionRouteFromInvasionCard(InvasionCard card) {
         return card.getInvasionRoute();
     }
+//_______________________________________________________________________________________________________________
+    private boolean noBarbariansInCityOnInvasionRoute(City cityOnInvasionRoute, InvasionCard invasionCard) {
+        return getAmountOfBarbariansLocatedInGivenCity(cityOnInvasionRoute, invasionCard) < 1;
+    }
 
-    
-    private void invadeCity(InvasionCard card) {
-        List<City> route = getInvasionRoute(card);
+    private int getAmountOfBarbariansLocatedInGivenCity(City cityOnInvasionRoute, InvasionCard invasionCard) {
+        FactionType invadingFactionType = getInvadingFactionType(invasionCard);
+        return cityOnInvasionRoute.getAmountOfBarbariansLocatedInCurrentCity(invadingFactionType, cityOnInvasionRoute.getBarbariansInCity());
+    }
 
-        for (int i = 0; i < route.size(); i++) {
-        	if(route.get(i).getAmountOfBarbariansLocatedInCurrentCity(card.getInvadingFaction().getFactionType(), route.get(i).getBarbariansInCity()) < 1) {
-                route.get(i).addBarbariansToCity(card.getInvadingFaction().getFactionType(), 1);
-                if (i > 0) route.get(i - 1).addBarbariansToCity(card.getInvadingFaction().getFactionType(), 1);
-                break;
-        	}
+    private Faction getInvadingFaction(InvasionCard invasionCard) {
+        return invasionCard.getInvadingFaction();
+    }
+
+    private FactionType getInvadingFactionType(InvasionCard invasionCard) {
+        Faction invadingFaction = getInvadingFaction(invasionCard);
+        return invadingFaction.getFactionType();
+    }
+
+    private void addOneBarbariansToCityOnInvasionRoute(City cityOnInvasionRoute, InvasionCard invasionCard) {
+        FactionType invadingFactionType = getInvadingFactionType(invasionCard);
+        cityOnInvasionRoute.addBarbariansToCity(invadingFactionType, 1);
+    }
+
+    private boolean cityToInvadeIsNotTheFirstCityOnTheInvasionRoute(int indexOfCityOnInvasionRoute) {
+        return indexOfCityOnInvasionRoute > 0;
+    }
+
+    private City getCityOnInvasionRouteByIndex(List<City> citiesOnInvasionRoute, int indexOfCityOnInvasionRoute) {
+        return citiesOnInvasionRoute.get(indexOfCityOnInvasionRoute);
+    }
+
+    private boolean oneOrLessBarbariansInSecondToLastCityOnInvasionRoute(City secondToLastCityOnInvasionRoute, InvasionCard invasionCard) {
+        return getAmountOfBarbariansLocatedInGivenCity(secondToLastCityOnInvasionRoute, invasionCard) >= 1;
+    }
+
+    private void addBarbariansToTheFirstEmptyCityInTheInvasionRoute(City cityOnInvasionRoute, InvasionCard invasionCard) {
+        addOneBarbariansToCityOnInvasionRoute(cityOnInvasionRoute, invasionCard);
+    }
+
+    private void addBarbariansToTheCityBeforeTheFirstEmptyCityInTheInvasionRoute(int indexOfCityOnInvasionRoute, List<City> citiesOnInvasionRoute, InvasionCard invasionCard ) {
+        City previousCityOnInvasionRoute = getCityOnInvasionRouteByIndex(citiesOnInvasionRoute, indexOfCityOnInvasionRoute - 1);
+        addOneBarbariansToCityOnInvasionRoute(previousCityOnInvasionRoute, invasionCard);
+    }
+
+    private void addBarbariansToTheSecondToLastCityInTheInvasionRoute(List<City> citiesOnInvasionRoute, InvasionCard invasionCard) {
+        City secondToLastCityOnInvasionRoute = getCityOnInvasionRouteByIndex(citiesOnInvasionRoute, citiesOnInvasionRoute.size() - 1);
+        if (oneOrLessBarbariansInSecondToLastCityOnInvasionRoute(secondToLastCityOnInvasionRoute, invasionCard)){
+            addOneBarbariansToCityOnInvasionRoute(secondToLastCityOnInvasionRoute, invasionCard);
         }
-        if (route.get(route.size() - 1).getAmountOfBarbariansLocatedInCurrentCity(card.getInvadingFaction().getFactionType(), route.get(route.size() - 1).getBarbariansInCity()) >= 1){
-    		route.get(route.size() - 1).addBarbariansToCity(card.getInvadingFaction().getFactionType(), 1);
+    }
+    
+    private void addBarbariansToCitiesThatAreBeingInvadedInTheInvasionRoute(InvasionCard invasionCard) {
+        List<City> citiesOnInvasionRoute = getInvasionRouteFromInvasionCard(invasionCard);
+
+        for (int i = 0; i < citiesOnInvasionRoute.size(); i++) {
+            City cityOnInvasionRoute = getCityOnInvasionRouteByIndex(citiesOnInvasionRoute, i);
+            if (noBarbariansInCityOnInvasionRoute(cityOnInvasionRoute, invasionCard)) {
+                addBarbariansToTheFirstEmptyCityInTheInvasionRoute(cityOnInvasionRoute, invasionCard);
+
+                if (cityToInvadeIsNotTheFirstCityOnTheInvasionRoute(i)) {
+                    addBarbariansToTheCityBeforeTheFirstEmptyCityInTheInvasionRoute(i, citiesOnInvasionRoute, invasionCard);
+                    break;
+                }
+            }
+            addBarbariansToTheSecondToLastCityInTheInvasionRoute(citiesOnInvasionRoute, invasionCard);
         }
     }
 
