@@ -76,8 +76,9 @@ public class Player extends Observable implements IObserver {
 
         initialisePlayerDeck(currentGame);
 
-        // Set start city
+        // Selects the city the players starts in.
         city = selectRandomCity();
+
         city.registerObserver(this);
 
         // Add two legions to start city

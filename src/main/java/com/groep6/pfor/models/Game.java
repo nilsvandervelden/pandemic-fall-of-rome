@@ -254,7 +254,7 @@ public class Game extends Observable implements IObserver {
     }
 
     private void updateGameVariables(Game fireBaseGame) {
-        gameBoard.updateBoard(fireBaseGame.gameBoard);
+        gameBoard.updateBoardWithFireBaseData(fireBaseGame.gameBoard);
         decayLevel = fireBaseGame.decayLevel;
         invasionLevel = fireBaseGame.invasionLevel;
         invasionCardDeck = fireBaseGame.invasionCardDeck;

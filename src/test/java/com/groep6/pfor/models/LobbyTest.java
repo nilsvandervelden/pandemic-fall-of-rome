@@ -70,8 +70,8 @@ class LobbyTest {
     void isInLobby() throws IncorrectPasswordException {
         LobbyPlayer player = lobby.join(code, "username", password, true);
         LobbyPlayer player2 = new LobbyPlayer("username2", new RoleCard("Rolecard", Color.ORANGE, new ConsulAction()), false, true, "lobby");
-        assertTrue(lobby.isInLobby(player));
-        assertFalse(lobby.isInLobby(player2));
+        assertTrue(lobby.lobbyPlayerIsInLobby(player));
+        assertFalse(lobby.lobbyPlayerIsInLobby(player2));
     }
 
     @Test

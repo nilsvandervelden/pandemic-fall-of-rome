@@ -62,21 +62,14 @@ public class Board {
 		return city.getCityName();
 	}
 
-	private Faction getFactionsAllowedInBase(Base <Barbarian> barbarianBase) {
-		return barbarianBase.getFactionAllowedInBase();
-	}
-
 	private void updateCities(Board fireBaseBoard) {
 		for (Tile tile : this.tiles.values()) {
 			City city = (City) tile;
 			updateCity(city, fireBaseBoard);
 		}
 	}
-	/**
-	 * Update this fireBaseBoard with data from a firebase fireBaseBoard
-	 * @param fireBaseBoard A fireBaseBoard containing data from firebase
-	 */
-	public void updateBoard(Board fireBaseBoard) {
+
+	public void updateBoardWithFireBaseData(Board fireBaseBoard) {
 		updateCities(fireBaseBoard);
 	}
 

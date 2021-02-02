@@ -18,7 +18,6 @@ public class BattleController extends Controller {
 
 	/**
 	 * Constructor for BattleController. First performs a battle, then places the result in a new BattleView.
-	 * 
 	 */
 
 	public BattleController() {

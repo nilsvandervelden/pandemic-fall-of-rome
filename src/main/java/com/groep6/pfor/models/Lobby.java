@@ -24,7 +24,7 @@ public class Lobby extends Observable implements IObserver {
     private List<LobbyPlayer> players = new ArrayList<>();
 
     public Lobby(String password) {
-        this.code = generateCode();
+        this.code = generateLobbyCode();
         this.passwordHash = PasswordEncoder.hash(password);
     }
 
@@ -32,7 +32,7 @@ public class Lobby extends Observable implements IObserver {
      * Constructs a lobby without a password
      */
     public Lobby() {
-        this.code = generateCode();
+        this.code = generateLobbyCode();
     }
 
     public Lobby(String code, String passwordHash, List<LobbyPlayer> players) {
@@ -86,10 +86,10 @@ public class Lobby extends Observable implements IObserver {
      * Generates a 5 digit code
      * @return 5 digit code
      */
-    private String generateCode() {
-        Random r = new Random( System.currentTimeMillis() );
-        int number = ((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
-        return String.valueOf(number);
+    private String generateLobbyCode() {
+        Random randomNumberGenerator = new Random( System.currentTimeMillis() );
+        int lobbyCode = ((1 + randomNumberGenerator.nextInt(2)) * 10000 + randomNumberGenerator.nextInt(10000));
+        return String.valueOf(lobbyCode);
     }
 
     public String getGameCode() {
@@ -117,17 +117,10 @@ public class Lobby extends Observable implements IObserver {
         return false;
     }
 
-    /**
-     * @param lobbyPlayer
-     * @return returns whether a lobbyPlayer is in this lobby
-     */
-    public boolean isInLobby(LobbyPlayer lobbyPlayer) {
+    public boolean lobbyPlayerIsInLobby(LobbyPlayer lobbyPlayer) {
         return players.contains(lobbyPlayer);
     }
 
-    /**
-     * @return The host of the lobby
-     */
     public LobbyPlayer getHost() throws CouldNotFindHostException {
         for (LobbyPlayer player: players) {
             if (player.isHost()) return player;
